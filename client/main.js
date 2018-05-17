@@ -2,14 +2,10 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import './main.html';
-// import '../import/ui/components/clienteNoExiste.js';
 import '../import/ui/components/clienteNoExiste.html';
-// import '../import/ui/components/clienteExiste.js';
 import '../import/ui/components/clienteExiste.html';
 import '../import/ui/components/clienteActualizado.html';
-// import '../import/ui/components/clienteActualizado.js';
 import '../import/ui/components/formulario.html';
-// import '../import/ui/components/formulario.js';
 //templates de las secuencias
 import '../import/ui/secuencias/nombre.html';
 import '../import/ui/secuencias/municipio.html';
