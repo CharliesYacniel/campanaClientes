@@ -1,0 +1,13 @@
+{
+  "name": "campanaClientes",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.42",
+    "meteor-node-stubs": "^0.3.2",
+    "xml2js": "^0.4.19",
+    "xml2js-parser": "^1.1.1"
+  }
+}

@@ -1,0 +1,37 @@
+<template name="municipio">
+
+    <h1>Preguntas municipio</h1>
+  <form id ="siguienteMunicipio" class="siguienteMunicipio" method="post">
+  
+    Municipio:
+    <select name="muni" id="">
+            <option value="nulo">-Selecione Municipio-</option>
+            <option  selected value="HN0000">La Ceiba</option>
+            {{#each item in wbmunicipio}}
+            <option value="{{item.idmun}}">{{ item.desmun}}</option>
+            {{/each}} 
+    </select><br>
+    Cidudad - Aldea:
+    <select name="ciudad" id="">
+            <option value="nulo">-Selecione Ciudad-</option>
+            <option  selected value="HN000000">Corozal</option>
+            {{#each item in wsciudada}}
+            <option value="{{item.idcaldea}}">{{item.descaldea}}</option>
+            {{/each}} 
+    </select><br>
+    Barrio / Colonia / Caserio:
+    <select name="barrio" id="">
+            <option value="nulo">-Selecione Colonia-</option>
+            <option  selected value="HN000000000">La Ensenada</option>
+            {{#each item in awsbarriocolonia}}
+            <option value="{{item.idbcc}}">{{item.desbcc}}</option>
+            {{/each}} 
+    </select><br>
+    <button class="atras">BACK</button>
+    <input type="submit" value="Siguiente"/>
+    <!-- <button class="siguiente">NEXT</button> -->
+  </form>
+
+
+
+</template>

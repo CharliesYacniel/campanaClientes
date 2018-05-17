@@ -1,0 +1,41 @@
+<template name="nombre">
+
+    <h1>Preguntas nombre</h1>
+    <form id ="siguienteNombre" class="siguienteNombre" method="post">
+      Primer Nombre:
+      <input class="required" type="text"  placeholder="Ingrese aqui su primer nombre" name="nombre1"
+      value="{{wsaccesoclientes.cusfna}} "
+       /><br>
+       Segundo Nombre:
+       <input type="text"  placeholder="Ingrese aqui su segundo nombre" name="nombre2"
+       value="{{wsaccesoclientes.cusfn2}}"
+       /><br>
+       Primer Apellido:
+       <input class="required" type="text"  placeholder="Ingrese aqui su primer" name="apellido1"
+       value="{{wsaccesoclientes.cusln1}}"
+       /><br>
+       Segundo Apellido:
+       <input  type="text"  placeholder="Ingrese aqui su segundo apellido" name="apellido2"
+       value="{{wsaccesoclientes.cusln2}}"
+       /><br>
+      Profesion:
+      <select name="profesion" id="profesion">
+          <option value="nulo">-Selecione profesion-</option>
+          <option  selected value="000">INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D</option>
+          {{#each item in wsprofesion}}
+              <option value="{{ item.id}}">{{ item.dscr}}</option>
+          {{/each}} 
+      </select><br>
+      Ocupacion:
+      <select name="ocupacion" id="">
+          <option value="nulo">-Selecione ocupacion-</option>
+          <option  selected value="000">PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA</option>
+          {{#each item in wsocupacion}}
+              <option value="{{item.idocup}}">{{ item.ocupacion}}</option>
+          {{/each}} 
+      </select><br>
+      <button class="atras">BACK</button>
+      <input type="submit"  value="Siguiente">
+    </form>
+ 
+</template>

@@ -1,0 +1,115 @@
+<template name="formulario">
+   Comencemos cliente con id {{getId}}
+   <form id ="formCompletar" class="formCompletar" method="post">
+        Primer Nombre:
+        <!-- <input class="required" type="text"  placeholder="Ingrese aqui su Nombre completo" name="nombre"
+         value="{{wsaccesoclientes.cusfna}} {{wsaccesoclientes.cusfn2}} {{wsaccesoclientes.cusln1}} {{wsaccesoclientes.cusln2}}" 
+         /><br> -->
+         <input class="required" type="text"  placeholder="Ingrese aqui su primer nombre" name="nombre1"
+         value="Axel"
+         /><br>
+         Segundo Nombre:
+         <input type="text"  placeholder="Ingrese aqui su segundo nombre" name="nombre2"
+         value="Enrique"
+         /><br>
+         Primer Apellido:
+         <input class="required" type="text"  placeholder="Ingrese aqui su primer" name="apellido1"
+         value="Landa"
+         /><br>
+         Segundo Apellido:
+         <input  type="text"  placeholder="Ingrese aqui su segundo apellido" name="apellido2"
+         value="Salgado"
+         /><br>
+        Profesion:
+        <select name="profesion" id="profesion">
+            <option value="nulo">-Selecione profesion-</option>
+            <option  selected value="000">INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D</option>
+            {{#each item in wsprofesion}}
+                <option value="{{ item.id}}">{{ item.dscr}}</option>
+            {{/each}} 
+        </select><br>
+        Ocupacion:
+        <select name="ocupacion" id="">
+            <option value="nulo">-Selecione ocupacion-</option>
+            <option  selected value="000">PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA</option>
+            {{#each item in wsocupacion}}
+                <option value="{{item.idocup}}">{{ item.ocupacion}}</option>
+            {{/each}} 
+        </select><br>
+        Departamento:
+        <select name="depto" id="">
+            <option value="nulo">-Selecione Departamento-</option>
+            <option value="HN01">Atlántida</option>
+            <option value="HN02">Colón</option>
+            <option value="HN03">Comayagua</option>
+            <option value="HN04">Copán</option>
+            <option value="HN05">Cortés</option>
+            <option value="HN06">Choluteca</option>
+            <option value="HN07">El Paraíso</option>
+            <option  selected value="HN08">Francisco Morazán</option>
+            <option value="HN09"> Gracias a Dios</option>
+            <option value="HN10">Intibucá</option>
+            <option value="HN11">Islas de la Bahía</option>
+            <option value="HN12">La Paz</option>
+            <option value="HN13">Lempira</option>
+            <option value="HN14">Ocotepeque</option>
+            <option value="HN15">Olancho</option>
+            <option value="HN16">Sta. Barbara</option>
+            <option value="HN17">Valle</option>
+            <option value="HN18">Yoro</option>
+        </select><br>
+        Municipio:
+        <select name="muni" id="">
+                <option value="nulo">-Selecione Municipio-</option>
+                <option  selected value="HN0000">La Ceiba</option>
+                {{#each item in wbmunicipio}}
+                <option value="{{item.idmun}}">{{ item.desmun}}</option>
+                {{/each}} 
+        </select><br>
+        Cidudad - Aldea:
+        <select name="ciudad" id="">
+                <option value="nulo">-Selecione Ciudad-</option>
+                <option  selected value="HN000000">Corozal</option>
+                {{#each item in wsciudada}}
+                <option value="{{item.idcaldea}}">{{item.descaldea}}</option>
+                {{/each}} 
+        </select><br>
+        Barrio / Colonia / Caserio:
+        <select name="barrio" id="">
+                <option value="nulo">-Selecione Colonia-</option>
+                <option  selected value="HN000000000">La Ensenada</option>
+                {{#each item in awsbarriocolonia}}
+                <option value="{{item.idbcc}}">{{item.desbcc}}</option>
+            {{/each}} 
+        </select><br>
+        Domicilio:
+        <input class="required" type="text" placeholder="Ingrese aqui su domicilio actual" name="domicilio" 
+        value="La ensenada b2 c 905 contiguo a plaza azul"/><br>
+        Numero de telefono:
+        <input class="required" type="text" placeholder="Ingrese aqui su numero de telefono fijo" name="telefono" 
+        value="22467469"/><br>
+        Numero movil:
+        <input class="required" type="text" placeholder="Ingrese aqui su numeor de telefono Movil" name="movil" 
+        value="33822840"/><br>
+        e-mail personal:
+        <input class="required" type="email" placeholder="ingrese qui su email personal" name="emailP" 
+        value="axellanda93@gmail.com"/><br>
+        e-mail trabajo:
+        <input class="required" type="email" placeholder="Ingrese aqui su email de trabajo" name="emailT" 
+        value="alanda@bancatlan.hn"/><br>
+        es residente en EUA:
+        SI
+        <input checked class="required" type="radio" name="residente" value="si"> | NO
+        <input class="required" type="radio" name="residente" value="no"><br>
+        Si quiero ser contactado en un futuro
+        SI
+        <input checked class="required" type="radio" name="acepto" value="si"> | NO
+        <input class="required" type="radio" name="acepto" value="no">
+        <br>
+        Accepto los terminos y condiciones
+        <input class="required" type="radio" name="declara" value="si"><br>
+        <br>
+        <input type="submit" value="Ingresar">
+    </form>
+    <button class="exit">Cancelar</button>
+</template>

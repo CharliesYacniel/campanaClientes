@@ -1,0 +1,23 @@
+<template name="clienteNoExiste">
+<h1> Cliente No encontrado</h1>
+<!-- <p>Sus datos no estan disponibles en nuestro sistema,
+    le invitamos a acercarse a cualquiera de nuestras agencias para mayor información</p> -->
+<p>Sus datos no fueron encontrados,sin embargo puede dejar la informacion solicitada</p>
+    <form id ="siguienteNoExiste" class="siguienteNoExiste" method="post">
+    Nombre completo:
+      <input class="required" type="text"  placeholder="Ingrese aqui su primer nombre" name="nombre1"
+       value="Pedro Alberto"
+       /><br>
+       Numero de telefono:
+        <input class="required" type="text" placeholder="Ingrese aqui su numero de telefono fijo" name="telefono" 
+        value="22467469"/><br>
+        Numero movil:
+        <input class="required" type="text" placeholder="Ingrese aqui su numeor de telefono Movil" name="movil" 
+        value="33822840"/><br>
+        e-mail :
+        <input class="required" type="email" placeholder="ingrese aqui su email personal" name="emailP" 
+        value="axellanda@gmail.com"/><br>
+        <button class="regresar">Regresar</button>
+        <input type="submit" value="Siguiente"/>
+    </form>
+</template>
