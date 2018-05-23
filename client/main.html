@@ -1,8 +1,6 @@
 <head>
   <title>Campaña Clientes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> -->
 </head>
 <template name="layoutPrincipal">
   {{> Template.dynamic template=main}}
@@ -11,21 +9,9 @@
   <h1>Campaña de Actualización de datos </h1>
 </body>
 <template name="acessoCliente">
-    <form class="formulario" method="post">
+    <form class="formulario" id="formulario" method="post">
         Estimado cliente por favor ingrese su numero de identidad o numero de residente  :<br>
-        <input type="text"  placeholder="0000-0000-00000" name="valueID" 
-        /><br>
-        <!-- <select class="departamentos" name="departamento">
-          <option value="AL">Alabama</option>
-          <option value="WY">Wyoming</option>
-          <option value="1">pay</option>
-          <option value="2">done</option>
-          <option value="3">check</option>
-          <option value="4">text</option>
-          <option value="5">desc</option>
-          <option value="6">male</option>
-          <option value="7">bajo</option>
-        </select><br> -->
+        <input type="text"  placeholder="0000-0000-00000" name="valueID"/><br>
         <input type="submit" value="Ingresar">
     </form>
     <!-- 
