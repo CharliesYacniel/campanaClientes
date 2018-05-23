@@ -2,7 +2,11 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import './main.html';
+import 'select2';
+import 'select2/dist/css/select2.css';
+
 import '../import/ui/components/clienteNoExiste.html';
+import '../import/ui/components/clienteNoSePermite.html';
 import '../import/ui/components/clienteExiste.html';
 import '../import/ui/components/clienteActualizado.html';
 import '../import/ui/components/formulario.html';
@@ -13,6 +17,7 @@ import '../import/ui/secuencias/domicilio.html';
 import '../import/ui/secuencias/departamento.html';
 import '../import/ui/secuencias/correo.html';
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
+
 Template.acessoCliente.onCreated(function () {      
 });
 Template.acessoCliente.helpers({
@@ -22,6 +27,13 @@ Template.acessoCliente.events({
     event.preventDefault();//QUITAR ESTA LINEA LUEGO
     let id=event.target.valueID.value;
     console.log(id);
+    
+    // let id_ejemplo=event.target.ejemplo.value;
+    // let eje=event.target.ejemplo;
+    // let indexEjemplo=eje.selectedIndex;
+    // let ejemplo = eje.options[indexEjemplo].text;
+    // console.log(id_ejemplo+" "+ejemplo);
+
     Session.set("idCliente",id);//INICIALIZANDO VARIABLE
     this.foundUser = new ReactiveVar([]);
     var cuerpo="<cam:wsaccesoclientes.Execute>"+id+"</cam:wsaccesoclientes.Execute>";
@@ -40,6 +52,7 @@ Template.acessoCliente.events({
         // let ibsCliente=datosWS.cumstcuscun[0];
         // let flag3=datosWS.empleado[0];
         let fatca=datosWS.fatca[0];
+        // let fatca='S';
         let nombreCliente='ProbandoB';
         let existe='1';
         let ibsCliente='2089291';
@@ -61,7 +74,7 @@ Template.acessoCliente.events({
           }
           if(fatca=='S'){
             console.log("No permitir Actualizar");
-            FlowRouter.go('/clienteNOSePermite');
+            FlowRouter.go('/clienteNoSePermite');
           }
           if(existe=='2'){
             console.log("cliente NO EXISTE");
@@ -159,7 +172,6 @@ Template.clienteNoExiste.events({
           let flag=datosWS.flage[0];
           console.log(flag);
           if(flag=='N'){
-
            FlowRouter.go('/clienteActualizado');
           }
           // console.log(datosWS);
@@ -182,7 +194,7 @@ Template.clienteActualizado.events({
 });
 ////////////////////////////////////////////CLIENTE NO SE  PERMITE ACTUALIZAR////////////////////////////////////
 Template.clienteNoSePermite.events({
-  'click .Aceptar' (event, instance){
+  'click .Aceptar' (){
     FlowRouter.go('/');
   }
 });
@@ -628,7 +640,16 @@ Template.formulario.onRendered( function() {
 
 //===========================-----------------------//////CODIGO DE SECUENCIA///////////------------------------======================================
 // fomulario1  Nombre completo , profesion y ocupacion
+let wsprofesion = new ReactiveVar([]);
+let wsocupacion = new ReactiveVar([]);
+
 Template.nombre.onCreated(function(){
+  $(document).ready(function() {
+    $('#profesion').select2();
+  });
+  $(document).ready(function() {
+    $('#ocupacion').select2();
+  });
   let id=Session.get('idCliente');
     this.foundUser = new ReactiveVar([]);
     var cuerpo="<cam:wsaccesoclientes.Execute>"+id+"</cam:wsaccesoclientes.Execute>";
@@ -638,33 +659,7 @@ Template.nombre.onCreated(function(){
       } else {
         this.foundUser.set(res);
       } 
-    });
-  //================================================wsocupacion================================================
-  this.wsocupacion = new ReactiveVar([]);
-  var Ocupacion="PROFESOR";
-  var cuerpo="<cam:wsOcupacion.Execute>"
-                +"<cam:Ocupacion>"+Ocupacion+"</cam:Ocupacion>"
-            +"</cam:wsOcupacion.Execute>";
-  Meteor.call('wsocupacion',{body:cuerpo},  (err, res)=> {
-      if (err){
-        console.log(err);
-      } else {
-        this.wsocupacion.set(res); 
-      }
-    });
-     //================================================wsprofesion================================================
-     this.wsprofesion = new ReactiveVar([]);
-     var Dscr="INGENIERíA";
-     var cuerpo="<cam:wsProfesion.Execute>"
-                     +"<cam:Dscr>"+Dscr+"</cam:Dscr>"
-                 +"</cam:wsProfesion.Execute>";
-     Meteor.call('wsprofesion',{body:cuerpo},  (err, res) =>{
-         if (err){
-           console.log(err);
-         } else {
-           this.wsprofesion.set(res); 
-         }
-       });
+    });   
 });
 Template.nombre.onRendered(function(){});
 Template.nombre.helpers({
@@ -678,22 +673,13 @@ Template.nombre.helpers({
   },
   //=============================================wsocupacion=================================================
   wsocupacion(){
-    var datosWS =Template.instance().wsocupacion.get();
-    if (datosWS.envelope) {
-      // console.log(datosWS.envelope.body[0].wsocupacionexecuteresponse[0].sdtocupacion[0].sdtocupacionsdtocupacionitem);
-       datosWS=datosWS.envelope.body[0].wsocupacionexecuteresponse[0].sdtocupacion[0].sdtocupacionsdtocupacionitem; 
-    }
-  return datosWS;
+  return wsocupacion.get();
   },
-  //==========================================wsprofesion====================================================
+  // //==========================================wsprofesion====================================================
   wsprofesion(){
-    var datosWS =Template.instance().wsprofesion.get();
-    if (datosWS.envelope) {
-      // console.log(datosWS.envelope.body[0].wsprofesionexecuteresponse[0].sdtprofesion[0].sdtprofesionsdtprofesionitem);
-      datosWS=datosWS.envelope.body[0].wsprofesionexecuteresponse[0].sdtprofesion[0].sdtprofesionsdtprofesionitem; 
-    }
-  return datosWS;
+    return wsprofesion.get();
   },
+ 
 });
 Template.nombre.events({
   'submit .siguienteNombre'(event, instance){
@@ -723,90 +709,83 @@ Template.nombre.events({
      Session.set("profesion",profesion);
      Session.set("idocupacion",idocupacion);
      Session.set("ocupacion",ocupacion);
-    //  console.log(ocupacion);
+     console.log(idProfesion+" "+profesion);
+     console.log(idocupacion+" "+ocupacion);
      FlowRouter.go('/departamento');
   },
   'click .atras'(event){
     FlowRouter.go('/clienteExiste');
  },
+ 'input .myProfesion'(event){
+  // console.log(event.target.value);
+  //================================================wsprofesion================================================
+  // this.profesiones = new ReactiveVar([]);
+  // var Dscr="INGENIERíA";
+  var Dscr=event.target.value;
+  var cuerpo="<cam:wsProfesion.Execute>"
+                  +"<cam:Dscr>"+Dscr+"</cam:Dscr>"
+              +"</cam:wsProfesion.Execute>";
+  Meteor.call('wsprofesion',{body:cuerpo},  (err, res) =>{
+      if (err){
+        console.log(err);
+      } else {
+        wsprofesion.set(res); 
+        var datosWS =res;
+        if(datosWS.envelope){
+          datosWS=datosWS.envelope.body[0].wsprofesionexecuteresponse[0].sdtprofesion[0].sdtprofesionsdtprofesionitem; 
+          wsprofesion.set(datosWS);
+          document.getElementById("profesion").disabled = false; 
+        }
+      }
+    });
+},
+'input .myOcupacion'(event){
+ //================================================wsocupacion================================================
+//  var Ocupacion="PROFESOR";
+ var Ocupacion=event.target.value;
+ var cuerpo="<cam:wsOcupacion.Execute>"
+               +"<cam:Ocupacion>"+Ocupacion+"</cam:Ocupacion>"
+           +"</cam:wsOcupacion.Execute>";
+ Meteor.call('wsocupacion',{body:cuerpo},  (err, res)=> {
+     if (err){
+       console.log(err);
+     } else {
+       wsocupacion.set(res);
+       var datosWS =res;
+      if(datosWS.envelope){
+        console.log(datosWS.envelope.body[0].wsocupacionexecuteresponse[0].sdtocupacion[0].sdtocupacionsdtocupacionitem);
+        datosWS=datosWS.envelope.body[0].wsocupacionexecuteresponse[0].sdtocupacion[0].sdtocupacionsdtocupacionitem;
+        wsocupacion.set(datosWS);
+        document.getElementById("ocupacion").disabled = false; 
+      } 
+     }
+   });
+},
 });
 //==============================================================================================
+
 // fomulario3  municipio,ciudad,barrio
+let wbmunicipio = new ReactiveVar([]);
+let wsciudada = new ReactiveVar([]);
+let awsbarriocolonia = new ReactiveVar([]);
+
 Template.municipio.onCreated(function(){
   //================================================wbmunicipio================================================
-  this.wbmunicipio = new ReactiveVar([]);
-  var Desmun="L";
-  var Depto="HN03";
-  var cuerpo="<cam:wbMunicipio.Execute>"
-                  +"<cam:Desmun>"+Desmun+"</cam:Desmun>"
-                  +"<cam:Depto>"+Depto+"</cam:Depto>"
-              +"</cam:wbMunicipio.Execute>";
-  Meteor.call('wbmunicipio',{body:cuerpo},  (err, res) =>{
-      if (err){
-        console.log(err);
-      } else {
-        this.wbmunicipio.set(res);
-      }
-    });
-  //================================================wsciudada================================================
-  this.wsciudada = new ReactiveVar([]);
-  var Descaldea="L";
-  var Municipioid="HN0308";
-  var cuerpo="<cam:wsCiudadA.Execute>"
-                +"<cam:Descaldea>"+Descaldea+"</cam:Descaldea>"
-                +"<cam:Municipioid>"+Municipioid+"</cam:Municipioid>"
-              +"</cam:wsCiudadA.Execute>";
-  Meteor.call('wsciudada',{body:cuerpo},(err, res) =>{
-      if (err){
-        console.log(err);
-      } else {
-        this.wsciudada.set(res); 
-      }
-    });
-  //================================================awsbarriocolonia================================================
-  this.awsbarriocolonia = new ReactiveVar([]);
-  var Desbcc="L";
-  var Ciad="HN030801";
-  var cuerpo="<cam:wsBarrioColonia.Execute>"
-                  +"<cam:Desbcc>"+Desbcc+"</cam:Desbcc>"
-                  +"<cam:Ciad>"+Ciad+"</cam:Ciad>"
-                +"</cam:wsBarrioColonia.Execute>";
-  Meteor.call('awsbarriocolonia',{body:cuerpo},  (err, res) =>{
-      if (err){
-        console.log(err);
-      } else {
-        this.awsbarriocolonia.set(res);  
-      }
-    });
+  // console.log('este es el ide de depto',Session.get("iddepto"));
 });
 Template.municipio.onRendered(function(){});
 Template.municipio.helpers({
   //===============================================wbmunicipio===============================================
   wbmunicipio(){
-    var datosWS =Template.instance().wbmunicipio.get();
-    if (datosWS.envelope) {
-      // console.log(datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem);
-      datosWS=datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem; 
-    }
-  return datosWS;
+    return wbmunicipio.get();
   },
   //============================================wsciudada==================================================
   wsciudada(){
-    var datosWS =Template.instance().wsciudada.get();
-    if (datosWS.envelope) {
-      // console.log(datosWS.envelope.body[0].wsciudadaexecuteresponse[0].sdtciudadaldea[0].sdtciudadaldeasdtciudadaldeaitem);
-      datosWS=datosWS.envelope.body[0].wsciudadaexecuteresponse[0].sdtciudadaldea[0].sdtciudadaldeasdtciudadaldeaitem; 
-    }
-  return datosWS;
+    return wsciudada.get();
   },
   //===========================================awsbarriocolonia===================================================
   awsbarriocolonia(){
-    var datosWS =Template.instance().awsbarriocolonia.get();
-    if (datosWS.envelope) {
-      // console.log(datosWS.envelope.body[0].wsbarriocoloniaexecuteresponse[0].sdtbarriocolonia[0].sdtbarriocoloniasdtbarriocoloniaitem);
-      datosWS=datosWS.envelope.body[0].wsbarriocoloniaexecuteresponse[0].sdtbarriocolonia[0].sdtbarriocoloniasdtbarriocoloniaitem; 
-    }
-  return datosWS;
+    return awsbarriocolonia.get();
   },
 });
 Template.municipio.events({
@@ -843,6 +822,81 @@ Template.municipio.events({
   'click .atras'(event){
     FlowRouter.go('/departamento');
  },
+ 'input .myMunicipio'(event){
+    // console.log(event.target.value);
+    var Desmun=event.target.value;//"L";
+    var Depto=Session.get("iddepto");//"HN03";//Session.get("iddepto");
+    var cuerpo="<cam:wbMunicipio.Execute>"
+                    +"<cam:Desmun>"+Desmun+"</cam:Desmun>"
+                    +"<cam:Depto>"+Depto+"</cam:Depto>"
+                +"</cam:wbMunicipio.Execute>";
+    Meteor.call('wbmunicipio',{body:cuerpo},(err, res) =>{
+        if (err){
+          console.log(err);
+        } else {
+          var datosWS =res;
+          if (datosWS.envelope) {
+            console.log(datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem);
+            datosWS=datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem; 
+            wbmunicipio.set(datosWS);
+            document.getElementById("municipio").disabled = false;
+          }
+          // console.log(selectmuni);
+          // selectmuni.innerHTML.disabled=false;
+        }
+      });
+  },
+  'change .municipio'(event){
+     document.getElementById("myCidudad").disabled=false;
+  },
+  'input .myCidudad'(event){
+    // console.log(event.target.value);
+    // var Desmun=event.target.value;//"L";
+   //================================================wsciudada================================================
+    var Descaldea=event.target.value;// "L";
+    var Municipioid= "HN0308";
+    var cuerpo="<cam:wsCiudadA.Execute>"
+                  +"<cam:Descaldea>"+Descaldea+"</cam:Descaldea>"
+                  +"<cam:Municipioid>"+Municipioid+"</cam:Municipioid>"
+                +"</cam:wsCiudadA.Execute>";
+    Meteor.call('wsciudada',{body:cuerpo},(err, res) =>{
+        if (err){
+          console.log(err);
+        } else {
+          var datosWS =res;
+          if (datosWS.envelope){
+            datosWS=datosWS.envelope.body[0].wsciudadaexecuteresponse[0].sdtciudadaldea[0].sdtciudadaldeasdtciudadaldeaitem; 
+            wsciudada.set(datosWS); 
+            document.getElementById("ciudad").disabled = false;
+          } 
+        }
+      });
+  }, 
+  'change .ciudad'(event){
+    document.getElementById("myColonia").disabled=false;
+ },
+  'input .myColonia'(event){
+    console.log(event.target.value);
+    //================================================awsbarriocolonia================================================
+    var Desbcc=event.target.value;//"L";
+    var Ciad="HN030801";
+    var cuerpo="<cam:wsBarrioColonia.Execute>"
+                    +"<cam:Desbcc>"+Desbcc+"</cam:Desbcc>"
+                    +"<cam:Ciad>"+Ciad+"</cam:Ciad>"
+                  +"</cam:wsBarrioColonia.Execute>";
+    Meteor.call('awsbarriocolonia',{ body:cuerpo },(err,res) =>{
+        if(err){
+          console.log(err);
+        } else {
+          var datosWS=res;
+          if (datosWS.envelope){
+            datosWS=datosWS.envelope.body[0].wsbarriocoloniaexecuteresponse[0].sdtbarriocolonia[0].sdtbarriocoloniasdtbarriocoloniaitem; 
+            awsbarriocolonia.set(datosWS); 
+            document.getElementById("colonia").disabled = false; 
+          }
+        }
+      });
+  },
 });
 //==============================================================================================
 // fomulario4  domicilio,telfono y movil
@@ -882,7 +936,8 @@ Template.departamento.events({
     let depto=event.target.depto;
     let indexDepto=depto.selectedIndex;
     let departamento = depto.options[indexDepto].text;
-    // console.log(departamento);
+
+    console.log(iddepto+' '+departamento);
     Session.set("iddepto",iddepto);
     Session.set("departamento",departamento);
     FlowRouter.go('/municipio');

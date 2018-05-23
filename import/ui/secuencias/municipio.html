@@ -4,30 +4,33 @@
   <form id ="siguienteMunicipio" class="siguienteMunicipio" method="post">
   
     Municipio:
-    <select name="muni" id="">
+    <input class="myMunicipio" type="text"  placeholder="Ingrese el nombre de el municipio" name=""/>
+    <select class="municipio" name="muni" id="municipio" disabled>
             <option value="nulo">-Selecione Municipio-</option>
-            <option  selected value="HN0000">La Ceiba</option>
+            <!-- <option  selected value="HN0000">La Ceiba</option> -->
             {{#each item in wbmunicipio}}
             <option value="{{item.idmun}}">{{ item.desmun}}</option>
             {{/each}} 
     </select><br>
     Cidudad - Aldea:
-    <select name="ciudad" id="">
+    <input class="myCidudad" id="myCidudad" disabled type="text"  placeholder="Ingrese el nombre de la Cidudad" name=""/>
+    <select class="ciudad" name="ciudad" id="ciudad" disabled>
             <option value="nulo">-Selecione Ciudad-</option>
-            <option  selected value="HN000000">Corozal</option>
+            <!-- <option  selected value="HN000000">Corozal</option> -->
             {{#each item in wsciudada}}
             <option value="{{item.idcaldea}}">{{item.descaldea}}</option>
             {{/each}} 
     </select><br>
     Barrio / Colonia / Caserio:
-    <select name="barrio" id="">
+    <input class="myColonia" id="myColonia" type="text"  disabled placeholder="Ingrese el nombre de el Colonia" name=""/>
+    <select class="colonia" name="barrio" id="colonia" disabled>
             <option value="nulo">-Selecione Colonia-</option>
-            <option  selected value="HN000000000">La Ensenada</option>
+            <!-- <option  selected value="HN000000000">La Ensenada</option> -->
             {{#each item in awsbarriocolonia}}
             <option value="{{item.idbcc}}">{{item.desbcc}}</option>
             {{/each}} 
     </select><br>
-    <button class="atras">BACK</button>
+    <button class="atras">Atras</button>
     <input type="submit" value="Siguiente"/>
     <!-- <button class="siguiente">NEXT</button> -->
   </form>

@@ -19,22 +19,26 @@
        value="{{wsaccesoclientes.cusln2}}"
        /><br>
       Profesion:
-      <select name="profesion" id="profesion">
+      <input class="myProfesion" type="text"  placeholder="Ingrese su profesion" name=""
+       />
+      <select class="profesion" name="profesion" id="profesion" disabled>
           <option value="nulo">-Selecione profesion-</option>
-          <option  selected value="000">INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D</option>
+          <!-- <option  selected value="000">INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D</option> -->
           {{#each item in wsprofesion}}
               <option value="{{ item.id}}">{{ item.dscr}}</option>
           {{/each}} 
       </select><br>
       Ocupacion:
-      <select name="ocupacion" id="">
+      <input class="myOcupacion" type="text"  placeholder="Ingrese su ocupacion" name=""
+       />
+      <select class="ocupacion" name="ocupacion" id="ocupacion" disabled>
           <option value="nulo">-Selecione ocupacion-</option>
-          <option  selected value="000">PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA</option>
+          <!-- <option  selected value="000">PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA</option> -->
           {{#each item in wsocupacion}}
               <option value="{{item.idocup}}">{{ item.ocupacion}}</option>
           {{/each}} 
       </select><br>
-      <button class="atras">BACK</button>
+      <button class="atras">Atras</button>
       <input type="submit"  value="Siguiente">
     </form>
  
