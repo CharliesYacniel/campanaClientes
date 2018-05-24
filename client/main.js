@@ -166,7 +166,7 @@ Template.clienteNoExiste.events({
     // console.log(telefono);
     // console.log(movil);
     // console.log(emailP);
-    this.wsnocliente = new ReactiveVar([]);
+    // let wsnocliente = new ReactiveVar([]);
     var cuerpo="<cam:wsNocliente.Execute>"
                   +"<cam:Idncli>"+Session.get("idCliente")+"</cam:Idncli>"
                   +"<cam:Rtenusurtenom>"+pnombre+"</cam:Rtenusurtenom>"
@@ -178,28 +178,62 @@ Template.clienteNoExiste.events({
         if (err){
           console.log(err);
         } else {
-          this.wsnocliente.set(res); 
-        }
-        var datosWS =this.wsnocliente.get();
-        if (datosWS.envelope) {
-          // console.log(datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]);
+          // wsnocliente.set(res); 
+          // var datosWS =wsnocliente.get();
+        var datosWS =res;
+        if (datosWS.envelope){
           datosWS=datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]; 
           let flag=datosWS.flage[0];
           console.log(flag);
-          if(flag=='N'){
+          if(flag=='S'){
            FlowRouter.go('/clienteActualizado');
           }
-          // console.log(datosWS);
+          if(flag=='N'){
+            FlowRouter.go('/clienteActualizado');
+           }
+        }
         }
       });
   },
   
 });
-Template.clienteNoExiste.onCreated(function() {
-  
-});
-Template.clienteNoExiste.helpers({
-  
+Template.clienteNoExiste.onCreated(function() { });
+Template.clienteNoExiste.helpers({});
+Template.clienteNoExiste.onRendered(function(){
+  $("#siguienteNoExiste").validate({
+    rules: {
+      nombre1:{
+        required:true,
+        pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+      },
+      telefono:{
+        required:true,
+        pattern:/^[2][0-9]{7}$/,
+      },
+      movil:{
+        required:true,
+        pattern:/^[3|8|9][0-9]{7}$/,
+      },
+      emailP:{
+        required:true,
+      },
+    } ,
+    messages: {
+      nombre1:{
+        required:"Favor Ingresar su nombre",
+        pattern:"No valido",
+      },
+      telefono:{
+        required:"Favor ingresar su telefono",
+      },
+      movil:{
+        required:"Favor rellenar este de telefono movil",
+      },
+      emailP:{
+        required:"Favor rellenar este campo",
+      },
+    }
+});  
 });
 ////////////////////////////////////////////CLIENTE  ACTUALIZADO////////////////////////////////////
 Template.clienteActualizado.events({
