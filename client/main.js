@@ -155,8 +155,8 @@ Template.clienteNoExiste.events({
     console.log('no enviar datos');
     FlowRouter.go('/');
   },
-  'submit .siguienteNoExiste' (event, instance){
-    event.preventDefault();
+  'click .siguienteNoExiste' (event, instance){
+    // event.preventDefault();
     // console.log(event.target);
     let pnombre=event.target.nombre1.value;
     let telefono=event.target.telefono.value;
@@ -667,7 +667,7 @@ Template.departamento.events({
 // formulario5 correo personal, trabajo,residencia
 Template.correo.onCreated(function(){});
 Template.correo.onRendered(function(){
-  $( "#siguienteCorreo" ).validate({
+  $("#siguienteCorreo").validate({
     rules: {
       emailP:{
         required:true,
@@ -717,7 +717,7 @@ Template.correo.events({
     // console.log(declara);
     // console.log(acepto);
 
-    this.awsguardarcliente = new ReactiveVar([]);
+    // let awsguardarcliente = new ReactiveVar([]);
     var Codcli=Session.get("ibs");//"2089291";
     var Idncli=Session.get("idCliente");//"0801199306450";
     var Pnombre=Session.get("nombre1");//"Axel";
@@ -780,16 +780,19 @@ Template.correo.events({
         if (err){
           console.log(err);
         } else {
-          this.awsguardarcliente.set(res); 
-        }
-        var datosWS =this.awsguardarcliente.get();
-        if (datosWS.envelope) {
-          console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
-          let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
-          if (estado==1){
-            FlowRouter.go('/clienteActualizado');
-          }else{
-            FlowRouter.go('/');
+          // awsguardarcliente.set(res); 
+          var datosWS =res;
+          if (datosWS.envelope) {
+            // console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
+            let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
+            if (estado==1){
+              let Codnum=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].Codnum[0];
+              console.log('boleto : ',Codnum);
+              Session.set("numeroBoleto",Codnum);
+              FlowRouter.go('/clienteActualizado');
+            }else{
+              FlowRouter.go('/');
+            }
           }
         }
       });
