@@ -2,10 +2,31 @@
 
     <h1>Preguntas municipio</h1>
   <form id ="siguienteMunicipio" class="siguienteMunicipio" method="post">
-  
+        Departamento:
+        <select name="depto" id="depto">
+                <option value="nulo">Selecione Departamento</option>
+                <option value="HN01">Atlántida</option>
+                <option value="HN02">Colón</option>
+                <option value="HN03">Comayagua</option>
+                <option value="HN04">Copán</option>
+                <option value="HN05">Cortés</option>
+                <option value="HN06">Choluteca</option>
+                <option value="HN07">El Paraíso</option>
+                <option value="HN08">Francisco Morazán</option>
+                <option value="HN09"> Gracias a Dios</option>
+                <option value="HN10">Intibucá</option>
+                <option value="HN11">Islas de la Bahía</option>
+                <option value="HN12">La Paz</option>
+                <option value="HN13">Lempira</option>
+                <option value="HN14">Ocotepeque</option>
+                <option value="HN15">Olancho</option>
+                <option value="HN16">Sta. Barbara</option>
+                <option value="HN17">Valle</option>
+                <option value="HN18">Yoro</option>
+        </select><br>
     Municipio:
-    <input class="myMunicipio" type="text"  placeholder="Ingrese el nombre de el municipio" name=""/>
-    <select class="municipio" name="muni" id="municipio" disabled>
+    <!-- <input class="myMunicipio" type="text"  placeholder="Ingrese el nombre de el municipio" name=""/> -->
+    <select class="municipio" name="muni" id="municipio" >
             <option value="nulo">-Selecione Municipio-</option>
             <!-- <option  selected value="HN0000">La Ceiba</option> -->
             {{#each item in wbmunicipio}}
@@ -13,7 +34,7 @@
             {{/each}} 
     </select><br>
     Cidudad - Aldea:
-    <input class="myCidudad" id="myCidudad" disabled type="text"  placeholder="Ingrese el nombre de la Cidudad" name=""/>
+    <!-- <input class="myCidudad" id="myCidudad" disabled type="text"  placeholder="Ingrese el nombre de la Cidudad" name=""/> -->
     <select class="ciudad" name="ciudad" id="ciudad" disabled>
             <option value="nulo">-Selecione Ciudad-</option>
             <!-- <option  selected value="HN000000">Corozal</option> -->
@@ -22,7 +43,7 @@
             {{/each}} 
     </select><br>
     Barrio / Colonia / Caserio:
-    <input class="myColonia" id="myColonia" type="text"  disabled placeholder="Ingrese el nombre de el Colonia" name=""/>
+    <!-- <input class="myColonia" id="myColonia" type="text"  disabled placeholder="Ingrese el nombre de el Colonia" name=""/> -->
     <select class="colonia" name="barrio" id="colonia" disabled>
             <option value="nulo">-Selecione Colonia-</option>
             <!-- <option  selected value="HN000000000">La Ensenada</option> -->
