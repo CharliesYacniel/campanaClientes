@@ -10,6 +10,7 @@ import '../import/ui/components/clienteNoSePermite.html';
 import '../import/ui/components/clienteExiste.html';
 import '../import/ui/components/clienteActualizado.html';
 import '../import/ui/components/formulario.html';
+
 //templates de las secuencias
 import '../import/ui/secuencias/nombre.html';
 import '../import/ui/secuencias/municipio.html';
@@ -17,6 +18,9 @@ import '../import/ui/secuencias/domicilio.html';
 import '../import/ui/secuencias/departamento.html';
 import '../import/ui/secuencias/correo.html';
 import '../import/ui/secuencias/terminos.html';
+import '../import/ui/secuencias/noCliente.html';
+
+
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
 $.validator.addMethod("valueNotEquals", function(value, element, arg){
   return arg != element.value; 
@@ -140,8 +144,8 @@ Template.clienteNoExiste.events({
     console.log('no enviar datos');
     FlowRouter.go('/');
   },
-  'click .siguienteNoExiste' (event, instance){
-    // event.preventDefault();
+  'submit .siguienteNoExiste' (event, instance){
+    event.preventDefault();
     // console.log(event.target);
     let pnombre=event.target.nombre1.value;
     let telefono=event.target.telefono.value;
@@ -163,18 +167,16 @@ Template.clienteNoExiste.events({
         if (err){
           console.log(err);
         } else {
-          // wsnocliente.set(res); 
-          // var datosWS =wsnocliente.get();
         var datosWS =res;
         if (datosWS.envelope){
           datosWS=datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]; 
           let flag=datosWS.flage[0];
           console.log(flag);
           if(flag=='S'){
-           FlowRouter.go('/clienteActualizado');
+           FlowRouter.go('/noCliente');
           }
           if(flag=='N'){
-            FlowRouter.go('/clienteActualizado');
+            FlowRouter.go('/');
            }
         }
         }
@@ -340,7 +342,7 @@ Template.nombre.onRendered(function(){
         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
       nombre2:{
-        required:true,
+        required:false,
         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
       apellido1:{
@@ -468,69 +470,7 @@ let wbmunicipio = new ReactiveVar([]);
 let wsciudada = new ReactiveVar([]);
 let awsbarriocolonia = new ReactiveVar([]);
 
-Template.municipio.onCreated(function(){
-  //================================================wbmunicipio================================================
-  // var Desmun=document.getElementById('depto');//"L";
-  var Depto="HN03";//Session.get("iddepto");
-  // var Depto=document.getElementById("depto");
-  // console.log(document.getElementById('depto').target);
-  // console.log(document.getElementById('depto'));
-  var cuerpo="<cam:wbMunicipio.Execute>"
-                  +"<cam:Desmun></cam:Desmun>"
-                  +"<cam:Depto>"+Depto+"</cam:Depto>"
-              +"</cam:wbMunicipio.Execute>";
-  Meteor.call('wbmunicipio',{ body:cuerpo },(err, res) =>{
-      if (err){
-        console.log(err);
-      } else {
-        var datosWS =res;
-        if (datosWS.envelope) {
-          console.log(datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem);
-          datosWS=datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem; 
-          wbmunicipio.set(datosWS);
-          // document.getElementById("ciudad").disabled = false;
-        }
-      }
-    });
-     //================================================wsciudada================================================
-    //  var Descaldea=event.target.value;// "L";
-     var Municipioid="HN0308";
-     var cuerpo="<cam:wsCiudadA.Execute>"
-                   +"<cam:Descaldea></cam:Descaldea>"
-                   +"<cam:Municipioid>"+Municipioid+"</cam:Municipioid>"
-                 +"</cam:wsCiudadA.Execute>";
-     Meteor.call('wsciudada',{ body:cuerpo },(err, res) =>{
-         if(err){
-           console.log(err);
-         } else {
-           var datosWS =res;
-           if (datosWS.envelope){
-             datosWS=datosWS.envelope.body[0].wsciudadaexecuteresponse[0].sdtciudadaldea[0].sdtciudadaldeasdtciudadaldeaitem; 
-             wsciudada.set(datosWS); 
-             // document.getElementById("ciudad").disabled = false;
-           } 
-         }
-       });
-       //================================================awsbarriocolonia================================================
-    // var Desbcc=event.target.value;//"L";
-    var Ciad="HN030801";
-    var cuerpo="<cam:wsBarrioColonia.Execute>"
-                    +"<cam:Desbcc></cam:Desbcc>"
-                    +"<cam:Ciad>"+Ciad+"</cam:Ciad>"
-                  +"</cam:wsBarrioColonia.Execute>";
-    Meteor.call('awsbarriocolonia',{ body:cuerpo },(err,res) =>{
-        if(err){
-          console.log(err);
-        } else {
-          var datosWS=res;
-          if(datosWS.envelope){
-            datosWS=datosWS.envelope.body[0].wsbarriocoloniaexecuteresponse[0].sdtbarriocolonia[0].sdtbarriocoloniasdtbarriocoloniaitem; 
-            awsbarriocolonia.set(datosWS); 
-            // document.getElementById("colonia").disabled = false; 
-          }
-        }
-      });
-});
+Template.municipio.onCreated(function(){});
 Template.municipio.onRendered(function(){
   $( "#siguienteMunicipio" ).validate({
     rules: {
@@ -601,25 +541,72 @@ Template.municipio.events({
   'click .atras'(event){
     FlowRouter.go('/nombre');
  },
- 'input .myMunicipio'(event){
-    // console.log(event.target.value);
-   
-  },
-  'change .municipio' (event){
-     document.getElementById("ciudad").disabled=false;
-  },
-  'input .myCidudad' (event){
-    // console.log(event.target.value);
-  
-  }, 
-  'change .ciudad'(event){
-    document.getElementById("colonia").disabled=false;
- },
-  'input .myColonia'(event){
-    // console.log(event.target.value);
-    // console.log(document.getElementById("ciudad").value);
+ 'change .depto'(event){
+   //================================================wbmunicipio================================================
+   let Depto=document.getElementById("depto").value;
+   console.log('ide depto',Depto);
+   var cuerpo="<cam:wbMunicipio.Execute>"
+   +"<cam:Desmun></cam:Desmun>"
+   +"<cam:Depto>"+Depto+"</cam:Depto>"
+   +"</cam:wbMunicipio.Execute>";
+   Meteor.call('wbmunicipio',{ body:cuerpo },(err, res) =>{
+     if (err){
+       console.log(err);
+      } else {
+        var datosWS =res;
+        if (datosWS.envelope) {
+          console.log(datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem);
+          datosWS=datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem; 
+          wbmunicipio.set(datosWS);
+          document.getElementById("municipio").disabled=false;
+        }
+      }
+    });
     
   },
+  'change .municipio' (event){
+    //================================================wsciudada================================================
+    let Municipioid=document.getElementById("municipio").value;
+    console.log('id muni',Municipioid);
+    // var Municipioid="HN0308";
+    var cuerpo="<cam:wsCiudadA.Execute>"
+                  +"<cam:Descaldea></cam:Descaldea>"
+                  +"<cam:Municipioid>"+Municipioid+"</cam:Municipioid>"
+                +"</cam:wsCiudadA.Execute>";
+    Meteor.call('wsciudada',{ body:cuerpo },(err, res) =>{
+        if(err){
+          console.log(err);
+        } else {
+          var datosWS =res;
+          if (datosWS.envelope){
+            datosWS=datosWS.envelope.body[0].wsciudadaexecuteresponse[0].sdtciudadaldea[0].sdtciudadaldeasdtciudadaldeaitem; 
+            wsciudada.set(datosWS); 
+            document.getElementById("ciudad").disabled=false;
+          } 
+        }
+      });    
+  },
+  'change .ciudad'(event){
+    //================================================awsbarriocolonia===============================================
+    let Ciad=document.getElementById("ciudad").value;
+    console.log('id ciuda',Ciad);
+    var cuerpo="<cam:wsBarrioColonia.Execute>"
+                    +"<cam:Desbcc></cam:Desbcc>"
+                    +"<cam:Ciad>"+Ciad+"</cam:Ciad>"
+                  +"</cam:wsBarrioColonia.Execute>";
+    Meteor.call('awsbarriocolonia',{ body:cuerpo },(err,res) =>{
+        if(err){
+          console.log(err);
+        } else {
+          var datosWS=res;
+          if(datosWS.envelope){
+            datosWS=datosWS.envelope.body[0].wsbarriocoloniaexecuteresponse[0].sdtbarriocolonia[0].sdtbarriocoloniasdtbarriocoloniaitem; 
+            awsbarriocolonia.set(datosWS); 
+            document.getElementById("colonia").disabled=false;
+          }
+        }
+      });
+ },
 });
 //==============================================================================================
 // fomulario4  domicilio,telfono y movil
@@ -827,18 +814,19 @@ Template.correo.events({
           // awsguardarcliente.set(res); 
           var datosWS =res;
           if (datosWS.envelope) {
-            // console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
+            console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
             let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
             if (estado==1){
+              console.log('se guardo inforamcion');
               var params = {};
               var queryParams = {
-                name:nombreCliente,
-                last:apellidoCliente,
+                name:Pnombre,
+                last:Papellido,
               };
-              console.log('se guardo inforamcion');
               FlowRouter.go('/clienteActualizado', params, queryParams);
-            }else{
-              FlowRouter.go('/');
+            }
+            if (estado==0){
+              FlowRouter.go('/noCliente');
             }
           }
         }
@@ -857,7 +845,12 @@ Template.terminos.events({
     history.back();
   },
 });
-
+//==================================================Nocliente Almacenado============================================
+Template.noCliente.events({
+  'click .aceptar'(){
+    FlowRouter.go('/');
+  },
+});
 
 
 

@@ -3,7 +3,7 @@
     <h1>Preguntas municipio</h1>
   <form id ="siguienteMunicipio" class="siguienteMunicipio" method="post">
         Departamento:
-        <select name="depto" id="depto">
+        <select name="depto" id="depto" class="depto">
                 <option value="nulo">Selecione Departamento</option>
                 <option value="HN01">Atlántida</option>
                 <option value="HN02">Colón</option>
@@ -26,8 +26,8 @@
         </select><br>
     Municipio:
     <!-- <input class="myMunicipio" type="text"  placeholder="Ingrese el nombre de el municipio" name=""/> -->
-    <select class="municipio" name="muni" id="municipio" >
-            <option value="nulo">-Selecione Municipio-</option>
+    <select class="municipio" name="muni" id="municipio" disabled>
+            <option value="nulo">Selecione Municipio</option>
             <!-- <option  selected value="HN0000">La Ceiba</option> -->
             {{#each item in wbmunicipio}}
             <option value="{{item.idmun}}">{{ item.desmun}}</option>
@@ -45,7 +45,7 @@
     Barrio / Colonia / Caserio:
     <!-- <input class="myColonia" id="myColonia" type="text"  disabled placeholder="Ingrese el nombre de el Colonia" name=""/> -->
     <select class="colonia" name="barrio" id="colonia" disabled>
-            <option value="nulo">-Selecione Colonia-</option>
+            <option value="nulo">Selecione Colonia</option>
             <!-- <option  selected value="HN000000000">La Ensenada</option> -->
             {{#each item in awsbarriocolonia}}
             <option value="{{item.idbcc}}">{{item.desbcc}}</option>
