@@ -1,26 +1,33 @@
 <template name="clienteNoExiste">
-<h1> Cliente No encontrado</h1>
+        <div class="insightContainer">
+<!-- <h1> Cliente No encontrado</h1> -->
 <!-- <p>Sus datos no estan disponibles en nuestro sistema,
     le invitamos a acercarse a cualquiera de nuestras agencias para mayor información</p> -->
-<p>Sus datos no fueron encontrados,sin embargo puede dejar la información solicitada</p>
-    <form id ="siguienteNoExiste" class="siguienteNoExiste" method="post">
-    Nombre completo:
+<h1>Sus datos no fueron encontrados, sin embargo puede dejar la información solicitada</h1>
+    <form style="width: 100%; top: -10%;" id ="siguienteNoExiste" class="siguienteNoExiste" method="post">
+    <label>Nombre completo:</label>
       <input class="required" type="text"  placeholder="Ingrese aqui su primer nombre" name="nombre1"
-       value="Nombre1 Cliente"
-       /><br>
-       Numero de telefono:
-        <input class="required" type="text" placeholder="Ingrese aqui su numero de telefono fijo" name="telefono" 
-        value="22467469"
-        /><br>
-        Numero movil:
-        <input class="required" type="text" placeholder="Ingrese aqui su numeor de telefono Movil" name="movil" 
-        value="33822840"
-        /><br>
-        e-mail :
-        <input class="required" type="email" placeholder="ingrese aqui su email personal" name="emailP" 
-        value="test@gmail.com"
-        /><br>
+       value="Pedro Alberto"
+       />
+       <div style="display: flex;">
+           <div>
+      <label> Numero de telefono:</label>
+        <input class="required" type="text"  name="telefono" 
+        value="22467469"/>
+    </div>
+    <div>
+      <label>  Numero movil:</label>
+        <input class="required" type="text"  name="movil" 
+        value="33822840"/>
+    </div>
+    </div>
+        <label>e-mail:</label>
+        <input class="required" type="email"  name="emailP" 
+        value="axellanda@gmail.com"/><br>
+        <div class="navDiv">
         <button class="regresar">Regresar</button>
         <input type="submit" value="Siguiente"/>
+        </div>
     </form>
+    </div>
 </template>

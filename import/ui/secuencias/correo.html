@@ -1,29 +1,79 @@
 <template name="correo">
-    <!-- value="axellanda93@gmail.com"
-    value="alanda@bancatlan.hn" -->
+        <div class="insightContainer">
     <h1>Preguntas correo</h1>
-    <form id ="siguienteCorreo" class="siguienteCorreo" method="post">
-        e-mail personal:
-        <input class="required" type="email" placeholder="ingrese aqui su email personal" name="emailP" 
-        
-        /><br>
-        e-mail trabajo:
-        <input class="required" type="email" placeholder="Ingrese aqui su email de trabajo" name="emailT" 
-        
-        /><br>
-        es residente en EUA:
+    <form id ="siguienteCorreo" style="width: 100%;" class="siguienteCorreo" method="post">
+        <label>e-mail personal:</label>
+        <input class="required" type="email"  name="emailP" 
+       />
+        <label>e-mail trabajo:</label>
+        <input class="required" type="email"  name="emailT" 
+        />
+        <!-- <div>
+        <label>es residente en EUA:</label>
         SI
-        <input  class="required" type="radio" name="residente" value="si"> | NO
-        <input class="required" type="radio" name="residente" value="no"><br>
-        Si quiero ser contactado en un futuro
+        <input checked class="required" type="radio" name="residente" value="si"> | NO
+        <input class="required" type="radio" name="residente" value="no">
+        </div>
+        <div>
+        <label>Si quiero ser contactado en un futuro</label>
         SI
         <input checked class="required" type="radio" name="acepto" value="si"> | NO
         <input class="required" type="radio" name="acepto" value="no">
-        <br>
-        <a href="" class="terminos" id="terminos">Acepto los terminos y condiciones</a>
-        <input  class="required declara"  type="radio" name="declara" value="si"><br>
-        <button class="atras">Volver</button>
-        <input type="submit" id="enviarDatos" value="Enviar datos" disabled/>
+        </div>
+        <label>Accepto los terminos y condiciones</label>
+        SI
+        <input checked class="required" type="radio" name="declara" value="si"> | NO
+        <input class="required" type="radio" name="acepto" value="no"> -->
+        <div class="outsightContainer">
+        <label>               Es residente en EUA:</label>
+        <div>
+        <label class="container">SI
+                <input checked class="required" type="radio" name="residente" value="si">
+                <span class="checkmark"></span>
+        </label>
+        <label class="container">NO
+                <input class="required" type="radio" name="residente" value="no">
+                <span class="checkmark"></span>
+        </label>
+        </div>
+    </div>
+        <div class="outsightContainer">
+        <label>Deseo ser contactado en un futuro:</label>
+        <div>
+        <label class="container">SI
+                <input checked class="required" type="radio" name="acepto" value="si">
+                <span class="checkmark"></span>
+        </label>
+        <label class="container">NO
+                <input class="required" type="radio" name="acepto" value="no">
+                <span class="checkmark"></span>
+        </label>
+        </div>
+    </div>
+    <div class="outsightContainer">
+        <label><a href="" class="terminos" id="terminos">Acepto los terminos y condiciones</a></label>
+        <div>
+
+            <label class="container">SI
+                <input checked class="required" type="radio" name="declara" value="si">
+                <span class="checkmark"></span>
+            </label>
+            <label class="container">NO
+                <input class="required" type="radio" name="declara" value="no">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+    </div>
+        <!-- <div class="logoSection">
+            <div class="logo"> -->
+                    <div class="navDiv">
+                <button class="atras">Regresar</button>
+                    <input type="submit"  value="Finalizar">
+                    </div>
+                <!-- </div>
+            </div> -->
+            
         <!-- <button class="siguiente"></button> -->
     </form>
+    </div>
 </template>

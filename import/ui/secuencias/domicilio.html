@@ -1,18 +1,25 @@
 <template name="domicilio">
-
+        <div class="insightContainer">
     <h1>Preguntas domicilio</h1>
-    <form id ="siguienteDomicilio" class="siguienteDomicilio" method="post">
-        Domicilio:
-        <input class="required" type="text" placeholder="Ingrese aqui su domicilio actual" name="domicilio" 
-        value="La ensenada b2 c 905 contiguo a plaza azul"/><br>
-        Numero de telefono:
-        <input class="required" type="text" placeholder="Ingrese aqui su numero de telefono fijo" name="telefono" 
-        value="22467469"/><br>
-        Numero movil:
-        <input class="required" type="text" placeholder="Ingrese aqui su numeor de telefono Movil" name="movil" 
-        value="33822840"/><br>
-        <button class="atras">Regresar</button>
-        <input type="submit" value="Siguiente"/>
+    <form id ="siguienteDomicilio" style="width: 100%;" class="siguienteDomicilio" method="post">
+        <label>Domicilio:</label>
+        <input class="required" type="text"  name="domicilio" 
+        /><br>
+    <label>   Numero de telefono:</label>
+        <input class="required" type="text"  name="telefono" 
+        /><br>
+    <label>Numero movil:</label>
+        <input class="required" type="text"  name="movil" 
+        /><br>
+        <!-- <div class="logoSection">
+            <div class="logo"> -->
+                    <div class="navDiv">
+                <button class="atras">Regresar</button>
+                    <input type="submit"  value="Siguiente">
+                    </div>
+                <!-- </div>
+            </div> -->
+            
     </form>
-    
+    </div>
 </template>
