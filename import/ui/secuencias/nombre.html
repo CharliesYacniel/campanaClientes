@@ -1,42 +1,67 @@
 <template name="nombre">
-    <h1>Preguntas nombre</h1>
-    <form id ="siguienteNombre" class="siguienteNombre" method="post">
-     Primer Nombre:
-      <input class="required" type="text"  placeholder="Ingrese aquí su primer nombre" name="nombre1"
-      value="{{wsaccesoclientes.cusfna}}" 
-      /><br>
-       Segundo Nombre:
-       <input type="text"  placeholder="Ingrese aqui su segundo nombre" name="nombre2"
-       value="{{wsaccesoclientes.cusfn2}}"
-       /><br>
-       Primer Apellido:
-       <input class="required" type="text"  placeholder="Ingrese aquí su primer" name="apellido1"
-       value="{{wsaccesoclientes.cusln1}}" 
-       /><br>
-       Segundo Apellido:
-       <input  type="text"  placeholder="Ingrese aquí su segundo apellido" name="apellido2"
-       value="{{wsaccesoclientes.cusln2}}"
-       /><br>
-      Profesión:
-      <!-- <input class="myProfesion" type="text"  placeholder="Ingrese su profesion" name="buscarProfesion"/> -->
-      <select class="profesion" name="profesion" id="profesion" >
-          <option value="nulo" >Selecione profesión</option>
-          <!-- <option  selected value="000">INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D</option> -->
-          {{#each item in wsprofesion}}
-              <option value="{{item.id}}">{{item.dscr}}</option>
-          {{/each}} 
-      </select><br>
-      Ocupación:
-      <!-- <input class="myOcupacion" type="text"  placeholder="Ingrese su ocupacion" name="buscarOcupacion"/> -->
-      <select class="ocupacion" name="ocupacion" id="ocupacion" >
-          <option value="nulo">Selecione ocupacion</option>
-          <!-- <option  selected value="000">PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA</option> -->
-          {{#each item in wsocupacion}}
-              <option value="{{item.idocup}}">{{ item.ocupacion}}</option>
-          {{/each}} 
-      </select><br>
-      <button class="atras">Atras</button>
-      <input type="submit"  value="Siguiente">
-    </form>
- 
-</template>
+        <div class="insightContainer">
+            <form id="siguienteNombre" class="siguienteNombre" method="post">
+                <h1>Ingrese los datos solicitados </h1>
+                <div class="nombreDivFlex">
+                    <div class="child">
+                        <label>Primer Nombre</label>
+                        <input class="required" type="text" name="nombre1" value="{{wsaccesoclientes.cusfna}}"/>
+                    </div>
+                    <div class="child">
+    
+                        <label>Segundo Nombre</label>
+                        <input type="text" name="nombre2" value="{{wsaccesoclientes.cusfn2}}"/>
+                    </div>
+                    <div class="child">
+    
+                        <label>Primer Apellido</label>
+                        <input class="required" type="text" name="apellido1" value="{{wsaccesoclientes.cusln1}}"/>
+                    </div>
+                    <div class="child">
+    
+                        <label>Segundo Apellido</label>
+                        <input type="text" name="apellido2" value="{{wsaccesoclientes.cusln2}}"/>
+                    </div>
+                    <div class="child">
+    
+                        <label>Profesión</label>
+                        <select class="profesion" name="profesion" id="profesion" >
+                                <option value="nulo" ></option>
+                                <!-- <option  selected value="000">INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D</option> -->
+                                {{#each item in wsprofesion}}
+                                    <option value="{{item.id}}">{{item.dscr}}</option>
+                                {{/each}} 
+                            </select>
+                    </div>
+                    <div class="child">
+    
+                        <label>Ocupación</label>
+                        <select class="ocupacion" name="ocupacion" id="ocupacion" >
+                                <option value="nulo"></option>
+                                <!-- <option  selected value="000">PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA</option> -->
+                                {{#each item in wsocupacion}}
+                                    <option value="{{item.idocup}}">{{ item.ocupacion}}</option>
+                                {{/each}} 
+                            </select>
+                    </div>
+    
+                </div>
+    
+    
+    
+    
+    
+                <!-- <div class="logoSection">
+              <div class="logo"> -->
+                <div class="navDiv">
+                    <button class="atras">Regresar</button>
+                    <input type="submit" value="Siguiente">
+                </div>
+                <!-- </div> -->
+    
+    
+    
+    
+            </form>
+        </div>
+    </template>

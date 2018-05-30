@@ -327,14 +327,132 @@ Template.nombre.onCreated(function(){
     });   
 });
 
-Template.nombre.onRendered(function(){
+// Template.nombre.onRendered(function(){
   
+//   $(document).ready(function(){
+//     $('#profesion').select2();
+//   });  
+//   $(document).ready(function(){
+//     $('#ocupacion').select2();
+//   });  
+//   $("#siguienteNombre").validate({
+//     rules: {
+//       nombre1:{
+//         required:true,
+//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+//       },
+//       nombre2:{
+//         required:false,
+//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+//       },
+//       apellido1:{
+//         required:true,
+//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+//       },
+//       apellido2:{
+//         required:true,
+//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+//       },
+//       buscarProfesion:{
+//         required:true,
+//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+//       },
+//       buscarOcupacion:{
+//         required:true,
+//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+//       },
+//       profesion: { valueNotEquals:"nulo"},
+//       ocupacion: { valueNotEquals:"nulo"},
+//     } ,
+//     messages: {
+//       nombre1:{
+//         required:"Es necesrio que verifique primer Nombre",
+//         pattern:"No valido",
+//       },
+//       nombre2:{
+//         // required:"Es necesrio que verifique Segundo Nombre",
+//         pattern:"No valido",
+//       },
+//       apellido1:{
+//         required:"Es necesrio que verifique primer apellido",
+//         pattern:"No valido",
+//       },
+//       apellido2:{
+//         required:"Es necesrio que verifique segundo",
+//         pattern:"No valido",
+//       },
+//       buscarProfesion:{
+//         required:"Ingrese su profesion",
+//         pattern:"No valido",
+//       },
+//       buscarOcupacion:{
+//         required:"ingrese su ocupacion",
+//         pattern:"No valido",
+//       },
+//       profesion: { valueNotEquals: "Selecione una profesión por favor" },
+//       ocupacion: { valueNotEquals: "Selecione un ocupación por favor" },
+//     }
+// });    
+// });
+Template.nombre.onRendered(function(){
   $(document).ready(function(){
-    $('#profesion').select2();
-  });  
-  $(document).ready(function(){
-    $('#ocupacion').select2();
-  });  
+    //========================================================validacion de profesion====================================
+    var $select =  $('#profesion').select2({
+      placeholder: 'Seleccione una profesión',
+      allowClear: false
+    });
+    // Aplicando la validacion del select cada vez que cambie
+    $select.on('change', function() {
+      $(this).trigger('blur');
+    });
+   //Permitiendo la validacion de campos ocultos
+    $('#siguienteNombre').validate({
+      ignore: '.select2-input, .select2-focusser',
+      submitHandler: function(form) {
+        alert("enviado")
+      },
+      errorPlacement: function(error, element) {
+        $(element).next().append(error);
+      }
+    });
+    // agregando la validacion del select ya que no tiene un atributo name el plugin
+    $select.rules('add', {
+      valueNotEquals:"nulo",
+      // required: true,
+      messages: {
+        // required: "Es necesario que seleccione una opción"
+        valueNotEquals: "Es necesario que seleccione una opción"
+      }
+    });
+ //========================================================validacion de ocupacion====================================
+    var $select =  $('#ocupacion').select2({
+      placeholder: 'Seleccione una ocupación',
+      allowClear: false
+    });
+    // Aplicando la validacion del select cada vez que cambie
+    $select.on('change', function() {
+      $(this).trigger('blur');
+    });
+    //Permitiendo la validacion de campos ocultos
+    $('#siguienteNombre').validate({
+      ignore: '.select2-input, .select2-focusser',
+      submitHandler: function(form) {
+        alert("enviado")
+      },
+      errorPlacement: function(error, element) {
+        $(element).next().append(error);
+      }
+    });
+    // agregando la validacion del select ya que no tiene un atributo name el plugin
+    $select.rules('add', {
+      valueNotEquals:"nulo",
+      // required: true,
+      messages: {
+        // required: "Es necesario que seleccione una opción"
+        valueNotEquals: "Es necesario que seleccione una opción"
+      }
+    });
+  });
   $("#siguienteNombre").validate({
     rules: {
       nombre1:{
@@ -353,20 +471,10 @@ Template.nombre.onRendered(function(){
         required:true,
         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
-      buscarProfesion:{
-        required:true,
-        pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-      },
-      buscarOcupacion:{
-        required:true,
-        pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-      },
-      // profesion: { valueNotEquals:"nulo"},
-      ocupacion: { valueNotEquals:"nulo"},
     } ,
     messages: {
       nombre1:{
-        required:"Es necesrio que verifique Primer Nombre",
+        required:"Es necesario que verifique primer nombre",
         pattern:"No valido",
       },
       nombre2:{
@@ -374,26 +482,16 @@ Template.nombre.onRendered(function(){
         pattern:"No valido",
       },
       apellido1:{
-        required:"Es necesrio que verifique nombre",
+        required:"Es necesario que verifique su primer apellido",
         pattern:"No valido",
       },
       apellido2:{
-        // required:"Es necesrio que verifique nombre",
+        required:"Es necesario que verifique su segundo apellido",
         pattern:"No valido",
       },
-      buscarProfesion:{
-        required:"Ingrese su profesion",
-        pattern:"No valido",
-      },
-      buscarOcupacion:{
-        required:"ingrese su ocupacion",
-        pattern:"No valido",
-      },
-      // profesion: { valueNotEquals: "Selecione un valor por favor" },
-      ocupacion: { valueNotEquals: "Selecione un valor por favor" },
     }
-});    
-});
+ });    
+ });
 Template.nombre.helpers({
   wsaccesoclientes(){
     var datosWS =Template.instance().foundUser.get();

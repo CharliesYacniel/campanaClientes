@@ -1,0 +1,18 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 0.98px;
+      }
+    </style>
+  </defs>
+  <title>usb</title>
+  <g>
+    <path class="cls-1" d="M482,185.3,423.59,83.44l-89.44,51.31-13.54-23.6L40.6,271.78a40.11,40.11,0,0,0-14.82,54.69L71.41,406a40.11,40.11,0,0,0,54.69,14.82l280-160.63-13.54-23.6ZM420.17,96.05l49.24,85.83L388,228.59l-49.24-85.83ZM388.1,255.32,119.53,409.39a26.9,26.9,0,0,1-36.68-9.94L37.23,319.91a26.9,26.9,0,0,1,9.94-36.68L315.73,129.17l7,12.15,58.43,101.85Z"/>
+    <rect class="cls-1" x="387.99" y="134.37" width="14.51" height="15.83" transform="translate(-18.4 215.54) rotate(-29.84)"/>
+    <rect class="cls-1" x="409.65" y="172.14" width="14.51" height="15.83" transform="translate(-34.32 231.32) rotate(-29.84)"/>
+  </g>
+</svg>

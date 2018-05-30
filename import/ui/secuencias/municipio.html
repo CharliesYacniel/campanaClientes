@@ -1,10 +1,12 @@
 <template name="municipio">
-
-    <h1>Preguntas municipio</h1>
-  <form id ="siguienteMunicipio" class="siguienteMunicipio" method="post">
-        Departamento:
+                <div class="insightContainer">
+                        <h1>Ingrese los datos solicitados</h1>
+                        <form style="width: 100%; top: -10%;" id ="siguienteMunicipio" class="siguienteMunicipio" method="post">
+                                        <div class="nombreDivFlex">
+                                                <div class="child" style="width: 105%" > 
+        <label>Departamento:</label>
         <select name="depto" id="depto" class="depto">
-                <option value="nulo">Selecione Departamento</option>
+                <option value="nulo"></option>
                 <option value="HN01">Atlántida</option>
                 <option value="HN02">Colón</option>
                 <option value="HN03">Comayagua</option>
@@ -23,39 +25,52 @@
                 <option value="HN16">Sta. Barbara</option>
                 <option value="HN17">Valle</option>
                 <option value="HN18">Yoro</option>
-        </select><br>
-    Municipio:
+        </select>
+</div>
+        
+                        <div class="child">
+        <label>Municipio:</label>
     <!-- <input class="myMunicipio" type="text"  placeholder="Ingrese el nombre de el municipio" name=""/> -->
     <select class="municipio" name="muni" id="municipio" disabled>
-            <option value="nulo">Selecione Municipio</option>
+            <option value="nulo"></option>
             <!-- <option  selected value="HN0000">La Ceiba</option> -->
             {{#each item in wbmunicipio}}
             <option value="{{item.idmun}}">{{ item.desmun}}</option>
             {{/each}} 
-    </select><br>
-    Cidudad - Aldea:
+    </select>
+</div>
+<div class="child">
+    <label>Cidudad - Aldea:</label>
     <!-- <input class="myCidudad" id="myCidudad" disabled type="text"  placeholder="Ingrese el nombre de la Cidudad" name=""/> -->
     <select class="ciudad" name="ciudad" id="ciudad" disabled>
-            <option value="nulo">-Selecione Ciudad-</option>
+            <option value="nulo"></option>
             <!-- <option  selected value="HN000000">Corozal</option> -->
             {{#each item in wsciudada}}
             <option value="{{item.idcaldea}}">{{item.descaldea}}</option>
             {{/each}} 
-    </select><br>
-    Barrio / Colonia / Caserio:
+    </select>
+</div>
+
+<div class="child" style="width: 100%">
+    <label>Barrio / Colonia / Caserio:</label>
     <!-- <input class="myColonia" id="myColonia" type="text"  disabled placeholder="Ingrese el nombre de el Colonia" name=""/> -->
     <select class="colonia" name="barrio" id="colonia" disabled>
-            <option value="nulo">Selecione Colonia</option>
+            <option value="nulo"></option>
             <!-- <option  selected value="HN000000000">La Ensenada</option> -->
             {{#each item in awsbarriocolonia}}
             <option value="{{item.idbcc}}">{{item.desbcc}}</option>
             {{/each}} 
-    </select><br>
-    <button class="atras">Atras</button>
-    <input type="submit" value="Siguiente"/>
+    </select>
+</div>
+                                        </div>
+    <div class="navDiv">
+                <button class="atras">Regresar</button>
+                <input type="submit"  value="Siguiente">
+             </div>
+
     <!-- <button class="siguiente">NEXT</button> -->
   </form>
 
 
-
+</div>
 </template>
