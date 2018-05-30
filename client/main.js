@@ -472,6 +472,19 @@ let awsbarriocolonia = new ReactiveVar([]);
 
 Template.municipio.onCreated(function(){});
 Template.municipio.onRendered(function(){
+  $(document).ready(function(){
+    $('#depto').select2();
+  });  
+  $(document).ready(function(){
+    $('#municipio').select2();
+  });  
+  $(document).ready(function(){
+    $('#ciudad').select2();
+  });  
+  $(document).ready(function(){
+    $('#colonia').select2();
+  });  
+
   $( "#siguienteMunicipio" ).validate({
     rules: {
       depto: { valueNotEquals:"nulo"},
@@ -838,6 +851,10 @@ Template.correo.events({
   'click .atras'(event){
     FlowRouter.go('/domicilio');
  },
+ 'click .declara'(event){
+  document.getElementById('enviarDatos').disabled=false;
+},
+
 });
 //==================================================terminos============================================
 Template.terminos.events({
