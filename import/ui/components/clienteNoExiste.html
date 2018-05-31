@@ -1,33 +1,35 @@
 <template name="clienteNoExiste">
-        <div class="insightContainer">
-<!-- <h1> Cliente No encontrado</h1> -->
-<!-- <p>Sus datos no estan disponibles en nuestro sistema,
+    <div class="insightContainer">
+        <!-- <h1> Cliente No encontrado</h1> -->
+        <!-- <p>Sus datos no estan disponibles en nuestro sistema,
     le invitamos a acercarse a cualquiera de nuestras agencias para mayor información</p> -->
-<h1>Sus datos no fueron encontrados, sin embargo puede dejar la información solicitada</h1>
-    <form style="width: 100%; top: -10%;" id ="siguienteNoExiste" class="siguienteNoExiste" method="post">
-    <label>Nombre completo:</label>
-      <input class="required" type="text"  placeholder="Ingrese aqui su primer nombre" name="nombre1"
-       value="Pedro Alberto"
-       />
-       <div style="display: flex;">
-           <div>
-      <label> Numero de telefono:</label>
-        <input class="required" type="text"  name="telefono" 
-        value="22467469"/>
-    </div>
-    <div>
-      <label>  Numero movil:</label>
-        <input class="required" type="text"  name="movil" 
-        value="33822840"/>
-    </div>
-    </div>
-        <label>e-mail:</label>
-        <input class="required" type="email"  name="emailP" 
-        value="axellanda@gmail.com"/><br>
-        <div class="navDiv">
+        <h1>Sus datos no fueron encontrados, sin embargo puede dejar la información solicitada</h1>
+        <form style="width: 100%; top: -10%;" id="siguienteNoExiste" class="siguienteNoExiste" method="post">
+            <div class="clienteDivFlex">
+                <div class="child" style="width: 100%;">
+                    <label class="labelFix">Nombre completo:</label>
+                    <input class="required" type="text" name="nombre1" />
+                </div>
+
+                <div class="child" style="width: 47.5%;">
+                    <label> Numero de telefono:</label>
+                    <input class="required" type="text" name="telefono" />
+                </div>
+                <div class="child" style="width: 47.5%;">
+                    <label> Numero movil:</label>
+                    <input class="required" type="text" name="movil" />
+                </div>
+
+                <div class="child" style="width: 100%;">
+                    <label class="labelFix">e-mail:</label>
+                    <input class="required" type="email" name="emailP" />
+                </div>
+            </div>
+    
+    <div class="navDiv">
         <button class="regresar">Regresar</button>
-        <input type="submit" value="Siguiente"/>
-        </div>
+        <input type="submit" value="Siguiente" />
+    </div>
     </form>
     </div>
 </template>

@@ -74,7 +74,14 @@ $sidebarWidth: 260px;
     font-size: 0.8rem;
     float: left;
     margin-left: 15px;
+    
   }
+  .labelFix{
+    margin-left: 25px;
+}  
+.divFix{
+    position: relative;
+}
   .navDiv{
     width: 100%;
     position: absolute;
@@ -88,15 +95,36 @@ $sidebarWidth: 260px;
   .nombreDivFlex{
     display: flex;
     flex-flow: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+    .child{
+      width: 50%;
+      position: relative;
+      
+    }
+}
+  .clienteDivFlex{
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
     width: 100%;
     height: 100%;
     .child{
       width: 50%;
       position: relative;
     }
+      label#nombre1-error.error{
+          right: 15px;
+      }
+      label#telefono-error.error,
+        label#movil-error.error{
+            right: 8px;
+        }
+    }
     
     
-  }
+  
   label.error{
     color: white;
     background-color: rgb(151, 37, 35);
@@ -111,13 +139,24 @@ $sidebarWidth: 260px;
     font-size: 0.65rem;
     /* float: right; */
     right: 8px;
-    
+    z-index: 111;
 }
 label#ocupacion-error.error, label#profesion-error.error,
-label#depto-error.error{
-    z-index: 111;
+{
+   
     bottom: 15px;
 }
+label#valueID-error.error,
+label#depto-error.error,
+label#colonia-error.error,
+label#emailP-error.error,
+label#emailT-error.error,
+label#domicilio-error.error,
+label#telefono-error.error,
+label#movil-error.error{
+    right: 15px;
+}
+
 
 .select2-container--default .select2-selection--single {
     text-align: start;
@@ -358,7 +397,7 @@ label#depto-error.error{
         position: absolute;
         background-color: white;
         width: calc(100vw - 10px);
-        height: 100%;
+        height: 100vh;
         top:  0;
         left: 0;
         z-index: 1000;

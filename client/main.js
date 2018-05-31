@@ -28,6 +28,7 @@ $.validator.addMethod("valueNotEquals", function(value, element, arg){
 Template.acessoCliente.onCreated(function(){});
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
+  
 $("#formulario").validate({
       rules: {
         valueID:{
@@ -41,7 +42,18 @@ $("#formulario").validate({
           pattern:"numero de Identidad no valido",
         }
       }
-  });    
+  }); 
+  var current = 0,
+      slides = document.querySelectorAll(".prizeImage img");
+
+  setInterval(function() {
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].style.opacity = 0;
+    }
+    current = (current != slides.length - 1) ? current + 1 : 0;
+    slides[current].style.opacity = 1;
+  }, 5000);
+   
 });
 
 Template.acessoCliente.events({
