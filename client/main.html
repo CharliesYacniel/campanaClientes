@@ -10,9 +10,10 @@
 <template name="acessoCliente">
     <div class="insightContainer">
     <form class="formulario"  id="formulario" method="post">
-      <h1>Estimado (a) cliente por favor ingrese su número de identidad o número de residente:</h1>
+      <h1>Estimado (a) cliente por favor ingresa su número de identidad / residente:</h1>
+      <p>Recuerda que tambien puedes revisar tu número de boleto</p>
       <div style="position: relative;">  
-      <input type="text"  placeholder="0000-0000-00000" name="valueID"/><br>
+      <input type="text" id="valueID" size="30" maxlength="13" placeholder="0000-0000-00000" name="valueID" /><br>
     </div>
         <button class="ingresarSvg" type="submit">
           <svg style="overflow: visible;" id="Layer_1" x="0px" y="0px" viewBox="0 0 140 140">
@@ -48,7 +49,7 @@
   
   <template name="layoutPrincipal">
   
-    <div class="outerContainer loading  ">
+    <div class="outerContainer   ">
       <div class="permaViewContainer">
         <div class="startContainer">
           <svg class="logoCampaign rotate animation " viewBox="0 0 700 700">
@@ -216,22 +217,21 @@
     <!--      
         Por actualizar
         
-        0712197100104
+            
         0413197200588
         0706196000061
-        0801196602823
         0506195300522
         0703198903669
         0401197000790            
         1801196300692            
         0702198100092            
         0801195503082
-        
         0801194900699
         0801199321500  MIO            
 
         Ya actualizados
         0501193000427
+        0712197100104
         0705197900088
         0510199001479
         1801195800536
@@ -252,7 +252,8 @@
         0801194100997
         0501197303828
         1801195800536
-        0205197200369          
+        0205197200369
+        0801196602823          
 
         No debe de actualizar
         0204198900335            
