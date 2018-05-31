@@ -20,7 +20,6 @@ import '../import/ui/secuencias/correo.html';
 import '../import/ui/secuencias/terminos.html';
 import '../import/ui/secuencias/noCliente.html';
 
-
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
 $.validator.addMethod("valueNotEquals", function(value, element, arg){
   return arg != element.value; 
@@ -28,7 +27,6 @@ $.validator.addMethod("valueNotEquals", function(value, element, arg){
 Template.acessoCliente.onCreated(function(){});
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
-  
 $("#formulario").validate({
       rules: {
         valueID:{
@@ -104,7 +102,6 @@ Template.acessoCliente.events({
            name:nombreCliente,
            last:apellidoCliente,
         };
-          
           if(fatca=='S'){
             console.log("No permitir Actualizar");
             FlowRouter.go('/clienteNoSePermite', params, queryParams);
@@ -139,7 +136,6 @@ Template.clienteExiste.helpers({
   getLast(){
     return FlowRouter.getQueryParam("last");
   },
-  
 });
 Template.clienteExiste.events({
   'click .iniciarForm' (event, instance){
@@ -324,7 +320,6 @@ Template.nombre.onCreated(function(){
           }
         });
        //=============================================wsaccesoclientes=================================================
-           
     let id=Session.get('idCliente');
     this.foundUser = new ReactiveVar([]);
     var cuerpo="<cam:wsaccesoclientes.Execute>"+
@@ -339,78 +334,11 @@ Template.nombre.onCreated(function(){
     });   
 });
 
-// Template.nombre.onRendered(function(){
-  
-//   $(document).ready(function(){
-//     $('#profesion').select2();
-//   });  
-//   $(document).ready(function(){
-//     $('#ocupacion').select2();
-//   });  
-//   $("#siguienteNombre").validate({
-//     rules: {
-//       nombre1:{
-//         required:true,
-//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-//       },
-//       nombre2:{
-//         required:false,
-//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-//       },
-//       apellido1:{
-//         required:true,
-//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-//       },
-//       apellido2:{
-//         required:true,
-//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-//       },
-//       buscarProfesion:{
-//         required:true,
-//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-//       },
-//       buscarOcupacion:{
-//         required:true,
-//         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
-//       },
-//       profesion: { valueNotEquals:"nulo"},
-//       ocupacion: { valueNotEquals:"nulo"},
-//     } ,
-//     messages: {
-//       nombre1:{
-//         required:"Es necesrio que verifique primer Nombre",
-//         pattern:"No valido",
-//       },
-//       nombre2:{
-//         // required:"Es necesrio que verifique Segundo Nombre",
-//         pattern:"No valido",
-//       },
-//       apellido1:{
-//         required:"Es necesrio que verifique primer apellido",
-//         pattern:"No valido",
-//       },
-//       apellido2:{
-//         required:"Es necesrio que verifique segundo",
-//         pattern:"No valido",
-//       },
-//       buscarProfesion:{
-//         required:"Ingrese su profesion",
-//         pattern:"No valido",
-//       },
-//       buscarOcupacion:{
-//         required:"ingrese su ocupacion",
-//         pattern:"No valido",
-//       },
-//       profesion: { valueNotEquals: "Selecione una profesión por favor" },
-//       ocupacion: { valueNotEquals: "Selecione un ocupación por favor" },
-//     }
-// });    
-// });
 Template.nombre.onRendered(function(){
   $(document).ready(function(){
     //========================================================validacion de profesion====================================
     var $select =  $('#profesion').select2({
-      placeholder: 'Seleccione una profesión',
+      // placeholder: 'Seleccione una profesión',
       allowClear: false
     });
     // Aplicando la validacion del select cada vez que cambie
@@ -433,12 +361,12 @@ Template.nombre.onRendered(function(){
       // required: true,
       messages: {
         // required: "Es necesario que seleccione una opción"
-        valueNotEquals: "Es necesario que seleccione una opción"
+        valueNotEquals: "Seleccione una opción"
       }
     });
  //========================================================validacion de ocupacion====================================
     var $select =  $('#ocupacion').select2({
-      placeholder: 'Seleccione una ocupación',
+      // placeholder: 'Seleccione una ocupación',
       allowClear: false
     });
     // Aplicando la validacion del select cada vez que cambie
@@ -461,7 +389,7 @@ Template.nombre.onRendered(function(){
       // required: true,
       messages: {
         // required: "Es necesario que seleccione una opción"
-        valueNotEquals: "Es necesario que seleccione una opción"
+        valueNotEquals: "Seleccione una opción"
       }
     });
   });
@@ -486,19 +414,18 @@ Template.nombre.onRendered(function(){
     } ,
     messages: {
       nombre1:{
-        required:"Es necesario que verifique primer nombre",
+        required:"Verifique primer nombre",
         pattern:"No valido",
       },
       nombre2:{
-        // required:"Es necesrio que verifique Segundo Nombre",
         pattern:"No valido",
       },
       apellido1:{
-        required:"Es necesario que verifique su primer apellido",
+        required:"Verifique su primer apellido",
         pattern:"No valido",
       },
       apellido2:{
-        required:"Es necesario que verifique su segundo apellido",
+        required:"Verifique su segundo apellido",
         pattern:"No valido",
       },
     }
@@ -557,21 +484,7 @@ Template.nombre.events({
   },
   'click .atras'(event){
     FlowRouter.go('/clienteExiste');
- }
-//  ,
-//  'click .profesion'(event){
-//   // console.log(event.target.value);
-//   console.log('asda');
-  //================================================wsprofesion================================================
-  // this.profesiones = new ReactiveVar([]);
-// 
-// }
-,
-'input .myOcupacion'(event){
-//  ================================================wsocupacion================================================
-//  var Ocupacion="PROFESOR";
-//  var Ocupacion=event.target.value;
-},
+  },
 });
 //==============================================================================================
 
@@ -582,18 +495,133 @@ let awsbarriocolonia = new ReactiveVar([]);
 
 Template.municipio.onCreated(function(){});
 Template.municipio.onRendered(function(){
+  // $(document).ready(function(){
+  //   $('#depto').select2();
+  // });  
+  // $(document).ready(function(){
+  //   $('#municipio').select2();
+  // });  
+  // $(document).ready(function(){
+  //   $('#ciudad').select2();
+  // });  
+  // $(document).ready(function(){
+  //   $('#colonia').select2();
+  // });  
   $(document).ready(function(){
-    $('#depto').select2();
-  });  
-  $(document).ready(function(){
-    $('#municipio').select2();
-  });  
-  $(document).ready(function(){
-    $('#ciudad').select2();
-  });  
-  $(document).ready(function(){
-    $('#colonia').select2();
-  });  
+     //========================================================validacion de depto================================== ==
+     var $select =  $('#depto').select2({
+      // placeholder: 'Seleccione un departamento',
+      allowClear: false
+    });
+    // Aplicando la validacion del select cada vez que cambie
+    $select.on('change', function() {
+      $(this).trigger('blur');
+    });
+   //Permitiendo la validacion de campos ocultos
+    $('#siguienteMunicipio').validate({
+      ignore: '.select2-input, .select2-focusser',
+      submitHandler: function(form) {
+        alert("enviado")
+      },
+      errorPlacement: function(error, element) {
+        $(element).next().append(error);
+      }
+    });
+    // agregando la validacion del select ya que no tiene un atributo name el plugin
+    $select.rules('add', {
+      valueNotEquals:"nulo",
+      // required: true,
+      messages: {
+        // required: "Es necesario que seleccione una opción"
+        valueNotEquals: "Seleccione una opción"
+      }
+    });
+    //========================================================validacion de municipio================================== ==
+    $('#municipio').select2({
+      // placeholder: 'Seleccione un departamento',
+      allowClear: false
+    });
+    // Aplicando la validacion del select cada vez que cambie
+    $select.on('change', function() {
+      $(this).trigger('blur');
+    });
+   //Permitiendo la validacion de campos ocultos
+    $('#siguienteMunicipio').validate({
+      ignore: '.select2-input, .select2-focusser',
+      submitHandler: function(form) {
+        alert("enviado")
+      },
+      errorPlacement: function(error, element) {
+        $(element).next().append(error);
+      }
+    });
+    // agregando la validacion del select ya que no tiene un atributo name el plugin
+    $select.rules('add', {
+      valueNotEquals:"nulo",
+      // required: true,
+      messages: {
+        // required: "Es necesario que seleccione una opción"
+        valueNotEquals: "Seleccione una opción"
+      }
+    });
+    //========================================================validacion de ciudad================================== ==
+    $('#ciudad').select2({
+      // placeholder: 'Seleccione un departamento',
+      allowClear: false
+    });
+    // Aplicando la validacion del select cada vez que cambie
+    $select.on('change', function() {
+      $(this).trigger('blur');
+    });
+   //Permitiendo la validacion de campos ocultos
+    $('#siguienteMunicipio').validate({
+      ignore: '.select2-input, .select2-focusser',
+      submitHandler: function(form) {
+        alert("enviado")
+      },
+      errorPlacement: function(error, element) {
+        $(element).next().append(error);
+      }
+    });
+    // agregando la validacion del select ya que no tiene un atributo name el plugin
+    $select.rules('add', {
+      valueNotEquals:"nulo",
+      // required: true,
+      messages: {
+        // required: "Es necesario que seleccione una opción"
+        valueNotEquals: "Seleccione una opción"
+      }
+    });
+    //========================================================validacion de colonia================================== ==
+    $('#colonia').select2({
+      // placeholder: 'Seleccione un departamento',
+      allowClear: false
+    });
+    // Aplicando la validacion del select cada vez que cambie
+    $select.on('change', function() {
+      $(this).trigger('blur');
+    });
+   //Permitiendo la validacion de campos ocultos
+    $('#siguienteMunicipio').validate({
+      ignore: '.select2-input, .select2-focusser',
+      submitHandler: function(form) {
+        alert("enviado")
+      },
+      errorPlacement: function(error, element) {
+        $(element).next().append(error);
+      }
+    });
+    // agregando la validacion del select ya que no tiene un atributo name el plugin
+    $select.rules('add', {
+      valueNotEquals:"nulo",
+      // required: true,
+      messages: {
+        // required: "Es necesario que seleccione una opción"
+        valueNotEquals: "Seleccione una opción"
+      }
+    });
+    //========================================================validacion de colonia====================================
+  });
 
   $( "#siguienteMunicipio" ).validate({
     rules: {
@@ -729,7 +757,10 @@ Template.municipio.events({
           }
         }
       });
- },
+ }, 'change .colonia'(event){
+  document.getElementById("siguiente").disabled=false;
+},
+ 
 });
 //==============================================================================================
 // fomulario4  domicilio,telfono y movil
@@ -870,7 +901,6 @@ Template.correo.events({
     // console.log(residente);
     // console.log(declara);
     // console.log(acepto);
-
     // let awsguardarcliente = new ReactiveVar([]);
     var Codcli=Session.get("ibs");//"2089291";
     var Idncli=Session.get("idCliente");//"0801199306450";
@@ -962,12 +992,12 @@ Template.correo.events({
     FlowRouter.go('/domicilio');
  },
  'click .declara'(event){
-  // document.getElementById('enviarDatos').disabled=false;
+  document.getElementById('enviarDatos').disabled=false;
   console.log('datos declara');
   },
   'click .declaraNo'(event){
-    console.log('datos no declaras');
-    // document.getElementById('enviarDatos').disabled=true;
+    // console.log('datos no declaras');
+    document.getElementById('enviarDatos').disabled=true;
   },
 
 });
