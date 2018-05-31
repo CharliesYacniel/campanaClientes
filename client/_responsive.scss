@@ -1,0 +1,43 @@
+
+  
+@media screen and (max-device-width: 960px) {
+    body{
+        min-height: 515px;
+    }
+    .outerContainer {
+        
+        
+        .permaViewContainer {
+            width: 0px;
+            left: -10%;
+
+           
+        }
+
+        .appViewContainer {
+            width: 100vw;
+            .startContainer{
+                .logoAtlantida {
+                    width: 50vw;
+                }
+            div select,div input[type="email"],   div input[type="text"]{
+                font-size: 1.3rem;
+            }
+            .ingresarSvg{
+                right: 30%;
+                width: 25vw;
+                height: 25vw;
+            }    
+        }
+    
+    }
+  }
+  .outerContainer.loading .permaViewContainer svg.logoCampaign{
+    width: 300%;
+                height: 300px;
+                max-width: unset;
+                position: relative;
+                right: -5%;
+  }
+}
+

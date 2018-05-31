@@ -221,7 +221,7 @@ label#movil-error.error{
         
     }
 	h1{
-		font-size: 28px;
+		font-size: 1.5rem;
 		width: 100%;
 		
 		// flex-shrink: 0;
@@ -903,3 +903,5 @@ label#movil-error.error{
     padding-right: 4vw;
                     
 }
+
+@import "responsive"
