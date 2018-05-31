@@ -950,8 +950,13 @@ Template.correo.events({
     FlowRouter.go('/domicilio');
  },
  'click .declara'(event){
-  document.getElementById('enviarDatos').disabled=false;
-},
+  // document.getElementById('enviarDatos').disabled=false;
+  console.log('datos declara');
+  },
+  'click .declaraNo'(event){
+    console.log('datos no declaras');
+    // document.getElementById('enviarDatos').disabled=true;
+  },
 
 });
 //==================================================terminos============================================
