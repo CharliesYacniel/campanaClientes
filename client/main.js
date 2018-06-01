@@ -40,8 +40,8 @@ $("#formulario").validate({
           pattern:"numero de Identidad no valido",
         }
       }
-  })
-  .mask("9999-9999-99999");; 
+  });
+  
   var current = 0,
       slides = document.querySelectorAll(".prizeImage img");
 
