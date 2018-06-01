@@ -60,7 +60,12 @@ $sidebarWidth: 260px;
     width: 100%;
     background-color: white;
   }
-  
+  .divLogoContainer{
+    height: 40vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 .insightContainer{
   display: flex;
   justify-content: start;
@@ -75,6 +80,11 @@ $sidebarWidth: 260px;
     float: left;
     margin-left: 15px;
     
+  }
+  form{
+      width: 100%;
+      height: 60%;
+      top:-10;
   }
   .labelFix{
     margin-left: 25px;
@@ -115,11 +125,13 @@ $sidebarWidth: 260px;
       position: relative;
     }
       label#nombre1-error.error{
-          right: 2.4%;
+          right: 2.5%;
+          
       }
       label#telefono-error.error,
         label#movil-error.error{
             right: 3%;
+            
         }
     }
     
@@ -135,35 +147,49 @@ $sidebarWidth: 260px;
     position: absolute;
     
     display: flex;
-    bottom: 15px;
+    bottom: calc(100% - 94px);
     font-size: 0.65rem;
     /* float: right; */
     right: 3%;
     z-index: 111;
 }
+label#profesion-error.error,
+label#ocupacion-error.error,
+label#depto-error.error,
+label#municipio-error.error,
+label#ciudad-error.error,
 
-label#valueID-error.error,
 label#depto-error.error,
 label#colonia-error.error,
 label#emailP-error.error,
 label#emailT-error.error,
 label#domicilio-error.error,
 label#telefono-error.error,
-label#movil-error.error{
-    right: 2.4%;
+label#movil-error.error,
+{
+    right: 2.5%;
+    bottom: calc(100% - 93px);
 }
-
+label#valueID-error.error{
+    right: 2.5%;
+    bottom: calc(100% - 76px);
+}
 
 .select2-container--default .select2-selection--single {
     text-align: start;
     width: 100%;
-    margin-bottom: 15px;
+    
     background-color: white;
     border: 3px solid $colorMain;
     border-radius: 20px;
     opacity: 0.5;
     height: 75px;
     /* padding: 20px; */
+}
+.select2-container--default.select2-container--open.select2-container--below .select2-selection--single, 
+.select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple{
+        border-bottom-right-radius: 20px;
+        
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: black;
@@ -289,7 +315,7 @@ label#movil-error.error{
 		
 		width: 18vw;
 		border-radius: 12px;
-		font-size: 28px;
+		font-size: 2rem;
 		z-index: 1111111;
 		color: white;
 		position: relative;
@@ -322,7 +348,7 @@ label#movil-error.error{
 		
 		width: 18vw;
 		border-radius: 12px;
-		font-size: 28px;
+		font-size: 2rem;
 		z-index: 1111111;
 		color: $colorGray;
 		position: relative;
