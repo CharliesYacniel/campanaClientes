@@ -115,11 +115,11 @@ $sidebarWidth: 260px;
       position: relative;
     }
       label#nombre1-error.error{
-          right: 15px;
+          right: 2.4%;
       }
       label#telefono-error.error,
         label#movil-error.error{
-            right: 8px;
+            right: 3%;
         }
     }
     
@@ -138,14 +138,10 @@ $sidebarWidth: 260px;
     bottom: 15px;
     font-size: 0.65rem;
     /* float: right; */
-    right: 8px;
+    right: 3%;
     z-index: 111;
 }
-label#ocupacion-error.error, label#profesion-error.error,
-{
-   
-    bottom: 15px;
-}
+
 label#valueID-error.error,
 label#depto-error.error,
 label#colonia-error.error,
@@ -154,7 +150,7 @@ label#emailT-error.error,
 label#domicilio-error.error,
 label#telefono-error.error,
 label#movil-error.error{
-    right: 15px;
+    right: 2.4%;
 }
 
 

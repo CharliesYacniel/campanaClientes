@@ -10,7 +10,6 @@ import '../import/ui/components/clienteNoSePermite.html';
 import '../import/ui/components/clienteExiste.html';
 import '../import/ui/components/clienteActualizado.html';
 import '../import/ui/components/formulario.html';
-
 //templates de las secuencias
 import '../import/ui/secuencias/nombre.html';
 import '../import/ui/secuencias/municipio.html';
@@ -27,6 +26,7 @@ $.validator.addMethod("valueNotEquals", function(value, element, arg){
 Template.acessoCliente.onCreated(function(){});
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
+  
 $("#formulario").validate({
       rules: {
         valueID:{
@@ -40,7 +40,8 @@ $("#formulario").validate({
           pattern:"numero de Identidad no valido",
         }
       }
-  }); 
+  })
+  .mask("9999-9999-99999");; 
   var current = 0,
       slides = document.querySelectorAll(".prizeImage img");
 
@@ -64,10 +65,10 @@ Template.acessoCliente.events({
     // let indexEjemplo=eje.selectedIndex;
     // let ejemplo = eje.options[indexEjemplo].text;
     // console.log(id_ejemplo+" "+ejemplo);
-    Session.set("idCliente",id);//INICIALIZANDO VARIABLE
+    Session.set("idCliente",id.trim());//INICIALIZANDO VARIABLE
     this.foundUser = new ReactiveVar([]);
     var cuerpo="<cam:wsaccesoclientes.Execute>"+
-                      "<cam:Identidad>"+id+"</cam:Identidad>"
+                      "<cam:Identidad>"+id.trim()+"</cam:Identidad>"
               +"</cam:wsaccesoclientes.Execute>";
     Meteor.call('wsaccesoclientes',{ body : cuerpo },(err, res) =>{
       if (err){
@@ -303,7 +304,6 @@ Template.nombre.onCreated(function(){
            } else {
              let datosWS=res.envelope.body[0].wsprofesionexecuteresponse[0].sdtprofesion[0].sdtprofesionsdtprofesionitem;
              console.log(datosWS);
-            //  console.log(res);
             wsprofesion.set(datosWS); 
            }
          });
@@ -311,7 +311,7 @@ Template.nombre.onCreated(function(){
          var cuerpo="<cam:wsOcupacion.Execute>"
                         +"<cam:Ocupacion></cam:Ocupacion>"
                   +"</cam:wsOcupacion.Execute>";
-        Meteor.call('wsocupacion',{body:cuerpo},  (err, res)=> {
+        Meteor.call('wsocupacion',{ body:cuerpo },  (err, res)=> {
           if (err){
           console.log(err);
           } else {
@@ -338,7 +338,6 @@ Template.nombre.onRendered(function(){
   $(document).ready(function(){
     //========================================================validacion de profesion====================================
     var $select =  $('#profesion').select2({
-      // placeholder: 'Seleccione una profesión',
       allowClear: false
     });
     // Aplicando la validacion del select cada vez que cambie
@@ -495,33 +494,20 @@ let awsbarriocolonia = new ReactiveVar([]);
 
 Template.municipio.onCreated(function(){});
 Template.municipio.onRendered(function(){
-  // $(document).ready(function(){
-  //   $('#depto').select2();
-  // });  
-  // $(document).ready(function(){
-  //   $('#municipio').select2();
-  // });  
-  // $(document).ready(function(){
-  //   $('#ciudad').select2();
-  // });  
-  // $(document).ready(function(){
-  //   $('#colonia').select2();
-  // });  
   $(document).ready(function(){
      //========================================================validacion de depto================================== ==
      var $select =  $('#depto').select2({
-      // placeholder: 'Seleccione un departamento',
       allowClear: false
     });
     // Aplicando la validacion del select cada vez que cambie
-    $select.on('change', function() {
+    $select.on('change', function(){
       $(this).trigger('blur');
     });
    //Permitiendo la validacion de campos ocultos
     $('#siguienteMunicipio').validate({
       ignore: '.select2-input, .select2-focusser',
       submitHandler: function(form) {
-        alert("enviado")
+        // console.log('validad aqui');
       },
       errorPlacement: function(error, element) {
         $(element).next().append(error);
@@ -537,19 +523,18 @@ Template.municipio.onRendered(function(){
       }
     });
     //========================================================validacion de municipio================================== ==
-    $('#municipio').select2({
-      // placeholder: 'Seleccione un departamento',
+    var $select =  $('#municipio').select2({
       allowClear: false
     });
     // Aplicando la validacion del select cada vez que cambie
-    $select.on('change', function() {
+    $select.on('change', function(){
       $(this).trigger('blur');
     });
    //Permitiendo la validacion de campos ocultos
     $('#siguienteMunicipio').validate({
       ignore: '.select2-input, .select2-focusser',
       submitHandler: function(form) {
-        alert("enviado")
+        
       },
       errorPlacement: function(error, element) {
         $(element).next().append(error);
@@ -564,79 +549,76 @@ Template.municipio.onRendered(function(){
         valueNotEquals: "Seleccione una opción"
       }
     });
-    //========================================================validacion de ciudad================================== ==
-    $('#ciudad').select2({
-      // placeholder: 'Seleccione un departamento',
-      allowClear: false
-    });
-    // Aplicando la validacion del select cada vez que cambie
-    $select.on('change', function() {
-      $(this).trigger('blur');
-    });
-   //Permitiendo la validacion de campos ocultos
-    $('#siguienteMunicipio').validate({
-      ignore: '.select2-input, .select2-focusser',
-      submitHandler: function(form) {
-        alert("enviado")
-      },
-      errorPlacement: function(error, element) {
-        $(element).next().append(error);
-      }
-    });
-    // agregando la validacion del select ya que no tiene un atributo name el plugin
-    $select.rules('add', {
-      valueNotEquals:"nulo",
-      // required: true,
-      messages: {
-        // required: "Es necesario que seleccione una opción"
-        valueNotEquals: "Seleccione una opción"
-      }
-    });
-    //========================================================validacion de colonia================================== ==
-    $('#colonia').select2({
-      // placeholder: 'Seleccione un departamento',
-      allowClear: false
-    });
-    // Aplicando la validacion del select cada vez que cambie
-    $select.on('change', function() {
-      $(this).trigger('blur');
-    });
-   //Permitiendo la validacion de campos ocultos
-    $('#siguienteMunicipio').validate({
-      ignore: '.select2-input, .select2-focusser',
-      submitHandler: function(form) {
-        alert("enviado")
-      },
-      errorPlacement: function(error, element) {
-        $(element).next().append(error);
-      }
-    });
-    // agregando la validacion del select ya que no tiene un atributo name el plugin
-    $select.rules('add', {
-      valueNotEquals:"nulo",
-      // required: true,
-      messages: {
-        // required: "Es necesario que seleccione una opción"
-        valueNotEquals: "Seleccione una opción"
-      }
-    });
-    //========================================================validacion de colonia====================================
+  //   //========================================================validacion de ciudad================================== ==
+  var $select =  $('#ciudad').select2({
+    allowClear: false
   });
-
-  $( "#siguienteMunicipio" ).validate({
-    rules: {
-      depto: { valueNotEquals:"nulo"},
-      muni: { valueNotEquals: "nulo" },
-      ciudad: { valueNotEquals: "nulo" },
-      barrio:{ valueNotEquals: "nulo" },
+  // Aplicando la validacion del select cada vez que cambie
+  $select.on('change', function(){
+    $(this).trigger('blur');
+  });
+ //Permitiendo la validacion de campos ocultos
+  $('#siguienteMunicipio').validate({
+    ignore: '.select2-input, .select2-focusser',
+    submitHandler: function(form) {
+      // console.log('esta entrando aqui');
     },
-    messages: {
-      depto: { valueNotEquals: "Selecione un valor por favor" },
-      muni: { valueNotEquals: "Selecione un valor por favor" },
-      ciudad: { valueNotEquals: "Selecione un valor por favor" },
-      barrio:{ valueNotEquals: "Selecione un valor por favor" },
+    errorPlacement: function(error, element) {
+      $(element).next().append(error);
     }
   });
+  // agregando la validacion del select ya que no tiene un atributo name el plugin
+  $select.rules('add', {
+    valueNotEquals:"nulo",
+    // required: true,
+    messages: {
+      // required: "Es necesario que seleccione una opción"
+      valueNotEquals: "Seleccione una opción"
+    }
+  });
+  //   //========================================================validacion de colonia================================== ==
+  var $select = $('#colonia').select2({
+    allowClear: false
+  });
+  // Aplicando la validacion del select cada vez que cambie
+  $select.on('change', function(){
+    $(this).trigger('blur');
+  });
+ //Permitiendo la validacion de campos ocultos
+  $('#siguienteMunicipio').validate({
+    ignore: '.select2-input, .select2-focusser',
+    submitHandler: function(form){
+      // console.log('esta entrando aqui');
+    },
+    errorPlacement: function(error, element){
+      $(element).next().append(error);
+    }
+  });
+  // agregando la validacion del select ya que no tiene un atributo name el plugin
+  $select.rules('add', {
+    valueNotEquals:"nulo",
+    // required: true,
+    messages: {
+      // required: "Es necesario que seleccione una opción"
+      valueNotEquals: "Seleccione una opción"
+    }
+  });
+    //========================================================validacion de colonia====================================
+  });
+  $("#siguienteMunicipio").validate({
+    rules: {
+      nombre1:{
+        required:true,
+        pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+      },
+    } ,
+    messages: {
+      nombre1:{
+        required:"Verifique primer nombre",
+        pattern:"No valido",
+      },
+    }
+ });    
 });
 Template.municipio.helpers({
   //===============================================wbmunicipio===============================================
@@ -653,7 +635,7 @@ Template.municipio.helpers({
   },
 });
 Template.municipio.events({
-  'submit .siguienteMunicipio'(event){
+  'submit .siguienteMunicipio'(event, instance){
     event.preventDefault();
     let iddepto=event.target.depto.value;
     let depto=event.target.depto;
@@ -687,6 +669,7 @@ Template.municipio.events({
     Session.set("municipio",municipio);
     Session.set("ciudad",ciudad);
     Session.set("barrio",barrio);
+    console.log('aqui hice submit');
     FlowRouter.go('/domicilio');
   },
   'click .atras'(event){
@@ -757,9 +740,11 @@ Template.municipio.events({
           }
         }
       });
- }, 'change .colonia'(event){
-  document.getElementById("siguiente").disabled=false;
-},
+ },
+//   'change .colonia'(event){
+//     console.log('select colonia cambio');
+//   // document.getElementById("siguiente").disabled=false;
+// },
  
 });
 //==============================================================================================
@@ -850,7 +835,12 @@ Template.departamento.events({
 //==============================================================================================
 // formulario5 correo personal, trabajo,residencia
 
-Template.correo.onCreated(function(){});
+Template.correo.onCreated(function(){
+  // let emailP="";
+  // let emailT="";
+  // Session.set("emailP",emailP);
+  // Session.set("emailT",emailT);
+});
 Template.correo.onRendered(function(){
   $("#siguienteCorreo").validate({
     rules: {
@@ -877,7 +867,14 @@ Template.correo.onRendered(function(){
     }
   });
 });
-Template.correo.helpers({});
+Template.correo.helpers({
+  getEmailP(){
+    return Session.get("emailP");
+  },
+  getEmailT(){
+    return Session.get("emailT");
+  },
+});
 Template.correo.events({
   'submit .siguienteCorreo'(event){
     event.preventDefault();
@@ -986,6 +983,10 @@ Template.correo.events({
       });
   },
   'click .terminos'(event){
+    let emailP=document.getElementById('emailP').value;
+    let emailT=document.getElementById('emailT').value;
+    Session.set("emailP",emailP);
+    Session.set("emailT",emailT);
     FlowRouter.go('/terminos');
  },
   'click .atras'(event){
@@ -1004,7 +1005,7 @@ Template.correo.events({
 //==================================================terminos============================================
 Template.terminos.events({
   'click .aceptar'(){
-    history.back();
+    FlowRouter.go('/correo');
   },
 });
 //==================================================Nocliente Almacenado============================================

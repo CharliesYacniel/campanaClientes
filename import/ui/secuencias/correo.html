@@ -4,11 +4,11 @@
     <form id ="siguienteCorreo" style="width: 100%;" class="siguienteCorreo" method="post">
         <div class="divFix">
             <label class="labelFix" >e-mail personal:</label>
-            <input class="required" type="email"  name="emailP"/>
+            <input class="required" id="emailP" type="email"  name="emailP" value="{{getEmailP}}"/>
         </div>
         <div class="divFix">
             <label class="labelFix">e-mail trabajo:</label>
-            <input class="required" type="email"  name="emailT"/>
+            <input class="required" id="emailT" type="email"  name="emailT" value="{{getEmailT}}"/>
         </div>
        
         <div class="outsightContainer">
@@ -38,6 +38,7 @@
         </div>
     </div>
     <div class="outsightContainer">
+        
         <label><a href="" class="terminos" id="terminos">Acepto los terminos y condiciones</a></label>
         <div>
 
@@ -46,7 +47,7 @@
                 <span class="checkmark"></span>
             </label>
             <label class="container">NO
-                <input  class="required declaraNo" type="radio" name="declara" value="no">
+                <input checked class="required declaraNo" type="radio" name="declara" value="no">
                 <span class="checkmark"></span>
             </label>
         </div>

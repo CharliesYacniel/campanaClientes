@@ -1,9 +1,9 @@
 <template name="municipio">
-                <div class="insightContainer">
-                        <h1>Ingrese los datos solicitados</h1>
+        <div class="insightContainer">
+        <h1>Ingrese los datos solicitados</h1>
         <form style="width: 100%; top: -10%;" id ="siguienteMunicipio" class="siguienteMunicipio" method="post">
-                                        <div class="nombreDivFlex">
-                                                <div class="child" style="width: 100%" > 
+<div class="nombreDivFlex">
+        <div class="child" style="width: 100%" > 
         <label class=" labelFix">Departamento:</label>
         <select name="depto" id="depto" class="depto">
                 <option value="nulo"></option>
@@ -28,14 +28,14 @@
         </select>
 </div>
         
-                        <div class="child" style="width: 47.5%">
+        <div class="child" style="width: 47.5%">
         <label>Municipio:</label>
     <!-- <input class="myMunicipio" type="text"  placeholder="Ingrese el nombre de el municipio" name=""/> -->
     <select class="municipio" name="muni" id="municipio" disabled>
             <option value="nulo"></option>
             <!-- <option  selected value="HN0000">La Ceiba</option> -->
             {{#each item in wbmunicipio}}
-            <option value="{{item.idmun}}">{{ item.desmun}}</option>
+            <option value="{{item.idmun}}">{{item.desmun}}</option>
             {{/each}} 
     </select>
 </div>
@@ -62,11 +62,11 @@
             {{/each}} 
     </select>
 </div>
-                                        </div>
+</div>
     <div class="navDiv">
-                <button class="atras">Regresar</button>
-                <input type="submit" id="siguiente" value="Siguiente">
-             </div>
+        <button class="atras">Regresar</button>
+        <input type="submit" id="siguiente" value="Siguiente" >
+   </div>
 
     <!-- <button class="siguiente">NEXT</button> -->
   </form>
