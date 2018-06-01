@@ -26,9 +26,45 @@
             .select2-container--default .select2-selection--single .select2-selection__rendered {
                 font-size: 1.3rem;
             }
-            .label.error{
+            label.error{
                 font-size: 0.5rem;
+                bottom: calc(100% - 89px);
             }
+            .outsightContainer {
+                padding-right: 7vw;
+            label{
+                width: 65%;
+                text-align: start;
+            }
+             .newRatios label{
+                width: 20%;
+            }
+        }
+            
+            label#profesion-error.error,
+            label#ocupacion-error.error,
+            label#colonia-error.error{
+                bottom: calc(100% - 93px);
+            }
+            label#emailP-error.error,
+            label#emailT-error.error,
+            label#domicilio-error.error,
+            label#telefono-error.error,
+            label#movil-error.error,{
+                bottom: calc(100% - 89px);
+            }
+
+            label#depto-error.error,
+            label#municipio-error.error,
+            label#ciudad-error.error{
+                bottom: calc(100% - 93px);
+            }
+
+            label#valueID-error.error {
+                right: 2.5%;
+                bottom: calc(100% - 70px);
+            }
+
         }
         .appViewContainer {
             width: 100vw;
@@ -89,5 +125,6 @@
     left: 0px;
     border-radius: 0px;
 }
+
 }
 

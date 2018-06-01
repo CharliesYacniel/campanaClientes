@@ -158,9 +158,6 @@ label#ocupacion-error.error,
 label#depto-error.error,
 label#municipio-error.error,
 label#ciudad-error.error,
-
-label#depto-error.error,
-label#colonia-error.error,
 label#emailP-error.error,
 label#emailT-error.error,
 label#domicilio-error.error,
@@ -851,6 +848,7 @@ label#valueID-error.error{
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
+  
   cursor: pointer;
   font-size: 0.8rem;
   -webkit-user-select: none;
