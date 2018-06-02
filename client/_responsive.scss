@@ -1,6 +1,6 @@
 
   
-@media screen and (max-device-width: 960px) {
+@media screen and (max-device-width: 960px)  {
     body{
         min-height: 515px;
     }
@@ -81,7 +81,7 @@
                     width: 50vw;
                 }
             div select,div input[type="email"],   div input[type="text"]{
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
             .ingresarSvg{
                 right: 30%;
@@ -89,7 +89,7 @@
                 height: 25vw;
             }    
             h1{
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             h2{
                 font-size: 0.9rem;
