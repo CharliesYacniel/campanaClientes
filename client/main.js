@@ -172,7 +172,7 @@ Template.clienteNoExiste.events({
                   +"<cam:Rtenumc>"+movil+"</cam:Rtenumc>"
                   +"<cam:Rteema>"+emailP+"</cam:Rteema>"
               +"</cam:wsNocliente.Execute>";
-    Meteor.call('wsnocliente',{body:cuerpo},(err,res)=> {
+    Meteor.call('wsnocliente',{body:cuerpo},(err,res)=>{
         if (err){
           console.log(err);
         } else {
@@ -180,18 +180,18 @@ Template.clienteNoExiste.events({
         if (datosWS.envelope){
           datosWS=datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]; 
           let flag=datosWS.flage[0];
+          console.log(datosWS);
           console.log(flag);
           if(flag=='S'){
            FlowRouter.go('/noCliente');
           }
           if(flag=='N'){
-            FlowRouter.go('/');
+            FlowRouter.go('/noCliente');
            }
         }
         }
       });
   },
-  
 });
 Template.clienteNoExiste.onCreated(function() { });
 Template.clienteNoExiste.helpers({});
@@ -212,6 +212,7 @@ Template.clienteNoExiste.onRendered(function(){
       },
       emailP:{
         required:true,
+        pattern:/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       },
     } ,
     messages: {
@@ -221,12 +222,15 @@ Template.clienteNoExiste.onRendered(function(){
       },
       telefono:{
         required:"Ingresar telefono",
+        pattern:"No valido",
       },
       movil:{
         required:"Ingresar movil",
+        pattern:"No valido",
       },
       emailP:{
         required:"Ingresar Email",
+        pattern:"No valido",
       },
     }
 });  
