@@ -216,17 +216,17 @@ Template.clienteNoExiste.onRendered(function(){
     } ,
     messages: {
       nombre1:{
-        required:"Favor Ingresar su nombre",
+        required:"Ingresar nombre",
         pattern:"No valido",
       },
       telefono:{
-        required:"Favor ingresar su telefono",
+        required:"Ingresar telefono",
       },
       movil:{
-        required:"Favor rellenar este de telefono movil",
+        required:"Ingresar movil",
       },
       emailP:{
-        required:"Favor rellenar este campo",
+        required:"Ingresar Email",
       },
     }
 });  

@@ -52,6 +52,8 @@ $sidebarWidth: 260px;
   
   body{
     
+        min-height: 650px;
+   
     // font-family: 'neo_sans_bold';
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
@@ -226,8 +228,8 @@ label#valueID-error.error{
         position: absolute;
         bottom: 10%;
         right: 40%;
-        width: 10vw;
-        height: 10vw;
+        width: 15vh;
+        height: 15vh;
         background-color: inherit;
         overflow: visible;
         border: none;

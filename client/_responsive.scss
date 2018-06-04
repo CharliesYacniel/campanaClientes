@@ -24,11 +24,11 @@
                 bottom: 0vh;
             }
             .select2-container--default .select2-selection--single .select2-selection__rendered {
-                font-size: 1.3rem;
+                font-size: 1rem;
             }
             label.error{
                 font-size: 0.5rem;
-                bottom: calc(100% - 89px);
+                bottom: calc(100% - 84px);
             }
             .outsightContainer {
                 padding-right: 7vw;
@@ -44,14 +44,14 @@
             label#profesion-error.error,
             label#ocupacion-error.error,
             label#colonia-error.error{
-                bottom: calc(100% - 93px);
+                bottom: calc(100% - 92px);
             }
             label#emailP-error.error,
             label#emailT-error.error,
             label#domicilio-error.error,
             label#telefono-error.error,
             label#movil-error.error,{
-                bottom: calc(100% - 89px);
+                bottom: calc(100% - 84px);
             }
 
             label#depto-error.error,
@@ -62,7 +62,7 @@
 
             label#valueID-error.error {
                 right: 2.5%;
-                bottom: calc(100% - 70px);
+                bottom: calc(100% - 65px);
             }
 
         }
@@ -73,7 +73,7 @@
                     
                     width: 40vw;
                     
-                    font-size: 1.2rem;
+                    font-size: 1rem;
                 }
                 .divLogoContainer{
                     height: 25vh;
@@ -82,7 +82,7 @@
                     width: 50vw;
                 }
             div select,div input[type="email"],   div input[type="text"]{
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
             .ingresarSvg{
                 right: 30%;
