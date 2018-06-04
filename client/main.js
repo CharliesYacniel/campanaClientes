@@ -755,7 +755,7 @@ Template.domicilio.onRendered(function(){
     rules: {
       domicilio: {
         required:true,
-        // minlength: "Puede usar hasta 100 caracteres"
+        // pattern:/^[ a-z0-9áéíóúüñ]*$/,
       },
       telefono:{
         required:true,
@@ -768,15 +768,16 @@ Template.domicilio.onRendered(function(){
     },
     messages: {
       domicilio: {
-        required: "Es necesario que escriba su domicilio actual",
-        // minlength: "Puede usar hasta 100 caracteres"
-        pattern:"Dato no valido",
+        required:"Rellena este campo",
+        pattern:"Dato no válido",
       },
       telefono:{
-        required:"Favor ingresar su telefono",
+        required:"Rellena este campo",
+        pattern:"Dato no válido",
       },
       movil:{
-        required:"Favor rellenar este de telefono movil",
+        required:"Rellena este campo",
+        pattern:"Dato no válido",
       },
     }
   });
@@ -846,9 +847,11 @@ Template.correo.onRendered(function(){
     rules: {
       emailP:{
         required:true,
+        pattern:/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       },
       emailT:{
         required:true,
+        pattern:/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       },
       residente:{
         required:true,
@@ -856,13 +859,16 @@ Template.correo.onRendered(function(){
     },
     messages: {
       emailP:{
-        required:"Favor rellenar este campo",
+        required:"Rellenar este campo",
+        pattern:"Dato no válido",
       },
       emailT:{
-        required:"Favor rellenar este campo",
+        required:"Rellenar este campo",
+        pattern:"Dato no válido",
       },
       residente:{
-        required:"Favor seleccione una respuesta",
+        required:"Selecciona una respuesta",
+        
       },
     }
   });
