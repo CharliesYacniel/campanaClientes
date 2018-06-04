@@ -77,7 +77,7 @@ Template.acessoCliente.events({
         this.foundUser.set(res);
       }
       var datosWS =this.foundUser.get();
-      if (datosWS.envelope) {
+      if (datosWS.envelope){
         console.log(datosWS.envelope.body[0].wsaccesoclientesexecuteresponse[0].sdtaccesoclientes[0]);
         datosWS=datosWS.envelope.body[0].wsaccesoclientesexecuteresponse[0].sdtaccesoclientes[0];
         let existe=datosWS.existe[0];
@@ -86,12 +86,15 @@ Template.acessoCliente.events({
         let ibsCliente=datosWS.cumstcuscun[0];
         let flag3=datosWS.empleado[0];
         let fatca=datosWS.fatca[0];
+        let Cusunr=datosWS.cusunr[0];
         // let fatca='S';
         // let nombreCliente='Pedro Prueba';
         // let existe='1';
         // let ibsCliente='2089291';
         // let flag3='3';
         Session.set("ibs",ibsCliente);
+        Session.set("Cusunr",Cusunr);
+        // console.log(Session.get("Cusunr"));
         Session.set("flagEmpleado",flag3);
         //  1   cliente no ha sido actualizado
         //  2  no existe como cliente
@@ -872,7 +875,6 @@ Template.correo.onRendered(function(){
       },
       residente:{
         required:"Selecciona una respuesta",
-        
       },
     }
   });
@@ -910,6 +912,7 @@ Template.correo.events({
     // console.log(acepto);
     // let awsguardarcliente = new ReactiveVar([]);
     var Codcli=Session.get("ibs");//"2089291";
+    var Cusunr=Session.get("Cusunr");
     var Idncli=Session.get("idCliente");//"0801199306450";
     var Pnombre=Session.get("nombre1");//"Axel";
     var Snombre=Session.get("nombre2");//"Enrique";
@@ -939,6 +942,7 @@ Template.correo.events({
     var Estado="";
     var cuerpo="<cam:wsGuardarCliente.Execute>"
                     +"<cam:Codcli>"+Codcli+"</cam:Codcli>"
+                    +"<cam:Cusunr>"+Cusunr+"</cam:Cusunr>"
                     +"<cam:Idncli>"+Idncli+"</cam:Idncli>"
                     +"<cam:Pnombre>"+Pnombre+"</cam:Pnombre>"
                     +"<cam:Snombre>"+Snombre+"</cam:Snombre>"
@@ -976,17 +980,18 @@ Template.correo.events({
           if (datosWS.envelope) {
             console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
             let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
-            if (estado==1){
-              console.log('se guardo inforamcion');
-              var params = {};
-              var queryParams = {
+            var params = {};
+            var queryParams = {
                 name:Pnombre,
                 last:Papellido,
               };
+            if(estado==0){
+              console.log('se guardo informacion');
               FlowRouter.go('/clienteActualizado', params, queryParams);
             }
-            if (estado==0){
-              FlowRouter.go('/noCliente');
+            if (estado==1){
+              console.log('Cliente ya existe');
+              FlowRouter.go('/clienteYaExiste', params, queryParams);
             }
           }
         }
@@ -1024,8 +1029,20 @@ Template.noCliente.events({
     FlowRouter.go('/');
   },
 });
-
-
+//==================================================Cliente ya existe============================================
+Template.clienteYaExiste.events({
+  'click .aceptar'(){
+    FlowRouter.go('/');
+  },
+});
+Template.clienteYaExiste.helpers({
+  getName(){
+    return FlowRouter.getQueryParam("name");
+  },
+  getLast(){
+    return FlowRouter.getQueryParam("last");
+  },
+});
 
 
 
