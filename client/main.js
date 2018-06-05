@@ -27,25 +27,26 @@ $.validator.addMethod("valueNotEquals", function(value, element, arg){
 Template.acessoCliente.onCreated(function(){
   $(document).ready(function(){
     var selector = document.getElementById("valueID");
-    $(selector).inputmask("9999-9999-99999");
+    $(selector).inputmask("9999-9999-99999",{placeholder:"0000-0000-00000", showMaskOnHover: true }); 
+    // Inputmask({ regex: "[A-Z][0-9]" }).mask(selector);  
   });
 });
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
-// $("#formulario").validate({
-//       rules: {
-//         valueID:{
-//           required:true,
-//           // pattern:/^[0-9][0-9]{15}$/,
-//         },
-//       } ,
-//       messages: {
-//         valueID:{
-//           required:"Ingrese su numero de identidad",
-//           pattern:"numero de Identidad no valido",
-//         }
-//       }
-//   });
+$("#formulario").validate({
+      rules: {
+        valueID:{
+          required:true,
+          // pattern:/^[0-9][0-9]{15}$/,
+        },
+      } ,
+      messages: {
+        valueID:{
+          required:"Ingrese su numero de identidad",
+          // pattern:"numero de Identidad no valido",
+        }
+      }
+  });
   var current = 0,
       slides = document.querySelectorAll(".prizeImage img");
 
@@ -219,7 +220,7 @@ Template.clienteNoExiste.onRendered(function(){
         pattern:/^[3|8|9][0-9]{7}$/,
       },
       emailP:{
-        required:true,
+        required:false,
         pattern:/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       },
     } ,
@@ -237,7 +238,7 @@ Template.clienteNoExiste.onRendered(function(){
         pattern:"No valido",
       },
       emailP:{
-        required:"Ingresar Email",
+        // required:"Ingresar Email",
         pattern:"No valido",
       },
     }
@@ -307,6 +308,20 @@ let wsprofesion = new ReactiveVar([]);
 let wsocupacion = new ReactiveVar([]);
 
 Template.nombre.onCreated(function(){
+     //=============================================wsaccesoclientes=================================================
+     let id=Session.get('idCliente');
+     this.foundUser = new ReactiveVar([]);
+     var cuerpo="<cam:wsaccesoclientes.Execute>"+
+                       "<cam:Identidad>"+id+"</cam:Identidad>"
+               +"</cam:wsaccesoclientes.Execute>";
+     Meteor.call('wsaccesoclientes',{ body : cuerpo },(err, res) =>{
+       if (err){
+         console.log(err);
+       } else {
+         this.foundUser.set(res);
+       } 
+     });
+     //=============================================wsProfesion=================================================   
        var cuerpo="<cam:wsProfesion.Execute>"
                        +"<cam:Dscr></cam:Dscr>"
                    +"</cam:wsProfesion.Execute>";
@@ -331,19 +346,7 @@ Template.nombre.onCreated(function(){
           wsocupacion.set(datosWS);
           }
         });
-       //=============================================wsaccesoclientes=================================================
-    let id=Session.get('idCliente');
-    this.foundUser = new ReactiveVar([]);
-    var cuerpo="<cam:wsaccesoclientes.Execute>"+
-                      "<cam:Identidad>"+id+"</cam:Identidad>"
-              +"</cam:wsaccesoclientes.Execute>";
-    Meteor.call('wsaccesoclientes',{ body : cuerpo },(err, res) =>{
-      if (err){
-        console.log(err);
-      } else {
-        this.foundUser.set(res);
-      } 
-    });   
+    
 });
 
 Template.nombre.onRendered(function(){
@@ -419,7 +422,7 @@ Template.nombre.onRendered(function(){
         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
       apellido2:{
-        required:true,
+        required:false,
         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
     } ,
@@ -436,7 +439,7 @@ Template.nombre.onRendered(function(){
         pattern:"No valido",
       },
       apellido2:{
-        required:"Verifique su segundo apellido",
+        // required:"Verifique su segundo apellido",
         pattern:"No valido",
       },
     }
@@ -761,36 +764,46 @@ Template.municipio.events({
 });
 //==============================================================================================
 // fomulario4  domicilio,telfono y movil
-Template.domicilio.onCreated(function(){});
+Template.domicilio.onCreated(function(){
+  $(document).ready(function(){
+    var telefono = document.getElementById("telefono");
+    var movil = document.getElementById("movil");
+    Inputmask({ regex: "[0-9]*",mask:"99-99-99-99", placeholder:"00-00-00-00", showMaskOnHover: true}).mask(telefono);  
+    Inputmask({ regex: "[9|3|8][0-9]", mask:"99-99-99-99",placeholder:"00-00-00-00", showMaskOnHover: true}).mask(movil);  
+  });
+});
+
 Template.domicilio.onRendered(function(){
+  console.log(document.getElementById("telefono"));
+  console.log(document.getElementById("movil"));
   $( "#siguienteDomicilio" ).validate({
     rules: {
       domicilio: {
         required:true,
-        // pattern:/^[ a-z0-9áéíóúüñ]*$/,
+        pattern:/^[ a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]*$/,
       },
-      telefono:{
-        required:true,
-        pattern:/^[2][0-9]{7}$/,
-      },
-      movil:{
-        required:true,
-        pattern:/^[9|3|8][0-9]{7}$/,
-      },
+      // telefono:{
+      //   required:false,
+      //   // pattern:/^[2][0-9]{11}$/,
+      // },
+      // movil:{
+      //   required:false,
+      //   // pattern:/^[9|3|8][0-9]{11}$/,
+      // },
     },
     messages: {
       domicilio: {
         required:"Rellena este campo",
         pattern:"Dato no válido",
       },
-      telefono:{
-        required:"Rellena este campo",
-        pattern:"Dato no válido",
-      },
-      movil:{
-        required:"Rellena este campo",
-        pattern:"Dato no válido",
-      },
+      // telefono:{
+      //   // required:"Rellena este campo",
+      //   // pattern:"Dato no válido",
+      // },
+      // movil:{
+      //   // required:"Rellena este campo",
+      //   // pattern:"Dato no válido",
+      // },
     }
   });
 });
@@ -813,56 +826,39 @@ Template.domicilio.events({
   'click .atras'(event){
     FlowRouter.go('/municipio');
  },
-});
-//==============================================================================================
-// fomulario2  departamento,
-Template.departamento.onCreated(function(){});
-Template.departamento.onRendered(function(){
-  // $("#siguienteDepto").validate({
-  //   rules: {
-  //     depto: { valueNotEquals:"nulo"},
-  //   } ,
-  //   messages: {
-  //     depto: { valueNotEquals: "Selecione un valor por favor" },
-  //   }
-  // });   
-});
-Template.departamento.helpers({});
-Template.departamento.events({
-  'submit .siguienteDepto'(event){
-    event.preventDefault();
-    let iddepto=event.target.depto.value;
-    let depto=event.target.depto;
-    let indexDepto=depto.selectedIndex;
-    let departamento = depto.options[indexDepto].text;
-
-    console.log(iddepto+' '+departamento);
-    Session.set("iddepto",iddepto);
-    Session.set("departamento",departamento);
-    FlowRouter.go('/municipio');
+ 'input #telefono'(event){
+  $("#telefono").addClass("required");
+  $("#movil").removeClass("required");
+  console.log( document.getElementById("movil") );
+  console.log( document.getElementById("telefono") );
+  console.log("movil", document.getElementById("movil").value );
+  console.log("telefono", document.getElementById("telefono").value );
   },
-  'click .atras'(event){
-    FlowRouter.go('/nombre');
- },
+  'input #movil'(event){
+  $("#movil").addClass("required");
+  $("#telefono").removeClass("required");
+  console.log(document.getElementById("movil"));
+  console.log(document.getElementById("telefono"));
+  console.log("telefono",document.getElementById("telefono").value);
+  console.log("movil",document.getElementById("movil").value);
+  },
+
 });
 //==============================================================================================
 // formulario5 correo personal, trabajo,residencia
-
 Template.correo.onCreated(function(){
-  // let emailP="";
-  // let emailT="";
-  // Session.set("emailP",emailP);
-  // Session.set("emailT",emailT);
 });
+
 Template.correo.onRendered(function(){
+  // console.log(document.getElementById("emailP").value);
   $("#siguienteCorreo").validate({
     rules: {
       emailP:{
-        required:true,
+        required:false,
         pattern:/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       },
       emailT:{
-        required:true,
+        required:false,
         pattern:/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
       },
       residente:{
@@ -871,11 +867,11 @@ Template.correo.onRendered(function(){
     },
     messages: {
       emailP:{
-        required:"Rellenar este campo",
+        // required:"Rellenar este campo",
         pattern:"Dato no válido",
       },
       emailT:{
-        required:"Rellenar este campo",
+        // required:"Rellenar este campo",
         pattern:"Dato no válido",
       },
       residente:{
@@ -1020,7 +1016,20 @@ Template.correo.events({
     // console.log('datos no declaras');
     document.getElementById('enviarDatos').disabled=true;
   },
-
+  'input #emailP'(event){
+    // $("#emailT").removeClass("required");
+    // $("#emailP").addClass("required");
+    // console.log(document.getElementById("emailT"));
+    // console.log("correo trabajo",document.getElementById("emailT").value);
+    // console.log("correo personal",document.getElementById("emailP").value);
+  },
+  'input #emailT'(event){
+    // $("#emailT").addClass("required");
+    // $("#emailP").removeClass("required");
+    // console.log(document.getElementById("emailP"));
+    // console.log("correo personal",document.getElementById("emailP").value);
+    // console.log("correo trabajo",document.getElementById("emailT").value);
+  }
 });
 //==================================================terminos============================================
 Template.terminos.events({
