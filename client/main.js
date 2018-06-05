@@ -4,6 +4,7 @@ import { Session } from 'meteor/session';
 import './main.html';
 import 'select2';
 import 'select2/dist/css/select2.css';
+import Inputmask from "inputmask";
 import { $ } from 'meteor/jquery';
 import '../import/ui/components/clienteNoExiste.html';
 import '../import/ui/components/clienteNoSePermite.html';
@@ -23,25 +24,28 @@ import '../import/ui/secuencias/noCliente.html';
 $.validator.addMethod("valueNotEquals", function(value, element, arg){
   return arg != element.value; 
 }, "Value must not equal arg.");
-Template.acessoCliente.onCreated(function(){});
+Template.acessoCliente.onCreated(function(){
+  $(document).ready(function(){
+    var selector = document.getElementById("valueID");
+    $(selector).inputmask("9999-9999-99999");
+  });
+});
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
-  
-$("#formulario").validate({
-      rules: {
-        valueID:{
-          required:true,
-          pattern:/^[0-9][0-9]{12}$/,
-        },
-      } ,
-      messages: {
-        valueID:{
-          required:"Ingrese su numero de identidad",
-          pattern:"numero de Identidad no valido",
-        }
-      }
-  });
-  
+// $("#formulario").validate({
+//       rules: {
+//         valueID:{
+//           required:true,
+//           // pattern:/^[0-9][0-9]{15}$/,
+//         },
+//       } ,
+//       messages: {
+//         valueID:{
+//           required:"Ingrese su numero de identidad",
+//           pattern:"numero de Identidad no valido",
+//         }
+//       }
+//   });
   var current = 0,
       slides = document.querySelectorAll(".prizeImage img");
 
@@ -59,6 +63,7 @@ Template.acessoCliente.events({
   'submit .formulario' (event, instance){
     event.preventDefault();//QUITAR ESTA LINEA LUEGO
     let id=event.target.valueID.value;
+    id=id.replace(/[-]/gi,"");
     console.log(id);
     // let id_ejemplo=event.target.ejemplo.value;
     // let eje=event.target.ejemplo;
