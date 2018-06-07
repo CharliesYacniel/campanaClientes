@@ -62,7 +62,7 @@ $("#formulario").validate({
       } ,
       messages: {
         valueID:{
-          required:"Ingrese su numero de identidad",
+          required:"Ingrese su identificación",
           // pattern:"numero de Identidad no valido",
         }
       }
@@ -156,10 +156,10 @@ Template.acessoCliente.events({
     console.log('colocar maskara pasaporte');
     var selector = document.getElementById("valueID");
     $(document).ready(function(){
-      document.getElementById("valueID").setAttribute("maxlength",9);
-      document.getElementById("valueID").setAttribute("placeholder","AAAAAAAAA");
-      // document.getElementById("valueID").setAttribute("value","");
-      $(selector).inputmask({mask:"*********", placeholder:"AAAAAAAAA", showMaskOnHover: true});
+      document.getElementById("valueID").setAttribute("maxlength",10);
+      document.getElementById("valueID").setAttribute("placeholder","0000-00000");
+      document.getElementById("valueID").setAttribute("value","");
+      $(selector).inputmask({mask:"****-*****", placeholder:"0000-00000", showMaskOnHover: true});
       });
   },
   'click #pasaporteNO' (event){
@@ -168,6 +168,7 @@ Template.acessoCliente.events({
     $(document).ready(function(){
       document.getElementById("valueID").setAttribute("maxlength",15);
       document.getElementById("valueID").setAttribute("placeholder","0000-0000-00000");
+      document.getElementById("valueID").setAttribute("value","");
         Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);  
       });
     },
@@ -819,7 +820,7 @@ Template.domicilio.onRendered(function(){
     rules: {
       domicilio: {
         required:true,
-        pattern:/^[ a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]*$/,
+        pattern:/^[ a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ,;.\'\"\s]*$/,
       },
       // telefono:{
       //   required:false,
