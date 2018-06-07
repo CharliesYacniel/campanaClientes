@@ -152,23 +152,25 @@ Template.acessoCliente.events({
         }
     });
   },
-  'click .pasaporte' (event){
-  var selector = document.getElementById("valueID");
-  $(selector).inputmask('remove');
-  $(document).ready(function(){
-    if(document.getElementById("pasaporte").checked){
-        document.getElementById("valueID").setAttribute("maxlength",9);
-        document.getElementById("valueID").setAttribute("placeholder","AAAAAAAAA");
-        document.getElementById("valueID").setAttribute("valuer","");
-        $(selector).inputmask({mask:"*********", placeholder:"AAAAAAAAA", showMaskOnHover: true});
-        // Inputmask({placeholder:"AAAAAAAAA", showMaskOnHover: true}).mask(selector);  
-    }else{
-      Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);  
-    }
-  });
-  
-  
+  'click #pasaporteSI' (event){
+    console.log('colocar maskara pasaporte');
+    var selector = document.getElementById("valueID");
+    $(document).ready(function(){
+      document.getElementById("valueID").setAttribute("maxlength",9);
+      document.getElementById("valueID").setAttribute("placeholder","AAAAAAAAA");
+      // document.getElementById("valueID").setAttribute("value","");
+      $(selector).inputmask({mask:"*********", placeholder:"AAAAAAAAA", showMaskOnHover: true});
+      });
   },
+  'click #pasaporteNO' (event){
+    console.log('colocar maskara identidad');
+    var selector = document.getElementById("valueID");
+    $(document).ready(function(){
+      document.getElementById("valueID").setAttribute("maxlength",15);
+      document.getElementById("valueID").setAttribute("placeholder","0000-0000-00000");
+        Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);  
+      });
+    },
 });
 ////////////////////////////////////////////CLIENTE EXISTE////////////////////////////////////
 Template.clienteExiste.onCreated(function(){
@@ -896,7 +898,7 @@ Template.correo.onDestroyed(function () {
 Template.correo.onRendered(function(){
   
 
-  
+  document.getElementById("labelCaptcha").style.display = "none";
   $("#siguienteCorreo").validate({
     rules: {
       emailP:{
@@ -957,8 +959,10 @@ Template.correo.events({
     var captchaData = grecaptcha.getResponse();
     if(captchaData==""){
       console.log('captcah vacio');
-      $('#labelCaptcha').html('No soy un robot');
+      document.getElementById("labelCaptcha").style.display = "block";
+      $('#labelCaptcha').html('Autentifique captcha');
     }else{
+      document.getElementById("labelCaptcha").style.display = "none";
       console.log(captchaData);
       Meteor.call('formSubmissionMethod',captchaData,function(error, result){
         if (error) {
