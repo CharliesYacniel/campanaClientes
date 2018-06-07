@@ -820,7 +820,7 @@ Template.domicilio.onRendered(function(){
     rules: {
       domicilio: {
         required:true,
-        pattern:/^[ a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]*$/,
+        pattern:/^[ a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ,;.\'\"\s]*$/,
       },
       // telefono:{
       //   required:false,
