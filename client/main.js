@@ -19,6 +19,7 @@ import '../import/ui/secuencias/departamento.html';
 import '../import/ui/secuencias/correo.html';
 import '../import/ui/secuencias/terminos.html';
 import '../import/ui/secuencias/noCliente.html';
+import '../import/ui/secuencias/aceptoContacto.html';
 
 Meteor.startup(function() {
   reCAPTCHA.config({
@@ -940,6 +941,12 @@ Template.correo.helpers({
 Template.correo.events({
   'submit .siguienteCorreo'(event){
     event.preventDefault();
+    console.log(document.getElementById('aceptoNO').checked);
+    if(document.getElementById('aceptoNO').checked){
+        FlowRouter.go('/aceptoContacto');
+    }
+    else
+    {
     let emailP=event.target.emailP.value;
     let emailT=event.target.emailT.value;
     let residente=event.target.residente.value;
@@ -1059,8 +1066,8 @@ Template.correo.events({
             }else{console.log('error al verificar captcha')}
           }
       });
-    }
-    //===============FIN LLAMDO AL CAPCHA
+    }//===============FIN LLAMDO AL CAPCHA
+    }//fin si capeto es NO
   },
   'click .terminos'(event){
     let emailP=document.getElementById('emailP').value;
@@ -1119,6 +1126,12 @@ Template.clienteYaExiste.helpers({
   },
   getLast(){
     return FlowRouter.getQueryParam("last");
+  },
+});
+//==================================================aceptoContacto============================================
+Template.aceptoContacto.events({
+  'click .aceptar'(){
+    FlowRouter.go('/correo');
   },
 });
 
