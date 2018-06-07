@@ -1,6 +1,6 @@
 <template name="correo">
         <div class="insightContainer">
-   <h1>Ingresa los datos solicitados </h1>
+   <!-- <h1>Ingresa los datos solicitados </h1> -->
     <form id ="siguienteCorreo" style="width: 100%;" class="siguienteCorreo" method="post">
         <div class="divFix">
             <label class="labelFix" >e-mail personal:</label>
@@ -52,7 +52,9 @@
             </label>
         </div>
     </div>
-    <div class="">{{> reCAPTCHA}}<label id="labelCaptcha"></label> </div>
+    <div class="outsightContainer" style="justify-content: center;">
+    <div class="">{{> reCAPTCHA}}<label class="errorCaptcha" id="labelCaptcha">No soy un robot</label> </div>
+</div>
         <!-- <div class="logoSection">
             <div class="logo"> -->
                 <div class="navDiv">

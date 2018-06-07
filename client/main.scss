@@ -155,6 +155,19 @@ $sidebarWidth: 260px;
     right: 3%;
     z-index: 111;
 }
+label.errorCaptcha{
+  // left: 157px;
+    color: white;
+    background-color: #d7272d;
+    /* border-radius: 5px; */
+    // border-bottom-right-radius: 20px;
+    // border-top-left-radius: 20px;
+    padding: 2px 15px;
+    position: relative;
+    top: -25px;
+    border-radius: 10px;
+    margin: 0px;
+}
 label#profesion-error.error,
 label#ocupacion-error.error,
 label#depto-error.error,
