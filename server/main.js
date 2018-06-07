@@ -1,7 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
 
-Meteor.startup(() => {
+Meteor.startup(function() {
+  reCAPTCHA.config({
+    privatekey: '6Ldcsl0UAAAAAIYUq_tDexejL2LImzIzstl8vpO4',
+    settings: {},
+    config: function(settings) {
+        return _.extend(this.settings, settings);
+    },
+    verifyCaptcha: function(clientIP,response) {
+    }
+  });
 });
 
 // =================================
@@ -261,5 +270,53 @@ Meteor.methods({
                                       tagNameProcessors: [ stripPrefix ,puntos]   
                                     });
       return result;
-  },
+  },//metodo de el capcha
+  'formSubmissionMethod' (captchaData) {
+      // console.log('estoy ens erver');
+      // let data=this.connection.clientAddress;
+    
+    let captcha_data = {
+        secret: '6Ldcsl0UAAAAAIYUq_tDexejL2LImzIzstl8vpO4',
+        remoteip: this.connection.clientAddress,
+        response: captchaData,
+    };
+    var serialized_captcha_data =
+        'secret=' + captcha_data.secret +
+        '&remoteip=' + captcha_data.remoteip +
+        '&response=' + captcha_data.response;
+    try {
+    var captchaVerificationResult;
+    var success = false; // used to process response string
+    captchaVerificationResult = HTTP.call("POST", "https://www.google.com/recaptcha/api/siteverify", {
+              content: serialized_captcha_data.toString('utf8'),
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'Content-Length': serialized_captcha_data.length
+              }
+          });
+      } catch (e) {
+          console.log(e);
+          return {
+              'success': false,
+              'error': 'Service Not Available'
+          };
+      }
+      if (!captchaVerificationResult || !captchaVerificationResult.content) {
+          return {
+              'success': false,
+              'error': 'Entered Text Does Not Match'
+          };
+      }
+
+      let verifyCaptchaResponse = EJSON.parse(captchaVerificationResult.content);
+    //   if(!verifyCaptchaResponse.success) {
+    //       console.log('reCAPTCHA check failed!', verifyCaptchaResponse);
+    //       throw new Meteor.Error(422, 'reCAPTCHA Failed: ' + verifyCaptchaResponse.error);
+          
+    //   }else{
+    //   console.log('reCAPTCHA verification passed!');
+    // }
+    // return true;
+    return verifyCaptchaResponse;
+    }
 });

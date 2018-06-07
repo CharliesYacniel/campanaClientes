@@ -20,6 +20,28 @@ import '../import/ui/secuencias/correo.html';
 import '../import/ui/secuencias/terminos.html';
 import '../import/ui/secuencias/noCliente.html';
 
+Meteor.startup(function() {
+  
+  reCAPTCHA.config({
+    // sitekey: "6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4",
+     publickey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',
+     theme: 'dark',
+     type: 'image',
+     size: 'normal',
+    hl:'es'// optional display language
+  });
+});
+// Meteor.startup(function() {
+//   reCAPTCHA.config({
+//       sitekey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',//REQUIRED
+//       theme: 'dark', //OPTIONAL. <light|dark> Specifies the color theme of the widget
+//       type: 'image', //OPTIONAL. <audio|image> Specifies the type of captcha to serve
+//       size: 'normal', //OPTIONAL. <normal|compact> Specifies the type of captcha to serve
+//       callback: function(val) {}, //OPTIONAL. The name of your callback function to be executed when the user submits a successful CAPTCHA response. The user's response, g-recaptcha-response, will be the input for your callback function.
+//       tabindex: 0, //OPTIONAL. The tabindex of the widget and challenge. If other elements in your page use tabindex, it should be set to make user navigation easier.
+//       "expired-callback": function() {} //OPTIONAL. The name of your callback function to be executed when the recaptcha response expires and the user needs to solve a new CAPTCHA.
+//   });
+// });
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
 $.validator.addMethod("valueNotEquals", function(value, element, arg){
   return arg != element.value; 
@@ -27,10 +49,12 @@ $.validator.addMethod("valueNotEquals", function(value, element, arg){
 Template.acessoCliente.onCreated(function(){
   $(document).ready(function(){
     var selector = document.getElementById("valueID");
-    $(selector).inputmask("9999-9999-99999",{placeholder:"0000-0000-00000", showMaskOnHover: true }); 
+    // $(selector).inputmask("9999-9999-99999",{placeholder:"0000-0000-00000", showMaskOnHover: true });
+    Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);   
     // Inputmask({ regex: "[A-Z][0-9]" }).mask(selector);  
   });
 });
+
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
 $("#formulario").validate({
@@ -786,10 +810,10 @@ Template.domicilio.onRendered(function(){
       //   required:false,
       //   // pattern:/^[2][0-9]{11}$/,
       // },
-      // movil:{
-      //   required:false,
-      //   // pattern:/^[9|3|8][0-9]{11}$/,
-      // },
+      movil:{
+        // required:true,
+        // pattern:/^[9|3|8][0-9]{11}$/,
+      },
     },
     messages: {
       domicilio: {
@@ -800,10 +824,10 @@ Template.domicilio.onRendered(function(){
       //   // required:"Rellena este campo",
       //   // pattern:"Dato no válido",
       // },
-      // movil:{
-      //   // required:"Rellena este campo",
-      //   // pattern:"Dato no válido",
-      // },
+      movil:{
+        required:"Rellena este campo",
+        // pattern:"Dato no válido",
+      },
     }
   });
 });
@@ -814,6 +838,8 @@ Template.domicilio.events({
     let domicilio=event.target.domicilio.value;
     let telefono=event.target.telefono.value;
     let movil=event.target.movil.value;
+    telefono=telefono.replace(/[-]/gi,"");
+    movil=movil.replace(/[-]/gi,"");
     Session.set("domicilio",domicilio);
     Session.set("telefono",telefono);
     Session.set("movil",movil);
@@ -826,31 +852,38 @@ Template.domicilio.events({
   'click .atras'(event){
     FlowRouter.go('/municipio');
  },
- 'input #telefono'(event){
-  $("#telefono").addClass("required");
-  $("#movil").removeClass("required");
-  console.log( document.getElementById("movil") );
-  console.log( document.getElementById("telefono") );
-  console.log("movil", document.getElementById("movil").value );
-  console.log("telefono", document.getElementById("telefono").value );
-  },
-  'input #movil'(event){
+ 'input #domicilio'(){
   $("#movil").addClass("required");
+ },
+ 'input #movil'(event){
+  // $("#movil").addClass("required");
   $("#telefono").removeClass("required");
   console.log(document.getElementById("movil"));
   console.log(document.getElementById("telefono"));
   console.log("telefono",document.getElementById("telefono").value);
   console.log("movil",document.getElementById("movil").value);
   },
-
+ 'input #telefono'(event){
+  // $("#telefono").addClass("required");
+  $("#movil").removeClass("required");
+  console.log( document.getElementById("movil") );
+  console.log( document.getElementById("telefono") );
+  console.log("movil", document.getElementById("movil").value );
+  console.log("telefono", document.getElementById("telefono").value );
+  },
 });
 //==============================================================================================
 // formulario5 correo personal, trabajo,residencia
 Template.correo.onCreated(function(){
+ 
 });
-
+Template.correo.onDestroyed(function () {
+  
+});
 Template.correo.onRendered(function(){
-  // console.log(document.getElementById("emailP").value);
+  
+
+  
   $("#siguienteCorreo").validate({
     rules: {
       emailP:{
@@ -886,7 +919,7 @@ Template.correo.helpers({
   },
   getEmailT(){
     return Session.get("emailT");
-  },
+  }
 });
 Template.correo.events({
   'submit .siguienteCorreo'(event){
@@ -972,31 +1005,49 @@ Template.correo.events({
                     +"<cam:Flag3>"+Flag3+"</cam:Flag3>"
                     +"<cam:Estado>"+Estado+"</cam:Estado>"
                 +"</cam:wsGuardarCliente.Execute>";
-    Meteor.call('awsguardarcliente',{body:cuerpo},(err,res) =>{
-        if (err){
-          console.log(err);
+      //===============INCIO LLAMADAO AL CAPCHTA
+    var formData = {};
+    var captchaData = grecaptcha.getResponse();
+    if(captchaData==""){
+      console.log('captcah vacio');
+    }else{
+      console.log(captchaData);
+      Meteor.call('formSubmissionMethod', captchaData, (error, result) =>{
+        if (error) {
+          console.log('There was an error: ' + error.reason);
         } else {
-          // awsguardarcliente.set(res); 
-          var datosWS =res;
-          if (datosWS.envelope) {
-            console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
-            let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
-            var params = {};
-            var queryParams = {
-                name:Pnombre,
-                last:Papellido,
-              };
-            if(estado==0){
-              console.log('se guardo informacion');
-              FlowRouter.go('/clienteActualizado', params, queryParams);
-            }
-            if (estado==1){
-              console.log('Cliente ya existe');
-              FlowRouter.go('/clienteYaExiste', params, queryParams);
-            }
+            grecaptcha.reset();
+            console.log('Success!',result);
           }
-        }
       });
+
+    //   Meteor.call('awsguardarcliente',{body:cuerpo},(err,res) =>{
+    //   if (err){
+    //     console.log(err);
+    //   } else {
+    //     var datosWS =res;
+    //     if (datosWS.envelope) {
+    //       console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
+    //       let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
+    //       var params = {};
+    //       var queryParams = {
+    //           name:Pnombre,
+    //           last:Papellido,
+    //         };
+    //       if(estado==0){
+    //         console.log('se guardo informacion');
+    //         FlowRouter.go('/clienteActualizado', params, queryParams);
+    //       }
+    //       if (estado==1){
+    //         console.log('Cliente ya existe');
+    //         FlowRouter.go('/clienteYaExiste', params, queryParams);
+    //       }
+    //     }
+    //   }
+    // });//fin de llamado
+    }
+      //===============FIN LLAMDO AL CAPCHA
+    
   },
   'click .terminos'(event){
     let emailP=document.getElementById('emailP').value;
