@@ -157,9 +157,9 @@ Template.acessoCliente.events({
     var selector = document.getElementById("valueID");
     $(document).ready(function(){
       document.getElementById("valueID").setAttribute("maxlength",10);
-      document.getElementById("valueID").setAttribute("placeholder","AAAA-AAAAA");
-      // document.getElementById("valueID").setAttribute("value","");
-      $(selector).inputmask({mask:"****-*****", placeholder:"AAAA-AAAAA", showMaskOnHover: true});
+      document.getElementById("valueID").setAttribute("placeholder","0000-00000");
+      document.getElementById("valueID").setAttribute("value","");
+      $(selector).inputmask({mask:"****-*****", placeholder:"0000-00000", showMaskOnHover: true});
       });
   },
   'click #pasaporteNO' (event){
@@ -168,6 +168,7 @@ Template.acessoCliente.events({
     $(document).ready(function(){
       document.getElementById("valueID").setAttribute("maxlength",15);
       document.getElementById("valueID").setAttribute("placeholder","0000-0000-00000");
+      document.getElementById("valueID").setAttribute("value","");
         Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);  
       });
     },
