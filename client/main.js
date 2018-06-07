@@ -62,7 +62,7 @@ $("#formulario").validate({
       } ,
       messages: {
         valueID:{
-          required:"Ingrese su numero de identidad",
+          required:"Ingrese su identificación",
           // pattern:"numero de Identidad no valido",
         }
       }
@@ -156,10 +156,10 @@ Template.acessoCliente.events({
     console.log('colocar maskara pasaporte');
     var selector = document.getElementById("valueID");
     $(document).ready(function(){
-      document.getElementById("valueID").setAttribute("maxlength",9);
-      document.getElementById("valueID").setAttribute("placeholder","AAAAAAAAA");
+      document.getElementById("valueID").setAttribute("maxlength",10);
+      document.getElementById("valueID").setAttribute("placeholder","AAAA-AAAAA");
       // document.getElementById("valueID").setAttribute("value","");
-      $(selector).inputmask({mask:"*********", placeholder:"AAAAAAAAA", showMaskOnHover: true});
+      $(selector).inputmask({mask:"****-*****", placeholder:"AAAA-AAAAA", showMaskOnHover: true});
       });
   },
   'click #pasaporteNO' (event){
