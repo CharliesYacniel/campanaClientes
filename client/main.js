@@ -21,7 +21,6 @@ import '../import/ui/secuencias/terminos.html';
 import '../import/ui/secuencias/noCliente.html';
 
 Meteor.startup(function() {
-  
   reCAPTCHA.config({
     // sitekey: "6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4",
      publickey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',
@@ -48,13 +47,10 @@ $.validator.addMethod("valueNotEquals", function(value, element, arg){
 }, "Value must not equal arg.");
 Template.acessoCliente.onCreated(function(){
   $(document).ready(function(){
-    var selector = document.getElementById("valueID");
-    // $(selector).inputmask("9999-9999-99999",{placeholder:"0000-0000-00000", showMaskOnHover: true });
+    let selector = document.getElementById("valueID");
     Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);   
-    // Inputmask({ regex: "[A-Z][0-9]" }).mask(selector);  
   });
 });
-
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
 $("#formulario").validate({
@@ -155,6 +151,23 @@ Template.acessoCliente.events({
           }
         }
     });
+  },
+  'click .pasaporte' (event){
+  var selector = document.getElementById("valueID");
+  $(selector).inputmask('remove');
+  $(document).ready(function(){
+    if(document.getElementById("pasaporte").checked){
+        document.getElementById("valueID").setAttribute("maxlength",9);
+        document.getElementById("valueID").setAttribute("placeholder","AAAAAAAAA");
+        document.getElementById("valueID").setAttribute("valuer","");
+        $(selector).inputmask({mask:"*********", placeholder:"AAAAAAAAA", showMaskOnHover: true});
+        // Inputmask({placeholder:"AAAAAAAAA", showMaskOnHover: true}).mask(selector);  
+    }else{
+      Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);  
+    }
+  });
+  
+  
   },
 });
 ////////////////////////////////////////////CLIENTE EXISTE////////////////////////////////////
@@ -939,115 +952,110 @@ Template.correo.events({
     Session.set("residente",residente);
     Session.set("declara",declara);
     Session.set("acepto",acepto);
-    // console.log(emailP);
-    // console.log(emailT);
-    // console.log(residente);
-    // console.log(declara);
-    // console.log(acepto);
-    // let awsguardarcliente = new ReactiveVar([]);
-    var Codcli=Session.get("ibs");//"2089291";
-    var Cusunr=Session.get("Cusunr");
-    var Idncli=Session.get("idCliente");//"0801199306450";
-    var Pnombre=Session.get("nombre1");//"Axel";
-    var Snombre=Session.get("nombre2");//"Enrique";
-    var Papellido=Session.get("apellido1");//"Landa";
-    var Sapellido=Session.get("apellido2");//"Salgado";
-    var Idprof=Session.get("idProfesion");;//"033";
-    var Profd=Session.get("profesion");//"INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D";
-    var Rteacliidocup=Session.get("idocupacion");//"EZOP";
-    var Rteacliocupacion=Session.get("ocupacion");//"PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA";
-    var Declaro=Session.get("declara");//"S";
-    var Acepto=Session.get("acepto");//"N";
-    var Dptoid= Session.get("iddepto");//"HN01";
-    var Dptonombre=Session.get("departamento");//"AtláAntida";
-    var Idmunc= Session.get("idmuni");//"HN0101";
-    var Desmunc=Session.get("municipio");//"La Ceiba";
-    var Idcald= Session.get("idciudad"); //"HN010104";
-    var Descald=Session.get("ciudad");//"Corozal";
-    var Id_bcc= Session.get("idbarrio");//"HN010104002";
-    var Descrbcc=Session.get("barrio");//"La Ensenada";
-    var Dirdom=Session.get("domicilio");//"La ensenada b2 c 905 contiguo a plaza azul";
-    var Numtelf=Session.get("telefono");//"22467469";
-    var Nummovil=Session.get("movil");//"33822840";
-    var Emailp=Session.get("emailP");//"axellanda93@gmail.com";
-    var Emailt=Session.get("emailT");//"alanda@bancatlan.hn";
-    var Flag1=Session.get("residente");//"N";
-    var Flag3=Session.get("flagEmpleado");//"S";
-    var Estado="";
-    var cuerpo="<cam:wsGuardarCliente.Execute>"
-                    +"<cam:Codcli>"+Codcli+"</cam:Codcli>"
-                    +"<cam:Cusunr>"+Cusunr+"</cam:Cusunr>"
-                    +"<cam:Idncli>"+Idncli+"</cam:Idncli>"
-                    +"<cam:Pnombre>"+Pnombre+"</cam:Pnombre>"
-                    +"<cam:Snombre>"+Snombre+"</cam:Snombre>"
-                    +"<cam:Papellido>"+Papellido+"</cam:Papellido>"
-                    +"<cam:Sapellido>"+Sapellido+"</cam:Sapellido>"
-                    +"<cam:Idprof>"+Idprof+"</cam:Idprof>"
-                    +"<cam:Profd>"+Profd+"</cam:Profd>"
-                    +"<cam:Rteacliidocup>"+Rteacliidocup+"</cam:Rteacliidocup>"
-                    +"<cam:Rteacliocupacion>"+Rteacliocupacion+"</cam:Rteacliocupacion>"
-                    +"<cam:Declaro>"+Declaro+"</cam:Declaro>"
-                    +"<cam:Acepto>"+Acepto+"</cam:Acepto>" 
-                    +"<cam:Dptoid>"+Dptoid+"</cam:Dptoid>"
-                    +"<cam:Dptonombre>"+Dptonombre+"</cam:Dptonombre>"
-                    +"<cam:Idmunc>"+Idmunc+"</cam:Idmunc>" 
-                    +"<cam:Desmunc>"+Desmunc+"</cam:Desmunc>"
-                    +"<cam:Idcald>"+Idcald+"</cam:Idcald>"
-                    +"<cam:Descald>"+Descald+"</cam:Descald>"
-                    +"<cam:Id_bcc>"+Id_bcc+"</cam:Id_bcc>"
-                    +"<cam:Descrbcc>"+Descrbcc+"</cam:Descrbcc>"
-                    +"<cam:Dirdom>"+Dirdom+"</cam:Dirdom>"
-                    +"<cam:Numtelf>"+Numtelf+"</cam:Numtelf>" 
-                    +"<cam:Nummovil>"+Nummovil+"</cam:Nummovil>"
-                    +"<cam:Emailp>"+Emailp+"</cam:Emailp>"
-                    +"<cam:Emailt>"+Emailt+"</cam:Emailt>"
-                    +"<cam:Flag1>"+Flag1+"</cam:Flag1>"
-                    +"<cam:Flag3>"+Flag3+"</cam:Flag3>"
-                    +"<cam:Estado>"+Estado+"</cam:Estado>"
-                +"</cam:wsGuardarCliente.Execute>";
       //===============INCIO LLAMADAO AL CAPCHTA
     var formData = {};
     var captchaData = grecaptcha.getResponse();
     if(captchaData==""){
       console.log('captcah vacio');
+      $('#labelCaptcha').html('No soy un robot');
     }else{
       console.log(captchaData);
-      Meteor.call('formSubmissionMethod', captchaData, (error, result) =>{
+      Meteor.call('formSubmissionMethod',captchaData,function(error, result){
         if (error) {
           console.log('There was an error: ' + error.reason);
         } else {
-            grecaptcha.reset();
-            console.log('Success!',result);
+            if(result){
+              grecaptcha.reset();
+              console.log('Success!',result);
+              var Codcli=Session.get("ibs");//"2089291";
+              var Cusunr=Session.get("Cusunr");
+              var Idncli=Session.get("idCliente");//"0801199306450";
+              var Pnombre=Session.get("nombre1");//"Axel";
+              var Snombre=Session.get("nombre2");//"Enrique";
+              var Papellido=Session.get("apellido1");//"Landa";
+              var Sapellido=Session.get("apellido2");//"Salgado";
+              var Idprof=Session.get("idProfesion");;//"033";
+              var Profd=Session.get("profesion");//"INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D";
+              var Rteacliidocup=Session.get("idocupacion");//"EZOP";
+              var Rteacliocupacion=Session.get("ocupacion");//"PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA";
+              var Declaro=Session.get("declara");//"S";
+              var Acepto=Session.get("acepto");//"N";
+              var Dptoid= Session.get("iddepto");//"HN01";
+              var Dptonombre=Session.get("departamento");//"AtláAntida";
+              var Idmunc= Session.get("idmuni");//"HN0101";
+              var Desmunc=Session.get("municipio");//"La Ceiba";
+              var Idcald= Session.get("idciudad"); //"HN010104";
+              var Descald=Session.get("ciudad");//"Corozal";
+              var Id_bcc= Session.get("idbarrio");//"HN010104002";
+              var Descrbcc=Session.get("barrio");//"La Ensenada";
+              var Dirdom=Session.get("domicilio");//"La ensenada b2 c 905 contiguo a plaza azul";
+              var Numtelf=Session.get("telefono");//"22467469";
+              var Nummovil=Session.get("movil");//"33822840";
+              var Emailp=Session.get("emailP");//"axellanda93@gmail.com";
+              var Emailt=Session.get("emailT");//"alanda@bancatlan.hn";
+              var Flag1=Session.get("residente");//"N";
+              var Flag3=Session.get("flagEmpleado");//"S";
+              var Estado="";
+              var cuerpo="<cam:wsGuardarCliente.Execute>"
+                              +"<cam:Codcli>"+Codcli+"</cam:Codcli>"
+                              +"<cam:Cusunr>"+Cusunr+"</cam:Cusunr>"
+                              +"<cam:Idncli>"+Idncli+"</cam:Idncli>"
+                              +"<cam:Pnombre>"+Pnombre+"</cam:Pnombre>"
+                              +"<cam:Snombre>"+Snombre+"</cam:Snombre>"
+                              +"<cam:Papellido>"+Papellido+"</cam:Papellido>"
+                              +"<cam:Sapellido>"+Sapellido+"</cam:Sapellido>"
+                              +"<cam:Idprof>"+Idprof+"</cam:Idprof>"
+                              +"<cam:Profd>"+Profd+"</cam:Profd>"
+                              +"<cam:Rteacliidocup>"+Rteacliidocup+"</cam:Rteacliidocup>"
+                              +"<cam:Rteacliocupacion>"+Rteacliocupacion+"</cam:Rteacliocupacion>"
+                              +"<cam:Declaro>"+Declaro+"</cam:Declaro>"
+                              +"<cam:Acepto>"+Acepto+"</cam:Acepto>" 
+                              +"<cam:Dptoid>"+Dptoid+"</cam:Dptoid>"
+                              +"<cam:Dptonombre>"+Dptonombre+"</cam:Dptonombre>"
+                              +"<cam:Idmunc>"+Idmunc+"</cam:Idmunc>" 
+                              +"<cam:Desmunc>"+Desmunc+"</cam:Desmunc>"
+                              +"<cam:Idcald>"+Idcald+"</cam:Idcald>"
+                              +"<cam:Descald>"+Descald+"</cam:Descald>"
+                              +"<cam:Id_bcc>"+Id_bcc+"</cam:Id_bcc>"
+                              +"<cam:Descrbcc>"+Descrbcc+"</cam:Descrbcc>"
+                              +"<cam:Dirdom>"+Dirdom+"</cam:Dirdom>"
+                              +"<cam:Numtelf>"+Numtelf+"</cam:Numtelf>" 
+                              +"<cam:Nummovil>"+Nummovil+"</cam:Nummovil>"
+                              +"<cam:Emailp>"+Emailp+"</cam:Emailp>"
+                              +"<cam:Emailt>"+Emailt+"</cam:Emailt>"
+                              +"<cam:Flag1>"+Flag1+"</cam:Flag1>"
+                              +"<cam:Flag3>"+Flag3+"</cam:Flag3>"
+                              +"<cam:Estado>"+Estado+"</cam:Estado>"
+                          +"</cam:wsGuardarCliente.Execute>";
+               Meteor.call('awsguardarcliente',{body:cuerpo},(err,res) =>{
+                        if (err){
+                          console.log(err);
+                        } else {
+                          var datosWS =res;
+                          if (datosWS.envelope) {
+                            console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
+                            let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
+                            var params = {};
+                            var queryParams = {
+                                name:Pnombre,
+                                last:Papellido,
+                              };
+                            if(estado==0){
+                              console.log('se guardo informacion');
+                              FlowRouter.go('/clienteActualizado', params, queryParams);
+                            }
+                            if (estado==1){
+                              console.log('Cliente ya existe');
+                              FlowRouter.go('/clienteYaExiste', params, queryParams);
+                            }
+                          }
+                        }
+                      });
+            }else{console.log('error al verificar captcha')}
           }
       });
-
-    //   Meteor.call('awsguardarcliente',{body:cuerpo},(err,res) =>{
-    //   if (err){
-    //     console.log(err);
-    //   } else {
-    //     var datosWS =res;
-    //     if (datosWS.envelope) {
-    //       console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
-    //       let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
-    //       var params = {};
-    //       var queryParams = {
-    //           name:Pnombre,
-    //           last:Papellido,
-    //         };
-    //       if(estado==0){
-    //         console.log('se guardo informacion');
-    //         FlowRouter.go('/clienteActualizado', params, queryParams);
-    //       }
-    //       if (estado==1){
-    //         console.log('Cliente ya existe');
-    //         FlowRouter.go('/clienteYaExiste', params, queryParams);
-    //       }
-    //     }
-    //   }
-    // });//fin de llamado
     }
-      //===============FIN LLAMDO AL CAPCHA
-    
+    //===============FIN LLAMDO AL CAPCHA
   },
   'click .terminos'(event){
     let emailP=document.getElementById('emailP').value;

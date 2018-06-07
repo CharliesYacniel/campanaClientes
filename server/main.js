@@ -272,9 +272,6 @@ Meteor.methods({
       return result;
   },//metodo de el capcha
   'formSubmissionMethod' (captchaData) {
-      // console.log('estoy ens erver');
-      // let data=this.connection.clientAddress;
-    
     let captcha_data = {
         secret: '6Ldcsl0UAAAAAIYUq_tDexejL2LImzIzstl8vpO4',
         remoteip: this.connection.clientAddress,
@@ -284,15 +281,15 @@ Meteor.methods({
         'secret=' + captcha_data.secret +
         '&remoteip=' + captcha_data.remoteip +
         '&response=' + captcha_data.response;
+    let captchaVerificationResult;
+    var success = false;
     try {
-    var captchaVerificationResult;
-    var success = false; // used to process response string
     captchaVerificationResult = HTTP.call("POST", "https://www.google.com/recaptcha/api/siteverify", {
-              content: serialized_captcha_data.toString('utf8'),
-              headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                  'Content-Length': serialized_captcha_data.length
-              }
+                                                  content: serialized_captcha_data.toString('utf8'),
+                                                  headers: {
+                                                      'Content-Type': 'application/x-www-form-urlencoded',
+                                                      'Content-Length': serialized_captcha_data.length
+                                                  }
           });
       } catch (e) {
           console.log(e);
@@ -307,16 +304,10 @@ Meteor.methods({
               'error': 'Entered Text Does Not Match'
           };
       }
-
-      let verifyCaptchaResponse = EJSON.parse(captchaVerificationResult.content);
-    //   if(!verifyCaptchaResponse.success) {
-    //       console.log('reCAPTCHA check failed!', verifyCaptchaResponse);
-    //       throw new Meteor.Error(422, 'reCAPTCHA Failed: ' + verifyCaptchaResponse.error);
-          
-    //   }else{
-    //   console.log('reCAPTCHA verification passed!');
-    // }
-    // return true;
-    return verifyCaptchaResponse;
+      let verifyCaptchaResponse = JSON.parse(captchaVerificationResult.content);
+      if(verifyCaptchaResponse.success){
+        success=verifyCaptchaResponse.success;
+      }
+      return success;
     }
 });
