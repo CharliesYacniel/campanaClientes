@@ -6,6 +6,11 @@ import 'select2';
 import 'select2/dist/css/select2.css';
 import Inputmask from "inputmask";
 import { $ } from 'meteor/jquery';
+
+//import 'bootstrap';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap-theme.css';
+
 import '../import/ui/components/clienteNoExiste.html';
 import '../import/ui/components/clienteNoSePermite.html';
 import '../import/ui/components/clienteExiste.html';
@@ -20,28 +25,23 @@ import '../import/ui/secuencias/correo.html';
 import '../import/ui/secuencias/terminos.html';
 import '../import/ui/secuencias/noCliente.html';
 import '../import/ui/secuencias/aceptoContacto.html';
+import '../import/ui/secuencias/contactoModal.html';
 
+// Modal.allowMultiple = true;
 Meteor.startup(function() {
   reCAPTCHA.config({
-    // sitekey: "6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4",
      publickey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',
      theme: 'dark',
      type: 'image',
      size: 'normal',
     hl:'es'// optional display language
   });
+  // setTimeout(function(){
+		// Modal.show('contactoModal');
+  // }, 3000)
+
 });
-// Meteor.startup(function() {
-//   reCAPTCHA.config({
-//       sitekey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',//REQUIRED
-//       theme: 'dark', //OPTIONAL. <light|dark> Specifies the color theme of the widget
-//       type: 'image', //OPTIONAL. <audio|image> Specifies the type of captcha to serve
-//       size: 'normal', //OPTIONAL. <normal|compact> Specifies the type of captcha to serve
-//       callback: function(val) {}, //OPTIONAL. The name of your callback function to be executed when the user submits a successful CAPTCHA response. The user's response, g-recaptcha-response, will be the input for your callback function.
-//       tabindex: 0, //OPTIONAL. The tabindex of the widget and challenge. If other elements in your page use tabindex, it should be set to make user navigation easier.
-//       "expired-callback": function() {} //OPTIONAL. The name of your callback function to be executed when the recaptcha response expires and the user needs to solve a new CAPTCHA.
-//   });
-// });
+// Met
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
 $.validator.addMethod("valueNotEquals", function(value, element, arg){
   return arg != element.value; 
@@ -891,6 +891,8 @@ Template.domicilio.events({
 });
 //==============================================================================================
 // formulario5 correo personal, trabajo,residencia
+var banderaAcepta=true;
+
 Template.correo.onCreated(function(){
  
 });
@@ -942,11 +944,14 @@ Template.correo.events({
   'submit .siguienteCorreo'(event){
     event.preventDefault();
     console.log(document.getElementById('aceptoNO').checked);
+  
     if(document.getElementById('aceptoNO').checked){
-        FlowRouter.go('/aceptoContacto');
+      // FlowRouter.go('/aceptoContacto');
+      // Modal.show('contactoModal');
+      // console.log('mostrar mensaje');
     }
-    else
-    {
+    // else
+    // {
     let emailP=event.target.emailP.value;
     let emailT=event.target.emailT.value;
     let residente=event.target.residente.value;
@@ -1067,7 +1072,7 @@ Template.correo.events({
           }
       });
     }//===============FIN LLAMDO AL CAPCHA
-    }//fin si capeto es NO
+    // }//fin si capeto es NO
   },
   'click .terminos'(event){
     let emailP=document.getElementById('emailP').value;
@@ -1083,24 +1088,11 @@ Template.correo.events({
   document.getElementById('enviarDatos').disabled=false;
   console.log('datos declara');
   },
-  'click .declaraNo'(event){
-    // console.log('datos no declaras');
-    document.getElementById('enviarDatos').disabled=true;
+  'click #aceptoNO'(event){
+    // Modal.show('contactoModal');
+    $('.modal').fadeIn(300);
+
   },
-  'input #emailP'(event){
-    // $("#emailT").removeClass("required");
-    // $("#emailP").addClass("required");
-    // console.log(document.getElementById("emailT"));
-    // console.log("correo trabajo",document.getElementById("emailT").value);
-    // console.log("correo personal",document.getElementById("emailP").value);
-  },
-  'input #emailT'(event){
-    // $("#emailT").addClass("required");
-    // $("#emailP").removeClass("required");
-    // console.log(document.getElementById("emailP"));
-    // console.log("correo personal",document.getElementById("emailP").value);
-    // console.log("correo trabajo",document.getElementById("emailT").value);
-  }
 });
 //==================================================terminos============================================
 Template.terminos.events({
@@ -1129,11 +1121,13 @@ Template.clienteYaExiste.helpers({
   },
 });
 //==================================================aceptoContacto============================================
-Template.aceptoContacto.events({
-  'click .aceptar'(){
-    FlowRouter.go('/correo');
+Template.contactoModal.events({
+  'click .buttonContainer button'(){
+    $('.modal').fadeOut(300);
   },
 });
+
+
 
 
 
