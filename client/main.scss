@@ -149,7 +149,7 @@ $sidebarWidth: 260px;
     position: absolute;
     
     display: flex;
-    bottom: calc(100% - 94px);
+    bottom: calc(100% - 91px);
     font-size: 0.65rem;
     /* float: right; */
     right: 3%;
@@ -180,7 +180,7 @@ label#telefono-error.error,
 label#movil-error.error,
 {
     right: 2.5%;
-    bottom: calc(100% - 93px);
+    bottom: calc(100% - 91px);
 }
 label#valueID-error.error{
     right: 2.5%;
