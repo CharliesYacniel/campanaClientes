@@ -930,7 +930,7 @@ label#valueID-error.error{
 }
 
 .modal{
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   z-index: 999999999999;
