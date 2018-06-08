@@ -53,7 +53,12 @@ $sidebarWidth: 260px;
 
   
   body{
-    
+    a{
+      color:white;
+      :visited{
+        color: white;
+      }
+    }
         min-height: 650px;
    
     font-family: 'neo_sans_regular';
