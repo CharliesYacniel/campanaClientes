@@ -10,7 +10,9 @@ $sidebarWidth: 260px;
     outline: none;
     margin: 0;
     padding: 0;
-    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     box-sizing: border-box;
   }
   
@@ -56,7 +58,7 @@ $sidebarWidth: 260px;
    
     font-family: 'neo_sans_regular';
     // font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
+    // font-weight: 600;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -160,12 +162,12 @@ label.errorCaptcha{
     color: white;
     background-color: #d7272d;
     /* border-radius: 5px; */
-    // border-bottom-right-radius: 20px;
-    // border-top-left-radius: 20px;
-    padding: 2px 15px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    padding: 2px 20px;
     position: relative;
-    top: -25px;
-    border-radius: 10px;
+    top: -22px;
+    // border-radius: 10px;
     margin: 0px;
 }
 label#profesion-error.error,
