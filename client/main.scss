@@ -54,8 +54,8 @@ $sidebarWidth: 260px;
     
         min-height: 650px;
    
-    // font-family: 'neo_sans_bold';
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'neo_sans_regular';
+    // font-family: 'Open Sans', sans-serif;
     font-weight: 600;
     position: absolute;
     height: 100%;
@@ -149,7 +149,7 @@ $sidebarWidth: 260px;
     position: absolute;
     
     display: flex;
-    bottom: calc(100% - 94px);
+    bottom: calc(100% - 91px);
     font-size: 0.65rem;
     /* float: right; */
     right: 3%;
@@ -180,7 +180,7 @@ label#telefono-error.error,
 label#movil-error.error,
 {
     right: 2.5%;
-    bottom: calc(100% - 93px);
+    bottom: calc(100% - 91px);
 }
 label#valueID-error.error{
     right: 2.5%;
