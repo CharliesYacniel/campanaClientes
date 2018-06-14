@@ -1,23 +1,20 @@
 <template name="clienteNoExiste">
     <div class="insightContainer">
-        <!-- <h1> Cliente No encontrado</h1> -->
-        <!-- <p>Sus datos no estan disponibles en nuestro sistema,
-    le invitamos a acercarse a cualquiera de nuestras agencias para mayor información</p> -->
-        <h1>Tus datos no fueron encontrados, sin embargo puedes dejar la información solicitada</h1>
+        <h2>Tus datos no fueron encontrados, sin embargo puedes dejar la información solicitada</h2>
         <form style="width: 100%; top: -10%;" id="siguienteNoExiste" class="siguienteNoExiste" method="post">
             <div class="clienteDivFlex">
                 <div class="child" style="width: 100%;">
                     <label class="labelFix">Nombre completo:</label>
                     <input class="required" type="text" name="nombre1" />
                 </div>
+                <div class="child" style="width: 47.5%;">
+                    <label> Número movil:</label>
+                    <input class="required" type="text" name="movil" />
+                </div>
 
                 <div class="child" style="width: 47.5%;">
                     <label> Número telefono:</label>
                     <input class="required" type="text" name="telefono" />
-                </div>
-                <div class="child" style="width: 47.5%;">
-                    <label> Número movil:</label>
-                    <input class="required" type="text" name="movil" />
                 </div>
 
                 <div class="child" style="width: 100%;">

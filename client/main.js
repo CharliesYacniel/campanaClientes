@@ -203,7 +203,7 @@ Template.clienteNoExiste.events({
     console.log('no enviar datos');
     FlowRouter.go('/');
   },
-  'submit .siguienteNoExiste' (event, instance){
+  'submit .siguienteNoExiste' (event){
     event.preventDefault();
     // console.log(event.target);
     let pnombre=event.target.nombre1.value;
@@ -253,7 +253,7 @@ Template.clienteNoExiste.onRendered(function(){
         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
       telefono:{
-        required:true,
+        required:false,
         pattern:/^[2][0-9]{7}$/,
       },
       movil:{
@@ -271,7 +271,7 @@ Template.clienteNoExiste.onRendered(function(){
         pattern:"No valido",
       },
       telefono:{
-        required:"Ingresar telefono",
+        // required:"Ingresar telefono",
         pattern:"No valido",
       },
       movil:{

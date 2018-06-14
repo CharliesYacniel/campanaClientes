@@ -11,23 +11,25 @@
 <template name="acessoCliente">
     <div class="insightContainer">
     <form class="formulario"  id="formulario" method="post">
-      <h1>Estimado (a) cliente por favor ingresa tu número de identidad:</h1>
-      <h2>Recuerda que tambien puedes revisar tu número de boleto</h2>
+      <h1>Actualiza tus Datos Aquí</h1>
+      <h3>Estimado (a) cliente por favor ingresa tu número de identificaión</h3>
       <div style="position: relative;">  
-      <input type="text" id="valueID" size="30" maxlength="15" name="valueID"  placeholder="0000-0000-00000"/><br>
-      <div class="outsightContainer">
-        <label>Usar pasaporte </label>  
-        <div class="newRatios">
-              <label class="container">SI
-                  <input  class="pasaporte" type="radio" id="pasaporteSI" name="pasaporte" value="si">
-                  <span class="checkmark"></span>
-              </label>
-              <label class="container">NO
-                  <input checked  class="pasaporte" type="radio" id="pasaporteNO" name="pasaporte" value="no">
-                  <span class="checkmark"></span>
-              </label>
-              </div>
-    </div>
+        <input type="text" id="valueID" size="30" maxlength="15" name="valueID"  placeholder="0000-0000-00000"/><br>
+        <div class="outsightContainer">
+          <label>Usar pasaporte </label>  
+          <div class="newRatios">
+            <label class="container">SI
+              <input  class="pasaporte" type="radio" id="pasaporteSI" name="pasaporte" value="si">
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">NO
+              <input checked  class="pasaporte" type="radio" id="pasaporteNO" name="pasaporte" value="no">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+        <h5>Recuerda que tambien puedes revisar tu número de boleto</h5>
+        
     </div>
         <button class="ingresarSvg" type="submit">
           <svg style="overflow: visible;" id="Layer_1" x="0px" y="0px" viewBox="0 0 140 140">
@@ -62,8 +64,8 @@
   </template>
   
   <template name="layoutPrincipal">
-    <div class="outerContainer loading ">
-    <!-- <div class="outerContainer  "> -->
+    <!-- <div class="outerContainer loading "> -->
+    <div class="outerContainer  ">
       <div class="permaViewContainer">
         <div class="startContainer">
           <svg class="logoCampaign rotate animation " viewBox="0 0 700 700">
@@ -232,8 +234,8 @@
 
         0801198605070 juancho
         
-        0703198903669
-        0506195300522
+        
+        
         0801195503082
         0501193000427
         0712197100104
@@ -268,6 +270,8 @@
 
         Ya actualizados
         0702198100092
+        0506195300522
+        0703198903669
         0413197200588
         0801194900699
         0801195503082
