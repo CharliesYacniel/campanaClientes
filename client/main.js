@@ -36,10 +36,6 @@ Meteor.startup(function() {
      size: 'normal',
     hl:'es'// optional display language
   });
-  // setTimeout(function(){
-		// Modal.show('contactoModal');
-  // }, 3000)
-
 });
 // Met
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
@@ -189,17 +185,17 @@ Template.clienteExiste.helpers({
   },
 });
 Template.clienteExiste.events({
-  'click .iniciarForm' (event, instance){
+  'click .iniciarForm' (){
     FlowRouter.go('/formulario');
   },
-  'click .iniciarSecuencia' (event, instance){
+  'click .iniciarSecuencia' (){
     FlowRouter.go('/nombre');
     console.log('iniciar secuancia');
   }
 });
 ////////////////////////////////////////////CLIENTE  NO  EXISTE////////////////////////////////////
 Template.clienteNoExiste.events({
-  'click .regresar' (event, instance){
+  'click .regresar' (){
     console.log('no enviar datos');
     FlowRouter.go('/');
   },
@@ -210,10 +206,14 @@ Template.clienteNoExiste.events({
     let telefono=event.target.telefono.value;
     let movil=event.target.movil.value;
     let emailP=event.target.emailP.value;
-    // console.log(pnombre);
-    // console.log(telefono);
-    // console.log(movil);
-    // console.log(emailP);
+        pnombre=pnombre.trim();
+        // movil=movil.replace(/[-]/gi,"");
+        // telefono=telefono.replace(/[-]/gi,"");
+        emailP=emailP.trim();
+    console.log(pnombre);
+    console.log(telefono);
+    console.log(movil);
+    console.log(emailP);
     // let wsnocliente = new ReactiveVar([]);
     var cuerpo="<cam:wsNocliente.Execute>"
                   +"<cam:Idncli>"+Session.get("idCliente")+"</cam:Idncli>"
@@ -243,14 +243,24 @@ Template.clienteNoExiste.events({
       });
   },
 });
-Template.clienteNoExiste.onCreated(function() { });
+Template.clienteNoExiste.onCreated(function(){
+  $(document).ready(function(){
+    var telefono = document.getElementById("telefono");
+    var movil = document.getElementById("movil");
+    var nombre1 = document.getElementById("nombre1");
+    Inputmask({ regex: "[3|8|9][0-9]{7}", mask:"", placeholder:"00000000"}).mask(movil);
+    Inputmask({ regex: "[2][0-9]{7}", mask:"", placeholder:"00000000"}).mask(telefono);
+    Inputmask({ regex: "[a-zA-ZáéíóúüÁÉÍÓÚñÑ ´]{50}", placeholder:"", showMaskOnHover: true}).mask(nombre1);
+  });
+});
 Template.clienteNoExiste.helpers({});
 Template.clienteNoExiste.onRendered(function(){
+  
   $("#siguienteNoExiste").validate({
     rules: {
       nombre1:{
         required:true,
-        pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+        // pattern: /[a-zA-ZáéíóúüÁÉÍÓÚñÑ ´]{50}/,
       },
       telefono:{
         required:false,
@@ -258,7 +268,7 @@ Template.clienteNoExiste.onRendered(function(){
       },
       movil:{
         required:true,
-        pattern:/^[3|8|9][0-9]{7}$/,
+        // pattern:/^[3|8|9][0-9]{7}$/,
       },
       emailP:{
         required:false,
@@ -268,11 +278,11 @@ Template.clienteNoExiste.onRendered(function(){
     messages: {
       nombre1:{
         required:"Ingresar nombre",
-        pattern:"No valido",
+        // pattern:"No valido",
       },
       telefono:{
         // required:"Ingresar telefono",
-        pattern:"No valido",
+        // pattern:"No valido",
       },
       movil:{
         required:"Ingresar movil",
@@ -302,7 +312,7 @@ Template.clienteActualizado.onCreated(function(){
     });
 });
 Template.clienteActualizado.events({
-  'click .Aceptar' (event, instance){
+  'click .Aceptar' (){
     FlowRouter.go('/');
   }
 });
@@ -807,10 +817,14 @@ Template.municipio.events({
 // fomulario4  domicilio,telfono y movil
 Template.domicilio.onCreated(function(){
   $(document).ready(function(){
+    var domicilio=document.getElementById("domicilio");
     var telefono = document.getElementById("telefono");
     var movil = document.getElementById("movil");
-    Inputmask({ regex: "[0-9]*",mask:"99-99-99-99", placeholder:"00-00-00-00", showMaskOnHover: true}).mask(telefono);  
-    Inputmask({ regex: "[9|3|8][0-9]", mask:"99-99-99-99",placeholder:"00-00-00-00", showMaskOnHover: true}).mask(movil);  
+    // Inputmask({ regex: "[3|8|9][0-9]{7}", mask:"", placeholder:"00000000"}).mask(movil);
+    // Inputmask({ regex: "[2][0-9]{7}", mask:"", placeholder:"00000000"}).mask(telefono);
+    Inputmask({ regex: "[a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ ,.]*",placeholder:""}).mask(domicilio);  
+    Inputmask({ regex: "[2][0-9]{7}",mask:"", placeholder:"00000000", showMaskOnHover: true}).mask(telefono);  
+    Inputmask({ regex: "[9|3|8][0-9]{7}", mask:"",placeholder:"00000000", showMaskOnHover: true}).mask(movil);  
   });
 });
 
@@ -821,7 +835,7 @@ Template.domicilio.onRendered(function(){
     rules: {
       domicilio: {
         required:true,
-        pattern:/^[ a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ,;.\'\"\s]*$/,
+        // pattern:/^[ a-zA-Z0-9áéíïóúüÁÉÍÏÓÚÜñÑ,;.'\\s]*$/,
       },
       // telefono:{
       //   required:false,
@@ -855,8 +869,9 @@ Template.domicilio.events({
     let domicilio=event.target.domicilio.value;
     let telefono=event.target.telefono.value;
     let movil=event.target.movil.value;
-    telefono=telefono.replace(/[-]/gi,"");
-    movil=movil.replace(/[-]/gi,"");
+    domicilio=domicilio.trim();
+    // telefono=telefono.replace(/[-]/gi,"");
+    // movil=movil.replace(/[-]/gi,"");
     Session.set("domicilio",domicilio);
     Session.set("telefono",telefono);
     Session.set("movil",movil);
