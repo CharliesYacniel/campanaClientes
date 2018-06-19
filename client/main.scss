@@ -59,8 +59,8 @@ $sidebarWidth: 260px;
         color: white;
       }
     }
-        min-height: 650px;
-   
+    
+        min-height: 720px;
     font-family: 'neo_sans_regular';
     // font-family: 'Open Sans', sans-serif;
     // font-weight: 600;
@@ -69,6 +69,17 @@ $sidebarWidth: 260px;
     width: 100%;
     background-color: white;
   }
+  /* color scroll bar */
+body::-webkit-scrollbar {
+  width: 0.1em;
+  background-color: rgb(187, 187, 187);
+}
+
+// body::-webkit-scrollbar-thumb {
+//   background-image: linear-gradient(to top, #3e3e3e 0%, #404040 100%);
+//   border-radius: 1em;
+// }
+/* end color scroll bar */
   .divLogoContainer{
     height: 40vh;
     width: 100%;
@@ -242,7 +253,7 @@ label#valueID-error.error{
 	width: auto;
   text-align: center;
   flex-flow: column;
-  padding: 10px;
+  // padding: 10px;
     
     .ingresarSvg{
         position: absolute;
