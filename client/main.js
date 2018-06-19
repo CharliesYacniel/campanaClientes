@@ -4,12 +4,8 @@ import { Session } from 'meteor/session';
 import './main.html';
 import 'select2';
 import 'select2/dist/css/select2.css';
-import Inputmask from "inputmask";
+import { Inputmask } from 'inputmask';
 import { $ } from 'meteor/jquery';
-
-//import 'bootstrap';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap/dist/css/bootstrap-theme.css';
 
 import '../import/ui/components/clienteNoExiste.html';
 import '../import/ui/components/clienteNoSePermite.html';
@@ -26,8 +22,7 @@ import '../import/ui/secuencias/terminos.html';
 import '../import/ui/secuencias/noCliente.html';
 import '../import/ui/secuencias/aceptoContacto.html';
 import '../import/ui/secuencias/contactoModal.html';
-
-// Modal.allowMultiple = true;
+import '../import/ui/secuencias/modalNoTerminos.html';
 Meteor.startup(function() {
   reCAPTCHA.config({
      publickey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',
@@ -37,9 +32,8 @@ Meteor.startup(function() {
     hl:'es'// optional display language
   });
 });
-// Met
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
-$.validator.addMethod("valueNotEquals", function(value, element, arg){
+$.validator.addMethod("valueNotEquals", function( element, arg){
   return arg != element.value; 
 }, "Value must not equal arg.");
 Template.acessoCliente.onCreated(function(){
@@ -233,7 +227,7 @@ Template.clienteNoExiste.events({
           console.log(datosWS);
           console.log(flag);
           if(flag=='S'){
-           FlowRouter.go('/noCliente');
+           FlowRouter.go('/noClienteAlmacenado');
           }
           if(flag=='N'){
             FlowRouter.go('/noCliente');
@@ -516,10 +510,10 @@ Template.nombre.helpers({
  
 });
 Template.nombre.events({
-  'submit .siguienteNombre'(event, instance){
+  'submit .siguienteNombre'(event){
      event.preventDefault();
      let nombre1=event.target.nombre1.value;
-     let nombre2=event.target.nombre1.value;
+     let nombre2=event.target.nombre2.value;
      let apellido1=event.target.apellido1.value;
      let apellido2=event.target.apellido2.value;
 
@@ -535,7 +529,7 @@ Template.nombre.events({
      let ocupacion = ocup.options[indexOcupa].text;
     
      Session.set("nombre1",nombre1);
-     Session.set("nombre2",nombre1);
+     Session.set("nombre2",nombre2);
      Session.set("apellido1",apellido1);
      Session.set("apellido2",apellido2);
 
@@ -738,10 +732,10 @@ Template.municipio.events({
     console.log('aqui hice submit');
     FlowRouter.go('/domicilio');
   },
-  'click .atras'(event){
+  'click .atras'(){
     FlowRouter.go('/nombre');
  },
- 'change .depto'(event){
+ 'change .depto'(){
    //================================================wbmunicipio================================================
    let Depto=document.getElementById("depto").value;
    console.log('ide depto',Depto);
@@ -764,7 +758,7 @@ Template.municipio.events({
     });
     
   },
-  'change .municipio' (event){
+  'change .municipio' (){
     //================================================wsciudada================================================
     let Municipioid=document.getElementById("municipio").value;
     console.log('id muni',Municipioid);
@@ -960,13 +954,6 @@ Template.correo.events({
     event.preventDefault();
     console.log(document.getElementById('aceptoNO').checked);
   
-    if(document.getElementById('aceptoNO').checked){
-      // FlowRouter.go('/aceptoContacto');
-      // Modal.show('contactoModal');
-      // console.log('mostrar mensaje');
-    }
-    // else
-    // {
     let emailP=event.target.emailP.value;
     let emailT=event.target.emailT.value;
     let residente=event.target.residente.value;
@@ -983,7 +970,6 @@ Template.correo.events({
     Session.set("declara",declara);
     Session.set("acepto",acepto);
       //===============INCIO LLAMADAO AL CAPCHTA
-    var formData = {};
     var captchaData = grecaptcha.getResponse();
     if(captchaData==""){
       console.log('captcah vacio');
@@ -1089,24 +1075,28 @@ Template.correo.events({
     }//===============FIN LLAMDO AL CAPCHA
     // }//fin si capeto es NO
   },
-  'click .terminos'(event){
+  'click .terminos'(){
     let emailP=document.getElementById('emailP').value;
     let emailT=document.getElementById('emailT').value;
     Session.set("emailP",emailP);
     Session.set("emailT",emailT);
     FlowRouter.go('/terminos');
  },
-  'click .atras'(event){
+  'click .atras'(){
     FlowRouter.go('/domicilio');
  },
- 'click .declara'(event){
+ 'click .declara'(){
   document.getElementById('enviarDatos').disabled=false;
   console.log('datos declara');
   },
-  'click #aceptoNO'(event){
-    // Modal.show('contactoModal');
+  'click #aceptoNO'(){
+    console.log('NO acepta');
     $('.modal').fadeIn(300);
 
+  },
+  'click #modalNoTerminos'(){
+    console.log('no terminos');
+    $('.modalNoTerminos').fadeIn(300);
   },
 });
 //==================================================terminos============================================
@@ -1139,6 +1129,12 @@ Template.clienteYaExiste.helpers({
 Template.contactoModal.events({
   'click .buttonContainer button'(){
     $('.modal').fadeOut(300);
+  },
+});
+//==================================================modalNoTerminos============================================
+Template.modalNoTerminos.events({
+  'click .buttonContainer button'(){
+    $('.modalNoTerminos').fadeOut(300);
   },
 });
 

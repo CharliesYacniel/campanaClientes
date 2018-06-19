@@ -38,16 +38,15 @@
         </div>
     </div>
     <div class="outsightContainer">
-        
         <label><a href="" class="terminos" id="terminos">Acepto los terminos y condiciones</a></label>
         <div class="newRatios">
 
             <label class="container">SI
-                <input  class="required declara" type="radio" name="declara" value="si">
+                <input checked class="required declara" type="radio" name="declara" value="si">
                 <span class="checkmark"></span>
             </label>
             <label class="container">NO
-                <input checked class="required declaraNo" type="radio" name="declara" value="no">
+                <input  class="required declaraNO" type="radio" name="declara" value="no" id="modalNoTerminos">
                 <span class="checkmark"></span>
             </label>
         </div>
@@ -55,16 +54,10 @@
     <div class="outsightContainer" style="justify-content: center;">
     <div class="">{{> reCAPTCHA}}<label class="errorCaptcha" id="labelCaptcha"></label> </div>
 </div>
-        <!-- <div class="logoSection">
-            <div class="logo"> -->
-                <div class="navDiv">
+        <div class="navDiv">
                    <button class="atras">Regresar</button>
                    <input type="submit" id="enviarDatos" value="Finalizar" disabled>
                 </div>
-                <!-- </div>
-            </div> -->
-            
-        <!-- <button class="siguiente"></button> -->
     </form>
     </div>
     
