@@ -66,13 +66,14 @@
 
             label#valueID-error.error {
                 right: 2.5%;
-                bottom: calc(100% - 65px);
+                bottom: calc(100% - 75px);
             }
 
         }
         .appViewContainer {
             width: 100vw;
             .startContainer{
+                padding: 10px;
                 div button,div input[type="submit"] {
                     
                     width: 40vw;
