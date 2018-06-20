@@ -145,6 +145,31 @@ Template.acessoCliente.events({
             }
             if(existe=='2'){
               console.log("cliente NO EXISTE");
+              
+              var cuerpo="<cam:wsNocliente.Execute>"
+                  +"<cam:Idncli>"+Session.get("idCliente")+"</cam:Idncli>"
+                  +"<cam:Rtenusurtenom></cam:Rtenusurtenom>"
+                  +"<cam:Rtenum></cam:Rtenum>"
+                  +"<cam:Rtenumc></cam:Rtenumc>"
+                  +"<cam:Rteema></cam:Rteema>"
+              +"</cam:wsNocliente.Execute>";
+              Meteor.call('wsnocliente',{body:cuerpo},(err,res)=>{
+                  if (err){
+                    console.log(err);
+                  } else {
+                  var datosWS =res;
+                  if (datosWS.envelope){
+                    datosWS=datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]; 
+                    let flag=datosWS.flage[0];
+                    console.log(datosWS);
+                    console.log(flag);
+                    if(flag=='N'){
+                      FlowRouter.go('/noCliente');
+                    }
+                  }
+                  }
+                });
+
               FlowRouter.go('/clienteNoExiste');
             }
             if (existe=='3'){
@@ -257,7 +282,6 @@ Template.clienteNoExiste.events({
            }
         }
         }
-      
       });
   },
 });
@@ -985,6 +1009,9 @@ Template.correo.onRendered(function(){
   if($("#declara").val()=="si"){
     document.getElementById('enviarDatos').disabled=false;
   }
+  // $("#emailP").val(Session.get("emailP"));
+  // $("#emailT").val(Session.get("emailT"));
+
   $('.loader-cube').hide();// hide loading
   document.getElementById("labelCaptcha").style.display = "none";
   $("#siguienteCorreo").validate({
@@ -1044,10 +1071,15 @@ Template.correo.events({
     Session.set("declara",declara);
     Session.set("acepto",acepto);
       //===============INCIO LLAMADAO AL CAPCHTA
+      
     var captchaData = grecaptcha.getResponse();
     if(captchaData==""){
       console.log('captcah vacio');
       document.getElementById("labelCaptcha").style.display = "block";
+      // document.getElementById("labelCaptcha").value=;
+      $("#emailP").val(Session.get("emailP"));
+      $("#emailT").val(Session.get("emailT"));
+      // console.log($("#emailP").val('dasdad@test.vom'));
       $('#labelCaptcha').html('Autentifique captcha');
     }else{
       document.getElementById("labelCaptcha").style.display = "none";
@@ -1204,10 +1236,10 @@ Template.correo.events({
   'click #aceptoNO'(){
     console.log('NO acepta');
     $('.modal').fadeIn(300);
-
   },
   'click #modalNoTerminos'(){
     console.log('no terminos');
+    document.getElementById('enviarDatos').disabled=true;
     $('.modalNoTerminos').fadeIn(300);
   },
 });
