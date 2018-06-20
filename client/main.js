@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import './main.html';
 import 'select2';
 import 'select2/dist/css/select2.css';
-import { Inputmask } from 'inputmask';
+import  Inputmask  from "inputmask";
 import { $ } from 'meteor/jquery';
 
 import '../import/ui/components/clienteNoExiste.html';
@@ -12,6 +12,7 @@ import '../import/ui/components/clienteNoSePermite.html';
 import '../import/ui/components/clienteExiste.html';
 import '../import/ui/components/clienteActualizado.html';
 import '../import/ui/components/formulario.html';
+import '../import/ui/components/loading.html';
 //templates de las secuencias
 import '../import/ui/secuencias/nombre.html';
 import '../import/ui/secuencias/municipio.html';
@@ -23,6 +24,7 @@ import '../import/ui/secuencias/noCliente.html';
 import '../import/ui/secuencias/aceptoContacto.html';
 import '../import/ui/secuencias/contactoModal.html';
 import '../import/ui/secuencias/modalNoTerminos.html';
+
 Meteor.startup(function() {
   reCAPTCHA.config({
      publickey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',
@@ -36,24 +38,28 @@ Meteor.startup(function() {
 $.validator.addMethod("valueNotEquals", function( element, arg){
   return arg != element.value; 
 }, "Value must not equal arg.");
+
 Template.acessoCliente.onCreated(function(){
   $(document).ready(function(){
     let selector = document.getElementById("valueID");
     Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);   
   });
 });
+
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
 $("#formulario").validate({
       rules: {
         valueID:{
           required:true,
+          minlength:7,
           // pattern:/^[0-9][0-9]{15}$/,
         },
       } ,
       messages: {
         valueID:{
           required:"Ingrese su identificación",
+          minlength:"Carnet no valido",
           // pattern:"numero de Identidad no valido",
         }
       }
@@ -72,7 +78,7 @@ $("#formulario").validate({
 });
 
 Template.acessoCliente.events({
-  'submit .formulario' (event, instance){
+  'submit .formulario' (event){
     event.preventDefault();//QUITAR ESTA LINEA LUEGO
     let id=event.target.valueID.value;
     id=id.replace(/[-]/gi,"");
@@ -84,6 +90,7 @@ Template.acessoCliente.events({
     // console.log(id_ejemplo+" "+ejemplo);
     Session.set("idCliente",id.trim());//INICIALIZANDO VARIABLE
     this.foundUser = new ReactiveVar([]);
+    $('.loading').fadeIn(300);
     var cuerpo="<cam:wsaccesoclientes.Execute>"+
                       "<cam:Identidad>"+id.trim()+"</cam:Identidad>"
               +"</cam:wsaccesoclientes.Execute>";
@@ -123,6 +130,7 @@ Template.acessoCliente.events({
            name:nombreCliente,
            last:apellidoCliente,
         };
+        $('.loading').fadeOut(300);
           if(fatca=='S'){
             console.log("No permitir Actualizar");
             FlowRouter.go('/clienteNoSePermite', params, queryParams);
@@ -143,20 +151,24 @@ Template.acessoCliente.events({
         }
     });
   },
-  'click #pasaporteSI' (event){
+  'click #pasaporteSI'(){
     console.log('colocar maskara pasaporte');
     var selector = document.getElementById("valueID");
     $(document).ready(function(){
-      document.getElementById("valueID").setAttribute("maxlength",10);
-      document.getElementById("valueID").setAttribute("placeholder","0000-00000");
+      document.getElementById("valueID").value="";
+      document.getElementById("valueID").setAttribute("minlength",7);
+      document.getElementById("valueID").setAttribute("maxlength",16);
+      document.getElementById("valueID").setAttribute("placeholder","Ingresa tu carnet de residente");
       document.getElementById("valueID").setAttribute("value","");
-      $(selector).inputmask({mask:"****-*****", placeholder:"0000-00000", showMaskOnHover: true});
+      Inputmask({ regex: "[a-zA-Z0-9ñÑ]*", mask:"",placeholder:"Ingresa tu carnet de residente", showMaskOnHover: true}).mask(selector);  
+      // $(selector).inputmask({mask:"*********", placeholder:"000000000", showMaskOnHover: true});
       });
   },
-  'click #pasaporteNO' (event){
+  'click #pasaporteNO'(){
     console.log('colocar maskara identidad');
     var selector = document.getElementById("valueID");
     $(document).ready(function(){
+      document.getElementById("valueID").value="";
       document.getElementById("valueID").setAttribute("maxlength",15);
       document.getElementById("valueID").setAttribute("placeholder","0000-0000-00000");
       document.getElementById("valueID").setAttribute("value","");
@@ -216,6 +228,7 @@ Template.clienteNoExiste.events({
                   +"<cam:Rtenumc>"+movil+"</cam:Rtenumc>"
                   +"<cam:Rteema>"+emailP+"</cam:Rteema>"
               +"</cam:wsNocliente.Execute>";
+   
     Meteor.call('wsnocliente',{body:cuerpo},(err,res)=>{
         if (err){
           console.log(err);
@@ -234,6 +247,7 @@ Template.clienteNoExiste.events({
            }
         }
         }
+      
       });
   },
 });
@@ -695,7 +709,7 @@ Template.municipio.helpers({
   },
 });
 Template.municipio.events({
-  'submit .siguienteMunicipio'(event, instance){
+  'submit .siguienteMunicipio'(event){
     event.preventDefault();
     let iddepto=event.target.depto.value;
     let depto=event.target.depto;

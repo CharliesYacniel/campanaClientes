@@ -14,9 +14,9 @@
       <h1>Actualiza tus datos Aquí</h1>
       <h3>Estimado (a) cliente por favor ingresa tu número de identificaión</h3>
       <div style="position: relative;">  
-        <input type="text" id="valueID" size="30" maxlength="15" name="valueID"  placeholder="0000-0000-00000"/><br>
+        <input type="text" id="valueID" size="30" maxlength="15" name="valueID"  placeholder="0000-0000-00000" value="0703198903669"/><br>
         <div class="outsightContainer">
-          <label>Usar Carnet de residente </label>  
+          <label>Usar Carnet de Residente </label>  
           <div class="newRatios">
             <label class="container">SI
               <input  class="pasaporte" type="radio" id="pasaporteSI" name="pasaporte" value="si">
@@ -28,7 +28,7 @@
             </label>
           </div>
         </div>
-        <h5>Recuerda que tambien puedes revisar tu número de boleto</h5>
+        <h5>Si ya actualizaste tus datos también puedes consultar tú número de boleto</h5>
         
     </div>
         <button class="ingresarSvg" type="submit">
@@ -217,14 +217,13 @@
 
     {{> contactoModal}}
     {{> modalNoTerminos}}
+    {{> loading}}
+    
   </template>
     <!--      
         Por actualizar
 
         0801198605070 juancho
-        
-        
-        
         
         0501193000427
         0712197100104
