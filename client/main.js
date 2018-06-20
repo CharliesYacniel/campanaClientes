@@ -25,6 +25,7 @@ import '../import/ui/secuencias/aceptoContacto.html';
 import '../import/ui/secuencias/contactoModal.html';
 import '../import/ui/secuencias/modalNoTerminos.html';
 
+
 Meteor.startup(function() {
   reCAPTCHA.config({
      publickey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',
@@ -40,6 +41,7 @@ $.validator.addMethod("valueNotEquals", function( element, arg){
 }, "Value must not equal arg.");
 
 Template.acessoCliente.onCreated(function(){
+  
   $(document).ready(function(){
     let selector = document.getElementById("valueID");
     Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);   
@@ -48,6 +50,7 @@ Template.acessoCliente.onCreated(function(){
 
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
+$('.loader-cube').hide();// hide loading
 $("#formulario").validate({
       rules: {
         valueID:{
@@ -83,14 +86,10 @@ Template.acessoCliente.events({
     let id=event.target.valueID.value;
     id=id.replace(/[-]/gi,"");
     console.log(id);
-    // let id_ejemplo=event.target.ejemplo.value;
-    // let eje=event.target.ejemplo;
-    // let indexEjemplo=eje.selectedIndex;
-    // let ejemplo = eje.options[indexEjemplo].text;
-    // console.log(id_ejemplo+" "+ejemplo);
     Session.set("idCliente",id.trim());//INICIALIZANDO VARIABLE
     this.foundUser = new ReactiveVar([]);
-    $('.loading').fadeIn(300);
+    // $('.loading').fadeIn(300);
+    $('.loader-cube').show();
     var cuerpo="<cam:wsaccesoclientes.Execute>"+
                       "<cam:Identidad>"+id.trim()+"</cam:Identidad>"
               +"</cam:wsaccesoclientes.Execute>";
@@ -118,6 +117,8 @@ Template.acessoCliente.events({
         // let flag3='3';
         Session.set("ibs",ibsCliente);
         Session.set("Cusunr",Cusunr);
+        Session.set("nombre1",nombreCliente);
+        Session.set("apellido1",apellidoCliente);
         // console.log(Session.get("Cusunr"));
         Session.set("flagEmpleado",flag3);
         //  1   cliente no ha sido actualizado
@@ -125,19 +126,22 @@ Template.acessoCliente.events({
         //  3  que ya fue actualizado 
         // console.log(existe);
         // console.log(nombreCliente);
-        var params = {};
-        var queryParams = {
-           name:nombreCliente,
-           last:apellidoCliente,
-        };
-        $('.loading').fadeOut(300);
+        // var params = {};
+        // var queryParams = {
+        //    name:nombreCliente,
+        //    last:apellidoCliente,
+        // };
+        // $('.loading').fadeOut(300);
+        $('.loader-cube').hide();
           if(fatca=='S'){
             console.log("No permitir Actualizar");
+            // FlowRouter.go('/clienteNoSePermite', params, queryParams);
             FlowRouter.go('/clienteNoSePermite', params, queryParams);
           }else{
             if(existe=='1'){
               console.log("cliente NO ha sido Actualizado aun");
-              FlowRouter.go('/clienteExiste', params, queryParams);
+              // FlowRouter.go('/clienteExiste', params, queryParams);
+              FlowRouter.go('/clienteExiste');
             }
             if(existe=='2'){
               console.log("cliente NO EXISTE");
@@ -177,17 +181,23 @@ Template.acessoCliente.events({
     },
 });
 ////////////////////////////////////////////CLIENTE EXISTE////////////////////////////////////
-Template.clienteExiste.onCreated(function(){
+Template.clienteExiste.onCreated(function(){});
+Template.clienteExiste.onRendered(function(){
+  $('.loader-cube').hide();// hide loading
 });
 Template.clienteExiste.helpers({
   getIdCliente(){
     return  Session.get('idCliente'); 
   },
   getName(){
-    return FlowRouter.getQueryParam("name");
+    return Session.get("nombre1");
+    // return FlowRouter.getQueryParam("name");
+    
   },
   getLast(){
-    return FlowRouter.getQueryParam("last");
+    // return FlowRouter.getQueryParam("last");
+    return Session.get("apellido1");
+    
   },
 });
 Template.clienteExiste.events({
@@ -263,7 +273,7 @@ Template.clienteNoExiste.onCreated(function(){
 });
 Template.clienteNoExiste.helpers({});
 Template.clienteNoExiste.onRendered(function(){
-  
+  $('.loader-cube').hide();// hide loading
   $("#siguienteNoExiste").validate({
     rules: {
       nombre1:{
@@ -318,6 +328,9 @@ Template.clienteActualizado.onCreated(function(){
         this.wsnumboleto.set(res); 
       }
     });
+});
+Template.clienteActualizado.onRendered(function(){
+  $('.loader-cube').hide();
 });
 Template.clienteActualizado.events({
   'click .Aceptar' (){
@@ -409,6 +422,7 @@ Template.nombre.onCreated(function(){
 });
 
 Template.nombre.onRendered(function(){
+  $('.loader-cube').show();
   $(document).ready(function(){
     //========================================================validacion de profesion====================================
     var $select =  $('#profesion').select2({
@@ -519,6 +533,7 @@ Template.nombre.helpers({
   },
   // //==========================================wsprofesion====================================================
   wsprofesion(){
+    $('.loader-cube').hide();
     return wsprofesion.get();
   },
  
@@ -555,7 +570,8 @@ Template.nombre.events({
      console.log(idocupacion+" "+ocupacion);
      FlowRouter.go('/municipio');
   },
-  'click .atras'(event){
+  'click .atras'(){
+
     FlowRouter.go('/clienteExiste');
   },
 });
@@ -568,6 +584,7 @@ let awsbarriocolonia = new ReactiveVar([]);
 
 Template.municipio.onCreated(function(){});
 Template.municipio.onRendered(function(){
+  $('.loader-cube').hide();// hide loading
   $(document).ready(function(){
      //========================================================validacion de depto================================== ==
      var $select =  $('#depto').select2({
@@ -751,12 +768,26 @@ Template.municipio.events({
  },
  'change .depto'(){
    //================================================wbmunicipio================================================
+   $('#municipio')
+          .empty()
+          .append('<option value="nulo"></option>');
+   $('#ciudad')
+          .empty()
+          .append('<option value="nulo"></option>');
+   $('#colonia')
+          .empty()
+          .append('<option value="nulo"></option>');            
+   console.log(document.getElementById("municipio"));
+   console.log(document.getElementById("ciudad"));
+   console.log(document.getElementById("colonia"));
+
    let Depto=document.getElementById("depto").value;
    console.log('ide depto',Depto);
    var cuerpo="<cam:wbMunicipio.Execute>"
    +"<cam:Desmun></cam:Desmun>"
    +"<cam:Depto>"+Depto+"</cam:Depto>"
    +"</cam:wbMunicipio.Execute>";
+   $('.loader-cube').show();
    Meteor.call('wbmunicipio',{ body:cuerpo },(err, res) =>{
      if (err){
        console.log(err);
@@ -767,13 +798,20 @@ Template.municipio.events({
           datosWS=datosWS.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem; 
           wbmunicipio.set(datosWS);
           document.getElementById("municipio").disabled=false;
+          $('.loader-cube').hide();
         }
       }
     });
-    
+    // 
   },
   'change .municipio' (){
     //================================================wsciudada================================================
+    $('#ciudad')
+                .empty()
+                .append('<option value="nulo"></option>');
+    $('#colonia')
+                .empty()
+                .append('<option value="nulo"></option>');   
     let Municipioid=document.getElementById("municipio").value;
     console.log('id muni',Municipioid);
     // var Municipioid="HN0308";
@@ -781,6 +819,7 @@ Template.municipio.events({
                   +"<cam:Descaldea></cam:Descaldea>"
                   +"<cam:Municipioid>"+Municipioid+"</cam:Municipioid>"
                 +"</cam:wsCiudadA.Execute>";
+    $('.loader-cube').show();
     Meteor.call('wsciudada',{ body:cuerpo },(err, res) =>{
         if(err){
           console.log(err);
@@ -790,19 +829,24 @@ Template.municipio.events({
             datosWS=datosWS.envelope.body[0].wsciudadaexecuteresponse[0].sdtciudadaldea[0].sdtciudadaldeasdtciudadaldeaitem; 
             wsciudada.set(datosWS); 
             document.getElementById("ciudad").disabled=false;
+            $('.loader-cube').hide();
           } 
         }
       });    
   },
-  'change .ciudad'(event){
+  'change .ciudad'(){
     //================================================awsbarriocolonia===============================================
+    $('#colonia')
+                .empty()
+                .append('<option value="nulo"></option>');  
     let Ciad=document.getElementById("ciudad").value;
     console.log('id ciuda',Ciad);
     var cuerpo="<cam:wsBarrioColonia.Execute>"
                     +"<cam:Desbcc></cam:Desbcc>"
                     +"<cam:Ciad>"+Ciad+"</cam:Ciad>"
                   +"</cam:wsBarrioColonia.Execute>";
-    Meteor.call('awsbarriocolonia',{ body:cuerpo },(err,res) =>{
+    $('.loader-cube').show();
+    Meteor.call('awsbarriocolonia',{ body:cuerpo },(err,res)=>{
         if(err){
           console.log(err);
         } else {
@@ -811,6 +855,7 @@ Template.municipio.events({
             datosWS=datosWS.envelope.body[0].wsbarriocoloniaexecuteresponse[0].sdtbarriocolonia[0].sdtbarriocoloniasdtbarriocoloniaitem; 
             awsbarriocolonia.set(datosWS); 
             document.getElementById("colonia").disabled=false;
+            $('.loader-cube').hide();
           }
         }
       });
@@ -837,8 +882,9 @@ Template.domicilio.onCreated(function(){
 });
 
 Template.domicilio.onRendered(function(){
-  console.log(document.getElementById("telefono"));
-  console.log(document.getElementById("movil"));
+  $('.loader-cube').hide();// hide loading
+  // console.log(document.getElementById("telefono"));
+  // console.log(document.getElementById("movil"));
   $( "#siguienteDomicilio" ).validate({
     rules: {
       domicilio: {
@@ -870,61 +916,76 @@ Template.domicilio.onRendered(function(){
     }
   });
 });
-Template.domicilio.helpers({});
+Template.domicilio.helpers({
+  getDomicilio(){return Session.get("domicilio")},
+  getMovil(){return Session.get("movil")},
+  getTelefono(){return Session.get("telefono")},
+});
 Template.domicilio.events({
   'submit .siguienteDomicilio'(event){
     event.preventDefault();
     let domicilio=event.target.domicilio.value;
-    let telefono=event.target.telefono.value;
     let movil=event.target.movil.value;
+    let telefono=event.target.telefono.value;
     domicilio=domicilio.trim();
     // telefono=telefono.replace(/[-]/gi,"");
     // movil=movil.replace(/[-]/gi,"");
     Session.set("domicilio",domicilio);
-    Session.set("telefono",telefono);
     Session.set("movil",movil);
+    Session.set("telefono",telefono);
     console.log(domicilio);
-    console.log(telefono);
     console.log(movil);
+    console.log(telefono);
 
     FlowRouter.go('/correo');
   },
-  'click .atras'(event){
+  'click .atras'(){
+    console.log($('#domicilio').val());
+    console.log($('#movil').val());
+    console.log($('#telefono').val());
+
+    let domicilio=$('#domicilio').val();
+    let movil=$('#movil').val();
+    let telefono=$('#telefono').val();
+
+    Session.set("domicilio",domicilio);
+    Session.set("movil",movil);
+    Session.set("telefono",telefono);
     FlowRouter.go('/municipio');
  },
  'input #domicilio'(){
   $("#movil").addClass("required");
  },
- 'input #movil'(event){
+ 'input #movil'(){
   // $("#movil").addClass("required");
   $("#telefono").removeClass("required");
-  console.log(document.getElementById("movil"));
-  console.log(document.getElementById("telefono"));
-  console.log("telefono",document.getElementById("telefono").value);
-  console.log("movil",document.getElementById("movil").value);
+  // console.log(document.getElementById("movil"));
+  // console.log(document.getElementById("telefono"));
+  // console.log("telefono",document.getElementById("telefono").value);
+  // console.log("movil",document.getElementById("movil").value);
   },
- 'input #telefono'(event){
+ 'input #telefono'(){
   // $("#telefono").addClass("required");
   $("#movil").removeClass("required");
-  console.log( document.getElementById("movil") );
-  console.log( document.getElementById("telefono") );
-  console.log("movil", document.getElementById("movil").value );
-  console.log("telefono", document.getElementById("telefono").value );
+  // console.log( document.getElementById("movil") );
+  // console.log( document.getElementById("telefono") );
+  // console.log("movil", document.getElementById("movil").value );
+  // console.log("telefono", document.getElementById("telefono").value );
   },
 });
 //==============================================================================================
 // formulario5 correo personal, trabajo,residencia
-var banderaAcepta=true;
+// var banderaAcepta=true;
 
 Template.correo.onCreated(function(){
- 
-});
-Template.correo.onDestroyed(function () {
   
 });
 Template.correo.onRendered(function(){
-  
-
+  console.log($("#declara").val());
+  if($("#declara").val()=="si"){
+    document.getElementById('enviarDatos').disabled=false;
+  }
+  $('.loader-cube').hide();// hide loading
   document.getElementById("labelCaptcha").style.display = "none";
   $("#siguienteCorreo").validate({
     rules: {
@@ -967,7 +1028,6 @@ Template.correo.events({
   'submit .siguienteCorreo'(event){
     event.preventDefault();
     console.log(document.getElementById('aceptoNO').checked);
-  
     let emailP=event.target.emailP.value;
     let emailT=event.target.emailT.value;
     let residente=event.target.residente.value;
@@ -992,12 +1052,14 @@ Template.correo.events({
     }else{
       document.getElementById("labelCaptcha").style.display = "none";
       console.log(captchaData);
-      Meteor.call('formSubmissionMethod',captchaData,function(error, result){
-        if (error) {
+      $('.loader-cube').show();
+      Meteor.call('formSubmissionMethod',captchaData,function(error,result){
+        if(error){
           console.log('There was an error: ' + error.reason);
         } else {
             if(result){
               grecaptcha.reset();
+              // $('.loader-cube').hide();
               console.log('Success!',result);
               var Codcli=Session.get("ibs");//"2089291";
               var Cusunr=Session.get("Cusunr");
@@ -1059,6 +1121,7 @@ Template.correo.events({
                               +"<cam:Flag3>"+Flag3+"</cam:Flag3>"
                               +"<cam:Estado>"+Estado+"</cam:Estado>"
                           +"</cam:wsGuardarCliente.Execute>";
+              // $('.loader-cube').show();
                Meteor.call('awsguardarcliente',{body:cuerpo},(err,res) =>{
                         if (err){
                           console.log(err);
@@ -1072,6 +1135,7 @@ Template.correo.events({
                                 name:Pnombre,
                                 last:Papellido,
                               };
+                              $('.loader-cube').hide();
                             if(estado==0){
                               console.log('se guardo informacion');
                               FlowRouter.go('/clienteActualizado', params, queryParams);
@@ -1087,17 +1151,51 @@ Template.correo.events({
           }
       });
     }//===============FIN LLAMDO AL CAPCHA
-    // }//fin si capeto es NO
+    // }//fis si c,""ap
+    Session.set("ibs","");
+    Session.set("Cusunr","")
+    Session.set("idCliente","");
+    Session.set("nombre1","");
+    Session.set("nombre2","");
+    Session.set("apellido1","");
+    Session.set("apellido2","");
+    Session.set("idProfesion","");
+    Session.set("profesion","");
+    Session.set("idocupacion","");
+    Session.set("ocupacion","");
+    Session.set("declara","");
+    Session.set("acepto","");
+    Session.set("iddepto","");
+    Session.set("departamento","");
+    Session.set("idmuni","");
+    Session.set("municipio","");
+    Session.set("idciudad","");
+    Session.set("ciudad","");
+    Session.set("idbarrio","");
+    Session.set("barrio","");
+    Session.set("domicilio","");
+    Session.set("telefono","");
+    Session.set("movil","");
+    Session.set("emailP","");
+    Session.set("emailT","");
+    Session.set("flagEmpleado","");
+    Session.set("residente","");
   },
   'click .terminos'(){
-    let emailP=document.getElementById('emailP').value;
-    let emailT=document.getElementById('emailT').value;
+    let emailP = $("#emailP").val();
+    let emailT = $("#emailT").val();
     Session.set("emailP",emailP);
     Session.set("emailT",emailT);
     FlowRouter.go('/terminos');
  },
   'click .atras'(){
-    FlowRouter.go('/domicilio');
+   let emailP = $("#emailP").val();
+   let emailT = $("#emailT").val();
+
+   Session.set("emailP",emailP);
+   Session.set("emailT",emailT);
+
+  FlowRouter.go('/domicilio');
  },
  'click .declara'(){
   document.getElementById('enviarDatos').disabled=false;

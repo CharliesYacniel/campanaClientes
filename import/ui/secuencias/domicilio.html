@@ -4,22 +4,23 @@
     <form id ="siguienteDomicilio" style="width: 100%;" class="siguienteDomicilio" method="post">
         <div class="divFix">
             <label class="labelFix">Domicilio:</label>
-            <input class="required" type="text"  name="domicilio" id="domicilio" maxlength="80"/>
+            <input class="required" type="text"  name="domicilio" id="domicilio" maxlength="80" value="{{getDomicilio}}"/>
         </div>
         <div class="divFix">
             <label class="labelFix">Número móvil:</label>
-            <input class="" type="text"  name="movil" id="movil" maxlength="8"/>
+            <input class="" type="text"  name="movil" id="movil" maxlength="8" value="{{getMovil}}"/>
         </div>
         <div class="divFix">
             <label class="labelFix">  Número de teléfono:</label>
-            <input class="" type="text"  name="telefono" id="telefono" maxlength="8"/>
+            <input class="" type="text"  name="telefono" id="telefono" maxlength="8" value="{{getTelefono}}"/>
         </div>
         <!-- <div class="logoSection">
             <div class="logo"> -->
-                    <div class="navDiv">
-                <button class="atras">Regresar</button>
-                    <input type="submit"  value="Siguiente">
-                    </div>
+        <div class="navDiv">
+            <button class="atras">Regresar</button>
+            <!-- <input type="submit" class="atras" value="Regresar"> -->
+            <input type="submit"  value="Siguiente">
+        </div>
                 <!-- </div>
             </div> -->
     </form>
