@@ -33,7 +33,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsaccesoclientes.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
 
@@ -59,7 +59,7 @@ Meteor.methods({
         },
       }
     var url="http://150.150.6.87/CampActualizacion/awsaccesoclientes.aspx";
-    var miJson={};
+    // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -84,7 +84,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsnumboleto.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -109,7 +109,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsNocliente.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -134,7 +134,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsocupacion.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -159,7 +159,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsprofesion.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -184,7 +184,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awbmunicipio.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -209,7 +209,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsciudada.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -234,7 +234,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsbarriocolonia.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;
@@ -259,7 +259,7 @@ Meteor.methods({
               },
             }
       var url="http://150.150.6.87/CampActualizacion/awsguardarcliente.aspx";
-      var miJson={};
+      // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
       var xml=HTTP.call('POST',url,options).content;

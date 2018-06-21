@@ -50,6 +50,34 @@ Template.acessoCliente.onCreated(function(){
 
 Template.acessoCliente.helpers({});
 Template.acessoCliente.onRendered(function(){
+  Session.set("ibs","");
+  Session.set("Cusunr","")
+  Session.set("idCliente","");
+  Session.set("nombre1","");
+  Session.set("nombre2","");
+  Session.set("apellido1","");
+  Session.set("apellido2","");
+  Session.set("idProfesion","");
+  Session.set("profesion","");
+  Session.set("idocupacion","");
+  Session.set("ocupacion","");
+  Session.set("declara","");
+  Session.set("acepto","");
+  Session.set("iddepto","");
+  Session.set("departamento","");
+  Session.set("idmuni","");
+  Session.set("municipio","");
+  Session.set("idciudad","");
+  Session.set("ciudad","");
+  Session.set("idbarrio","");
+  Session.set("barrio","");
+  Session.set("domicilio","");
+  Session.set("telefono","");
+  Session.set("movil","");
+  Session.set("emailP","");
+  Session.set("emailT","");
+  Session.set("flagEmpleado","");
+  Session.set("residente","");
 $('.loader-cube').hide();// hide loading
 $("#formulario").validate({
       rules: {
@@ -86,8 +114,12 @@ Template.acessoCliente.events({
     let id=event.target.valueID.value;
     id=id.replace(/[-]/gi,"");
     console.log(id);
-    Session.set("idCliente",id.trim());//INICIALIZANDO VARIABLE
+    Session.set("idCliente",id);//INICIALIZANDO VARIABLE
     this.foundUser = new ReactiveVar([]);
+
+    this.idNoexiste = new ReactiveVar([]);
+    this.idNoexiste.set(id);
+    console.log("ID-NO",this.idNoexiste.get(id));
     // $('.loading').fadeIn(300);
     $('.loader-cube').show();
     var cuerpo="<cam:wsaccesoclientes.Execute>"+
@@ -126,13 +158,13 @@ Template.acessoCliente.events({
         //  3  que ya fue actualizado 
         // console.log(existe);
         // console.log(nombreCliente);
-        // var params = {};
-        // var queryParams = {
-        //    name:nombreCliente,
-        //    last:apellidoCliente,
-        // };
+        var params = {};
+        var queryParams = {
+           name:nombreCliente,
+           last:apellidoCliente,
+        };
         // $('.loading').fadeOut(300);
-        $('.loader-cube').hide();
+        // $('.loader-cube').hide();
           if(fatca=='S'){
             console.log("No permitir Actualizar");
             // FlowRouter.go('/clienteNoSePermite', params, queryParams);
@@ -145,32 +177,34 @@ Template.acessoCliente.events({
             }
             if(existe=='2'){
               console.log("cliente NO EXISTE");
-              
-              var cuerpo="<cam:wsNocliente.Execute>"
-                  +"<cam:Idncli>"+Session.get("idCliente")+"</cam:Idncli>"
-                  +"<cam:Rtenusurtenom></cam:Rtenusurtenom>"
-                  +"<cam:Rtenum></cam:Rtenum>"
-                  +"<cam:Rtenumc></cam:Rtenumc>"
-                  +"<cam:Rteema></cam:Rteema>"
-              +"</cam:wsNocliente.Execute>";
-              Meteor.call('wsnocliente',{body:cuerpo},(err,res)=>{
-                  if (err){
-                    console.log(err);
-                  } else {
-                  var datosWS =res;
-                  if (datosWS.envelope){
-                    datosWS=datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]; 
-                    let flag=datosWS.flage[0];
-                    console.log(datosWS);
-                    console.log(flag);
-                    if(flag=='N'){
-                      FlowRouter.go('/noCliente');
-                    }
-                  }
-                  }
-                });
 
-              FlowRouter.go('/clienteNoExiste');
+              // var cuerpo="<cam:wsNocliente.Execute>"
+              //                 +"<cam:Idncli>"+this.idNoexiste.get()+"</cam:Idncli>"
+              //                 +"<cam:Rtenusurtenom>test</cam:Rtenusurtenom>"
+              //                 +"<cam:Rtenum>test</cam:Rtenum>"
+              //                 +"<cam:Rtenumc>test</cam:Rtenumc>"
+              //                 +"<cam:Rteema>test</cam:Rteema>"
+              //             +"</cam:wsNocliente.Execute>";
+              // $('.loader-cube').show();
+              // Meteor.call('wsnocliente',{ body:cuerpo },(err,res)=>{
+              //     if(err){
+              //       console.log(err);
+              //     } else {
+              //     var datosWS =res;
+              //     if (datosWS.envelope){
+              //       datosWS=datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]; 
+              //       let flag=datosWS.flage[0];
+              //       console.log(flag);
+              //       $('.loader-cube').hide();
+              //       if(flag=='N'){
+              //         console.log("LLAMADO de nocleinte",datosWS);
+              //         FlowRouter.go('/noCliente');
+              //       }
+              //     }
+              //     }
+              //   });
+
+                FlowRouter.go('/clienteNoExiste');
             }
             if (existe=='3'){
               console.log("cliente ACTUALIZADO");
@@ -263,7 +297,7 @@ Template.clienteNoExiste.events({
                   +"<cam:Rtenumc>"+movil+"</cam:Rtenumc>"
                   +"<cam:Rteema>"+emailP+"</cam:Rteema>"
               +"</cam:wsNocliente.Execute>";
-   
+    $('.loader-cube').show();
     Meteor.call('wsnocliente',{body:cuerpo},(err,res)=>{
         if (err){
           console.log(err);
@@ -274,6 +308,7 @@ Template.clienteNoExiste.events({
           let flag=datosWS.flage[0];
           console.log(datosWS);
           console.log(flag);
+          $('.loader-cube').hide();
           if(flag=='S'){
            FlowRouter.go('/noClienteAlmacenado');
           }
@@ -345,12 +380,14 @@ Template.clienteActualizado.onCreated(function(){
   let cuerpo="<cam:wsnumboleto.Execute>"
                 +"<cam:Idncli>"+id+"</cam:Idncli>"
             +"</cam:wsnumboleto.Execute>";
+  $('.loader-cube').show();
   Meteor.call('wsnumboleto',{ body:cuerpo },(err, res) =>{
       if (err){
         console.log(err);
       } else {
         this.wsnumboleto.set(res); 
       }
+      $('.loader-cube').hide();
     });
 });
 Template.clienteActualizado.onRendered(function(){
@@ -792,18 +829,24 @@ Template.municipio.events({
  },
  'change .depto'(){
    //================================================wbmunicipio================================================
-   $('#municipio')
-          .empty()
-          .append('<option value="nulo"></option>');
-   $('#ciudad')
-          .empty()
-          .append('<option value="nulo"></option>');
-   $('#colonia')
-          .empty()
-          .append('<option value="nulo"></option>');            
-   console.log(document.getElementById("municipio"));
-   console.log(document.getElementById("ciudad"));
-   console.log(document.getElementById("colonia"));
+   $('#municipio').val(''); // Select the option with a value of '1'
+   $('#municipio').select2('destroy');
+   $('#municipio').select2({
+     allowClear: false
+   });
+  //  document.getElementById("municipio").disabled=true;
+   $('#ciudad').val(''); // Select the option with a value of '1'
+   $('#ciudad').select2('destroy');
+   $('#ciudad').select2({
+     allowClear: false
+   });
+   document.getElementById("ciudad").disabled=true;
+   $('#colonia').val(''); // Select the option with a value of '1'
+   $('#colonia').select2('destroy');
+   $('#colonia').select2({
+     allowClear: false
+   });
+   document.getElementById("colonia").disabled=true;
 
    let Depto=document.getElementById("depto").value;
    console.log('ide depto',Depto);
@@ -825,17 +868,26 @@ Template.municipio.events({
           $('.loader-cube').hide();
         }
       }
+      // console.log($("#municipio")[0]);
     });
+    
     // 
   },
   'change .municipio' (){
     //================================================wsciudada================================================
-    $('#ciudad')
-                .empty()
-                .append('<option value="nulo"></option>');
-    $('#colonia')
-                .empty()
-                .append('<option value="nulo"></option>');   
+    $('#ciudad').val(''); // Select the option with a value of '1'
+    $('#ciudad').select2('destroy');
+    $('#ciudad').select2({
+      allowClear: false
+    });
+    document.getElementById("ciudad").disabled=true;
+    $('#colonia').val(''); // Select the option with a value of '1'
+    $('#colonia').select2('destroy');
+    $('#colonia').select2({
+      allowClear: false
+    });
+    document.getElementById("colonia").disabled=true;
+  
     let Municipioid=document.getElementById("municipio").value;
     console.log('id muni',Municipioid);
     // var Municipioid="HN0308";
@@ -860,11 +912,16 @@ Template.municipio.events({
   },
   'change .ciudad'(){
     //================================================awsbarriocolonia===============================================
-    $('#colonia')
-                .empty()
-                .append('<option value="nulo"></option>');  
+    $('#colonia').val(''); // Select the option with a value of '1'
+    $('#colonia').select2('destroy');
+    $('#colonia').select2({
+      allowClear: false
+    });
+    document.getElementById("colonia").disabled=true;
+
     let Ciad=document.getElementById("ciudad").value;
     console.log('id ciuda',Ciad);
+    $('.loader-cube').show();
     var cuerpo="<cam:wsBarrioColonia.Execute>"
                     +"<cam:Desbcc></cam:Desbcc>"
                     +"<cam:Ciad>"+Ciad+"</cam:Ciad>"
@@ -884,10 +941,10 @@ Template.municipio.events({
         }
       });
  },
-//   'change .colonia'(event){
-//     console.log('select colonia cambio');
-//   // document.getElementById("siguiente").disabled=false;
-// },
+  'change .colonia'(){
+    console.log('select colonia cambio');
+  document.getElementById("siguiente").disabled=false;
+},
  
 });
 //==============================================================================================
@@ -1071,7 +1128,35 @@ Template.correo.events({
     Session.set("declara",declara);
     Session.set("acepto",acepto);
       //===============INCIO LLAMADAO AL CAPCHTA
-      
+      var Codcli=Session.get("ibs");//"2089291";
+      var Cusunr=Session.get("Cusunr");
+      var Idncli=Session.get("idCliente");//"0801199306450";
+      var Pnombre=Session.get("nombre1");//"Axel";
+      var Snombre=Session.get("nombre2");//"Enrique";
+      var Papellido=Session.get("apellido1");//"Landa";
+      var Sapellido=Session.get("apellido2");//"Salgado";
+      var Idprof=Session.get("idProfesion");;//"033";
+      var Profd=Session.get("profesion");//"INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D";
+      var Rteacliidocup=Session.get("idocupacion");//"EZOP";
+      var Rteacliocupacion=Session.get("ocupacion");//"PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA";
+      var Declaro=Session.get("declara");//"S";
+      var Acepto=Session.get("acepto");//"N";
+      var Dptoid= Session.get("iddepto");//"HN01";
+      var Dptonombre=Session.get("departamento");//"AtláAntida";
+      var Idmunc= Session.get("idmuni");//"HN0101";
+      var Desmunc=Session.get("municipio");//"La Ceiba";
+      var Idcald= Session.get("idciudad"); //"HN010104";
+      var Descald=Session.get("ciudad");//"Corozal";
+      var Id_bcc= Session.get("idbarrio");//"HN010104002";
+      var Descrbcc=Session.get("barrio");//"La Ensenada";
+      var Dirdom=Session.get("domicilio");//"La ensenada b2 c 905 contiguo a plaza azul";
+      var Numtelf=Session.get("telefono");//"22467469";
+      var Nummovil=Session.get("movil");//"33822840";
+      var Emailp=Session.get("emailP");//"axellanda93@gmail.com";
+      var Emailt=Session.get("emailT");//"alanda@bancatlan.hn";
+      var Flag1=Session.get("residente");//"N";
+      var Flag3=Session.get("flagEmpleado");//"S";
+      var Estado="";
     var captchaData = grecaptcha.getResponse();
     if(captchaData==""){
       console.log('captcah vacio');
@@ -1093,35 +1178,6 @@ Template.correo.events({
               grecaptcha.reset();
               // $('.loader-cube').hide();
               console.log('Success!',result);
-              var Codcli=Session.get("ibs");//"2089291";
-              var Cusunr=Session.get("Cusunr");
-              var Idncli=Session.get("idCliente");//"0801199306450";
-              var Pnombre=Session.get("nombre1");//"Axel";
-              var Snombre=Session.get("nombre2");//"Enrique";
-              var Papellido=Session.get("apellido1");//"Landa";
-              var Sapellido=Session.get("apellido2");//"Salgado";
-              var Idprof=Session.get("idProfesion");;//"033";
-              var Profd=Session.get("profesion");//"INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D";
-              var Rteacliidocup=Session.get("idocupacion");//"EZOP";
-              var Rteacliocupacion=Session.get("ocupacion");//"PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA";
-              var Declaro=Session.get("declara");//"S";
-              var Acepto=Session.get("acepto");//"N";
-              var Dptoid= Session.get("iddepto");//"HN01";
-              var Dptonombre=Session.get("departamento");//"AtláAntida";
-              var Idmunc= Session.get("idmuni");//"HN0101";
-              var Desmunc=Session.get("municipio");//"La Ceiba";
-              var Idcald= Session.get("idciudad"); //"HN010104";
-              var Descald=Session.get("ciudad");//"Corozal";
-              var Id_bcc= Session.get("idbarrio");//"HN010104002";
-              var Descrbcc=Session.get("barrio");//"La Ensenada";
-              var Dirdom=Session.get("domicilio");//"La ensenada b2 c 905 contiguo a plaza azul";
-              var Numtelf=Session.get("telefono");//"22467469";
-              var Nummovil=Session.get("movil");//"33822840";
-              var Emailp=Session.get("emailP");//"axellanda93@gmail.com";
-              var Emailt=Session.get("emailT");//"alanda@bancatlan.hn";
-              var Flag1=Session.get("residente");//"N";
-              var Flag3=Session.get("flagEmpleado");//"S";
-              var Estado="";
               var cuerpo="<cam:wsGuardarCliente.Execute>"
                               +"<cam:Codcli>"+Codcli+"</cam:Codcli>"
                               +"<cam:Cusunr>"+Cusunr+"</cam:Cusunr>"
@@ -1154,7 +1210,7 @@ Template.correo.events({
                               +"<cam:Estado>"+Estado+"</cam:Estado>"
                           +"</cam:wsGuardarCliente.Execute>";
               // $('.loader-cube').show();
-               Meteor.call('awsguardarcliente',{body:cuerpo},(err,res) =>{
+               Meteor.call('awsguardarcliente',{ body:cuerpo },(err,res) =>{
                         if (err){
                           console.log(err);
                         } else {
@@ -1184,34 +1240,6 @@ Template.correo.events({
       });
     }//===============FIN LLAMDO AL CAPCHA
     // }//fis si c,""ap
-    Session.set("ibs","");
-    Session.set("Cusunr","")
-    Session.set("idCliente","");
-    Session.set("nombre1","");
-    Session.set("nombre2","");
-    Session.set("apellido1","");
-    Session.set("apellido2","");
-    Session.set("idProfesion","");
-    Session.set("profesion","");
-    Session.set("idocupacion","");
-    Session.set("ocupacion","");
-    Session.set("declara","");
-    Session.set("acepto","");
-    Session.set("iddepto","");
-    Session.set("departamento","");
-    Session.set("idmuni","");
-    Session.set("municipio","");
-    Session.set("idciudad","");
-    Session.set("ciudad","");
-    Session.set("idbarrio","");
-    Session.set("barrio","");
-    Session.set("domicilio","");
-    Session.set("telefono","");
-    Session.set("movil","");
-    Session.set("emailP","");
-    Session.set("emailT","");
-    Session.set("flagEmpleado","");
-    Session.set("residente","");
   },
   'click .terminos'(){
     let emailP = $("#emailP").val();
@@ -1281,7 +1309,12 @@ Template.modalNoTerminos.events({
     $('.modalNoTerminos').fadeOut(300);
   },
 });
-
+//==================================================noClienteAlmacenado============================================
+Template.noClienteAlmacenado.events({
+  'click .aceptar'(){
+    FlowRouter.go('/');
+  },
+});
 
 
 
