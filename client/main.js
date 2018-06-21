@@ -129,9 +129,9 @@ Template.acessoCliente.events({
       if (err){
         console.log(err);
       } else {
-        this.foundUser.set(res);
-      }
-      var datosWS =this.foundUser.get();
+        // this.foundUser.set(res);
+        // var datosWS =this.foundUser.get();
+        var datosWS =res;
       if (datosWS.envelope){
         console.log(datosWS.envelope.body[0].wsaccesoclientesexecuteresponse[0].sdtaccesoclientes[0]);
         datosWS=datosWS.envelope.body[0].wsaccesoclientesexecuteresponse[0].sdtaccesoclientes[0];
@@ -142,11 +142,7 @@ Template.acessoCliente.events({
         let flag3=datosWS.empleado[0];
         let fatca=datosWS.fatca[0];
         let Cusunr=datosWS.cusunr[0];
-        // let fatca='S';
-        // let nombreCliente='Pedro Prueba';
-        // let existe='1';
-        // let ibsCliente='2089291';
-        // let flag3='3';
+
         Session.set("ibs",ibsCliente);
         Session.set("Cusunr",Cusunr);
         Session.set("nombre1",nombreCliente);
@@ -163,8 +159,6 @@ Template.acessoCliente.events({
            name:nombreCliente,
            last:apellidoCliente,
         };
-        // $('.loading').fadeOut(300);
-        // $('.loader-cube').hide();
           if(fatca=='S'){
             console.log("No permitir Actualizar");
             // FlowRouter.go('/clienteNoSePermite', params, queryParams);
@@ -177,41 +171,19 @@ Template.acessoCliente.events({
             }
             if(existe=='2'){
               console.log("cliente NO EXISTE");
-
-              // var cuerpo="<cam:wsNocliente.Execute>"
-              //                 +"<cam:Idncli>"+this.idNoexiste.get()+"</cam:Idncli>"
-              //                 +"<cam:Rtenusurtenom>test</cam:Rtenusurtenom>"
-              //                 +"<cam:Rtenum>test</cam:Rtenum>"
-              //                 +"<cam:Rtenumc>test</cam:Rtenumc>"
-              //                 +"<cam:Rteema>test</cam:Rteema>"
-              //             +"</cam:wsNocliente.Execute>";
-              // $('.loader-cube').show();
-              // Meteor.call('wsnocliente',{ body:cuerpo },(err,res)=>{
-              //     if(err){
-              //       console.log(err);
-              //     } else {
-              //     var datosWS =res;
-              //     if (datosWS.envelope){
-              //       datosWS=datosWS.envelope.body[0].wsnoclienteexecuteresponse[0]; 
-              //       let flag=datosWS.flage[0];
-              //       console.log(flag);
-              //       $('.loader-cube').hide();
-              //       if(flag=='N'){
-              //         console.log("LLAMADO de nocleinte",datosWS);
-              //         FlowRouter.go('/noCliente');
-              //       }
-              //     }
-              //     }
-              //   });
-
                 FlowRouter.go('/clienteNoExiste');
             }
             if (existe=='3'){
               console.log("cliente ACTUALIZADO");
               FlowRouter.go('/clienteActualizado', params, queryParams);
             }
+            if (existe=='4'){
+              console.log("cliente Ya Actualizo Datos");
+              FlowRouter.go('/noCliente');
+            }
           }
         }
+      }
     });
   },
   'click #pasaporteSI'(){
@@ -246,17 +218,13 @@ Template.clienteExiste.onRendered(function(){
 });
 Template.clienteExiste.helpers({
   getIdCliente(){
-    return  Session.get('idCliente'); 
+    return Session.get('idCliente'); 
   },
   getName(){
     return Session.get("nombre1");
-    // return FlowRouter.getQueryParam("name");
-    
   },
   getLast(){
-    // return FlowRouter.getQueryParam("last");
     return Session.get("apellido1");
-    
   },
 });
 Template.clienteExiste.events({
@@ -309,10 +277,13 @@ Template.clienteNoExiste.events({
           console.log(datosWS);
           console.log(flag);
           $('.loader-cube').hide();
-          if(flag=='S'){
+          if(flag=='S'){//cliente se guardo bien
            FlowRouter.go('/noClienteAlmacenado');
           }
-          if(flag=='N'){
+          // else{
+          //   FlowRouter.go('/noCliente');
+          // }
+          if(flag=='N'){//el clientes ya etsa almacenado el repo de NOclientes
             FlowRouter.go('/noCliente');
            }
         }
@@ -427,6 +398,9 @@ Template.clienteNoSePermite.helpers({
   getLast(){
     return FlowRouter.getQueryParam("last");
   },
+});
+Template.clienteNoSePermite.onRendered(function(){
+  $('.loader-cube').hide();
 });
 
 Template.clienteNoSePermite.events({
@@ -1278,6 +1252,9 @@ Template.terminos.events({
   },
 });
 //==================================================Nocliente Almacenado============================================
+Template.noCliente.onRendered(function(){
+  $('.loader-cube').hide();
+});
 Template.noCliente.events({
   'click .aceptar'(){
     FlowRouter.go('/');
