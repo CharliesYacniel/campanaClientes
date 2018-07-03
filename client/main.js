@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
+import { Meteor } from 'meteor/meteor'
+
 import './main.html';
 import 'select2';
 import 'select2/dist/css/select2.css';
@@ -13,6 +15,7 @@ import '../import/ui/components/clienteExiste.html';
 import '../import/ui/components/clienteActualizado.html';
 import '../import/ui/components/formulario.html';
 import '../import/ui/components/loading.html';
+
 //templates de las secuencias
 import '../import/ui/secuencias/nombre.html';
 import '../import/ui/secuencias/municipio.html';
@@ -24,7 +27,12 @@ import '../import/ui/secuencias/noCliente.html';
 import '../import/ui/secuencias/aceptoContacto.html';
 import '../import/ui/secuencias/contactoModal.html';
 import '../import/ui/secuencias/modalNoTerminos.html';
+import '../import/ui/secuencias/timeOut.html';
 
+
+segundosEspera = new ReactiveVar([]);
+segundosEspera.set(5);
+const tiempoDeEspera=10000;
 
 Meteor.startup(function() {
   reCAPTCHA.config({
@@ -34,6 +42,11 @@ Meteor.startup(function() {
      size: 'normal',
     hl:'es'// optional display language
   });
+
+  // Meteor.setTimeout(function() {
+  //   $('.outerContainer').removeClass('loading');
+  //   }, loadingDelay);
+
 });
 ////////////////////////////////////////////ACCESO CLIENTES////////////////////////////////////
 $.validator.addMethod("valueNotEquals", function( element, arg){
@@ -122,12 +135,22 @@ Template.acessoCliente.events({
     console.log("ID-NO",this.idNoexiste.get(id));
     // $('.loading').fadeIn(300);
     $('.loader-cube').show();
+
     var cuerpo="<cam:wsaccesoclientes.Execute>"+
                       "<cam:Identidad>"+id.trim()+"</cam:Identidad>"
               +"</cam:wsaccesoclientes.Execute>";
+
+    var timeout = setTimeout(() => {
+      $('.timeOut').show();
+      throw new Error('timeout');
+    },tiempoDeEspera);
+              
     Meteor.call('wsaccesoclientes',{ body : cuerpo },(err, res) =>{
+      clearTimeout(timeout);
       if (err){
         console.log(err);
+        $('.timeOut').show();
+        // $('.loader-cube').hide();
       } else {
         // this.foundUser.set(res);
         // var datosWS =this.foundUser.get();
@@ -265,10 +288,19 @@ Template.clienteNoExiste.events({
                   +"<cam:Rtenumc>"+movil+"</cam:Rtenumc>"
                   +"<cam:Rteema>"+emailP+"</cam:Rteema>"
               +"</cam:wsNocliente.Execute>";
+
+    var timeout = setTimeout(() => {
+      $('.timeOut').show();
+      throw new Error('timeout');
+    },tiempoDeEspera);
+
     $('.loader-cube').show();
+
     Meteor.call('wsnocliente',{body:cuerpo},(err,res)=>{
-        if (err){
-          console.log(err);
+      clearTimeout(timeout);
+      if (err){
+        $('.timeOut').show();
+        console.log(err);
         } else {
         var datosWS =res;
         if (datosWS.envelope){
@@ -352,9 +384,17 @@ Template.clienteActualizado.onCreated(function(){
                 +"<cam:Idncli>"+id+"</cam:Idncli>"
             +"</cam:wsnumboleto.Execute>";
   $('.loader-cube').show();
+
+  var timeout = setTimeout(() => {
+    $('.timeOut').show();
+    throw new Error('timeout');
+  },tiempoDeEspera);
+
   Meteor.call('wsnumboleto',{ body:cuerpo },(err, res) =>{
-      if (err){
-        console.log(err);
+    clearTimeout(timeout);
+    if (err){
+      $('.timeOut').show();
+      console.log(err);
       } else {
         this.wsnumboleto.set(res); 
       }
@@ -414,6 +454,9 @@ Template.clienteNoSePermite.events({
 let wsprofesion = new ReactiveVar([]);
 let wsocupacion = new ReactiveVar([]);
 
+// let profesionSelected = new ReactiveVar([]);
+// let ocupacionSelected = new ReactiveVar([]);
+
 Template.nombre.onCreated(function(){
      //=============================================wsaccesoclientes=================================================
      let id=Session.get('idCliente');
@@ -421,9 +464,17 @@ Template.nombre.onCreated(function(){
      var cuerpo="<cam:wsaccesoclientes.Execute>"+
                        "<cam:Identidad>"+id+"</cam:Identidad>"
                +"</cam:wsaccesoclientes.Execute>";
+
+      var timeout = setTimeout(() => {
+          $('.timeOut').show();
+          throw new Error('timeout');
+        },tiempoDeEspera);
+
      Meteor.call('wsaccesoclientes',{ body : cuerpo },(err, res) =>{
-       if (err){
-         console.log(err);
+      clearTimeout(timeout);
+      if (err){
+        $('.timeOut').show();
+        console.log(err);
        } else {
          this.foundUser.set(res);
        } 
@@ -432,9 +483,17 @@ Template.nombre.onCreated(function(){
        var cuerpo="<cam:wsProfesion.Execute>"
                        +"<cam:Dscr></cam:Dscr>"
                    +"</cam:wsProfesion.Execute>";
+
+        var timeout = setTimeout(() => {
+            $('.timeOut').show();
+            throw new Error('timeout');
+          },tiempoDeEspera);
+
        Meteor.call('wsprofesion',{body:cuerpo},  (err, res) =>{
-           if (err){
-             console.log(err);
+        clearTimeout(timeout);
+        if (err){
+          console.log(err);
+          $('.timeOut').show();
            } else {
              let datosWS=res.envelope.body[0].wsprofesionexecuteresponse[0].sdtprofesion[0].sdtprofesionsdtprofesionitem;
              console.log(datosWS);
@@ -445,15 +504,40 @@ Template.nombre.onCreated(function(){
          var cuerpo="<cam:wsOcupacion.Execute>"
                         +"<cam:Ocupacion></cam:Ocupacion>"
                   +"</cam:wsOcupacion.Execute>";
-        Meteor.call('wsocupacion',{ body:cuerpo },  (err, res)=> {
-          if (err){
-          console.log(err);
-          } else {
-          let datosWS =res.envelope.body[0].wsocupacionexecuteresponse[0].sdtocupacion[0].sdtocupacionsdtocupacionitem;
-          wsocupacion.set(datosWS);
-          }
-        });
-    
+
+          var timeout = setTimeout(() => {
+              $('.timeOut').show();
+              throw new Error('timeout');
+            },tiempoDeEspera);
+
+          Meteor.call('wsocupacion',{ body:cuerpo },  (err, res)=> {
+            clearTimeout(timeout);
+            if (err){
+              $('.timeOut').show();
+              console.log(err);
+            } else {
+            let datosWS =res.envelope.body[0].wsocupacionexecuteresponse[0].sdtocupacion[0].sdtocupacionsdtocupacionitem;
+            wsocupacion.set(datosWS);
+            }
+
+          });
+        // console.log('tiempo es espera');
+        // Meteor.setTimeout(function(){
+        //   console.log('tiempo es espera');
+        // }, tiempoDeEspera);          
+        //   console.log('termino conteo ');
+
+        // var counter = 0;
+        // var myInterval = Meteor.setInterval(function() {
+        //    counter ++;
+        //    console.log("Intervalo llamado " + counter + " veces...");
+        //    if(counter == this.segundosEspera.get()){
+        //     Meteor.clearInterval(myInterval);
+        //     // $('.loader-cube').hide();
+        //     $('.timeOut').show();
+        //     console.log('Interval detenido...');
+        //    }
+        // }, 1000);     
 });
 
 Template.nombre.onRendered(function(){
@@ -470,7 +554,7 @@ Template.nombre.onRendered(function(){
    //Permitiendo la validacion de campos ocultos
     $('#siguienteNombre').validate({
       ignore: '.select2-input, .select2-focusser',
-      submitHandler: function(form) {
+      submitHandler: function() {
         alert("enviado")
       },
       errorPlacement: function(error, element) {
@@ -515,6 +599,7 @@ Template.nombre.onRendered(function(){
       }
     });
   });
+
   $("#siguienteNombre").validate({
     rules: {
       nombre1:{
@@ -533,6 +618,14 @@ Template.nombre.onRendered(function(){
         required:false,
         pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
+      profesion:{
+        required:true,
+        // pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+      },
+      ocupacion:{
+        required:true,
+        // pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+      },
     } ,
     messages: {
       nombre1:{
@@ -550,9 +643,21 @@ Template.nombre.onRendered(function(){
         // required:"Verifique su segundo apellido",
         pattern:"No valido",
       },
+      profesion:{
+        required:"Seleccione opción",
+        // pattern:"No valido",
+      },
+      ocupacion:{
+        required:"Seleccione opción",
+        // pattern:"No valido",
+      },
     }
  });    
+
  });
+
+ var parametroSelected = new ReactiveVar();
+     parametroSelected.set(0);
 Template.nombre.helpers({
   wsaccesoclientes(){
     var datosWS =Template.instance().foundUser.get();
@@ -564,14 +669,32 @@ Template.nombre.helpers({
   },
   //=============================================wsocupacion=================================================
   wsocupacion(){
-  return wsocupacion.get();
+    $('.loader-cube').hide();
+    return wsocupacion.get();
   },
   // //==========================================wsprofesion====================================================
   wsprofesion(){
-    $('.loader-cube').hide();
     return wsprofesion.get();
   },
- 
+  verificarSelected(){
+     if(parametroSelected.get()==1){
+       return true;
+     }else{
+       return false;
+     }
+  },
+  idProfesionSelected(){
+    return Session.get("idProfesion");
+  },
+  profesionSelected(){
+    return Session.get("profesion");
+  },
+  idOcupacionSelected(){
+    return Session.get("idocupacion");
+  },
+  ocupacionSelected(){
+    return Session.get("ocupacion");
+  },
 });
 Template.nombre.events({
   'submit .siguienteNombre'(event){
@@ -603,11 +726,27 @@ Template.nombre.events({
      Session.set("ocupacion",ocupacion);
      console.log(idProfesion+" "+profesion);
      console.log(idocupacion+" "+ocupacion);
+
      FlowRouter.go('/municipio');
   },
   'click .atras'(){
-
     FlowRouter.go('/clienteExiste');
+  },
+  'change .profesion'(){
+    parametroSelected.set(1);
+    Session.set("idProfesion",$('.profesion').val());
+    Session.set("profesion",$('.profesion option:selected').text());
+    console.log($('.profesion').val());
+    console.log($('.profesion option:selected').text());
+    console.log('id y profesion es sesion ',Session.get("idProfesion")+" "+Session.get("profesion"));
+  },
+  'change .ocupacion'(){
+    parametroSelected.set(1);
+    Session.set("idocupacion",$('.ocupacion').val());
+    Session.set("ocupacion",$('.ocupacion option:selected').text());
+    console.log($('.ocupacion').val());
+    console.log($('.ocupacion option:selected').text());
+    console.log('id y ocupacion es sesion ',Session.get("idocupacion")+" "+Session.get("ocupacion"));
   },
 });
 //==============================================================================================
@@ -617,12 +756,15 @@ let wbmunicipio = new ReactiveVar([]);
 let wsciudada = new ReactiveVar([]);
 let awsbarriocolonia = new ReactiveVar([]);
 
-Template.municipio.onCreated(function(){});
+Template.municipio.onCreated(function(){
+  
+});
 Template.municipio.onRendered(function(){
   $('.loader-cube').hide();// hide loading
   $(document).ready(function(){
      //========================================================validacion de depto================================== ==
-     var $select =  $('#depto').select2({
+     var $select =  $('#depto').select2({  
+      placeholder : "Seleccionar departamento", 
       allowClear: false
     });
     // Aplicando la validacion del select cada vez que cambie
@@ -650,6 +792,7 @@ Template.municipio.onRendered(function(){
     });
     //========================================================validacion de municipio================================== ==
     var $select =  $('#municipio').select2({
+      placeholder : "Seleccionar municipio" , 
       allowClear: false
     });
     // Aplicando la validacion del select cada vez que cambie
@@ -659,7 +802,7 @@ Template.municipio.onRendered(function(){
    //Permitiendo la validacion de campos ocultos
     $('#siguienteMunicipio').validate({
       ignore: '.select2-input, .select2-focusser',
-      submitHandler: function(form) {
+      submitHandler: function() {
         
       },
       errorPlacement: function(error, element) {
@@ -677,6 +820,7 @@ Template.municipio.onRendered(function(){
     });
   //   //========================================================validacion de ciudad================================== ==
   var $select =  $('#ciudad').select2({
+    placeholder : "Seleccionar ciudad" , 
     allowClear: false
   });
   // Aplicando la validacion del select cada vez que cambie
@@ -704,6 +848,7 @@ Template.municipio.onRendered(function(){
   });
   //   //========================================================validacion de colonia================================== ==
   var $select = $('#colonia').select2({
+    placeholder : "Seleccionar colonia" , 
     allowClear: false
   });
   // Aplicando la validacion del select cada vez que cambie
@@ -713,7 +858,7 @@ Template.municipio.onRendered(function(){
  //Permitiendo la validacion de campos ocultos
   $('#siguienteMunicipio').validate({
     ignore: '.select2-input, .select2-focusser',
-    submitHandler: function(form){
+    submitHandler: function(){
       // console.log('esta entrando aqui');
     },
     errorPlacement: function(error, element){
@@ -733,23 +878,46 @@ Template.municipio.onRendered(function(){
   });
   $("#siguienteMunicipio").validate({
     rules: {
-      nombre1:{
+      depto:{
         required:true,
-        pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+        // pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
+      },
+      muni:{
+        required:true,
+        // pattern: /^[a-zA-ZáéíïóúüÁÉÍÏÓÚÜñÑ\'\"\s]+$/,
       },
     } ,
     messages: {
-      nombre1:{
-        required:"Verifique primer nombre",
+      depto:{
+        required:"Seleccione una opción",
+        pattern:"No valido",
+      },
+      muni:{
+        required:"Seleccione una opción",
         pattern:"No valido",
       },
     }
- });    
+ });
+
+
 });
+
 Template.municipio.helpers({
+  // idDeptoSelected(){
+  //   return Session.get("iddepto");
+  // },
+  // deptoSelected(){
+  //   return Session.get("departamento");
+  // },
   //===============================================wbmunicipio===============================================
   wbmunicipio(){
     return wbmunicipio.get();
+  },
+  idmunicipioSelected(){
+    return Session.get("idmuni");
+  },
+  municipioSelected(){
+    return Session.get("municipio");
   },
   //============================================wsciudada==================================================
   wsciudada(){
@@ -760,6 +928,7 @@ Template.municipio.helpers({
     return awsbarriocolonia.get();
   },
 });
+
 Template.municipio.events({
   'submit .siguienteMunicipio'(event){
     event.preventDefault();
@@ -802,6 +971,8 @@ Template.municipio.events({
     FlowRouter.go('/nombre');
  },
  'change .depto'(){
+    Session.set("iddepto",$('.depto').val());
+    Session.set("departamento",$('.depto option:selected').text());
    //================================================wbmunicipio================================================
    $('#municipio').val(''); // Select the option with a value of '1'
    $('#municipio').select2('destroy');
@@ -825,13 +996,16 @@ Template.municipio.events({
    let Depto=document.getElementById("depto").value;
    console.log('ide depto',Depto);
    var cuerpo="<cam:wbMunicipio.Execute>"
-   +"<cam:Desmun></cam:Desmun>"
-   +"<cam:Depto>"+Depto+"</cam:Depto>"
-   +"</cam:wbMunicipio.Execute>";
+              +"<cam:Desmun></cam:Desmun>"
+              +"<cam:Depto>"+Depto+"</cam:Depto>"
+              +"</cam:wbMunicipio.Execute>";
+
    $('.loader-cube').show();
    Meteor.call('wbmunicipio',{ body:cuerpo },(err, res) =>{
-     if (err){
-       console.log(err);
+    clearTimeout(timeout);
+      if (err){
+        $('.timeOut').show();
+        console.log(err);
       } else {
         var datosWS =res;
         if (datosWS.envelope) {
@@ -844,8 +1018,6 @@ Template.municipio.events({
       }
       // console.log($("#municipio")[0]);
     });
-    
-    // 
   },
   'change .municipio' (){
     //================================================wsciudada================================================
@@ -869,10 +1041,19 @@ Template.municipio.events({
                   +"<cam:Descaldea></cam:Descaldea>"
                   +"<cam:Municipioid>"+Municipioid+"</cam:Municipioid>"
                 +"</cam:wsCiudadA.Execute>";
+
+    var timeout = setTimeout(() => {
+          $('.timeOut').show();
+          throw new Error('timeout');
+        },tiempoDeEspera);
+
     $('.loader-cube').show();
+
     Meteor.call('wsciudada',{ body:cuerpo },(err, res) =>{
-        if(err){
-          console.log(err);
+      clearTimeout(timeout);
+            if (err){
+              $('.timeOut').show();
+              console.log(err);
         } else {
           var datosWS =res;
           if (datosWS.envelope){
@@ -900,10 +1081,18 @@ Template.municipio.events({
                     +"<cam:Desbcc></cam:Desbcc>"
                     +"<cam:Ciad>"+Ciad+"</cam:Ciad>"
                   +"</cam:wsBarrioColonia.Execute>";
+    
+    var timeout = setTimeout(() => {
+      $('.timeOut').show();
+      throw new Error('timeout');
+    },tiempoDeEspera);
+
     $('.loader-cube').show();
     Meteor.call('awsbarriocolonia',{ body:cuerpo },(err,res)=>{
-        if(err){
-          console.log(err);
+      clearTimeout(timeout);
+            if (err){
+              $('.timeOut').show();
+              console.log(err);
         } else {
           var datosWS=res;
           if(datosWS.envelope){
@@ -1145,7 +1334,9 @@ Template.correo.events({
       console.log(captchaData);
       $('.loader-cube').show();
       Meteor.call('formSubmissionMethod',captchaData,function(error,result){
-        if(error){
+        clearTimeout(timeout);
+        if (error){
+          $('.timeOut').show();
           console.log('There was an error: ' + error.reason);
         } else {
             if(result){
@@ -1183,11 +1374,18 @@ Template.correo.events({
                               +"<cam:Flag3>"+Flag3+"</cam:Flag3>"
                               +"<cam:Estado>"+Estado+"</cam:Estado>"
                           +"</cam:wsGuardarCliente.Execute>";
+
+              var timeout = setTimeout(() => {
+                  $('.timeOut').show();
+                  throw new Error('timeout');
+                },tiempoDeEspera);
               // $('.loader-cube').show();
                Meteor.call('awsguardarcliente',{ body:cuerpo },(err,res) =>{
-                        if (err){
-                          console.log(err);
-                        } else {
+                clearTimeout(timeout);
+                  if (err){
+                    $('.timeOut').show();
+                    console.log(err);
+                  } else {
                           var datosWS =res;
                           if (datosWS.envelope) {
                             console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
@@ -1292,7 +1490,14 @@ Template.noClienteAlmacenado.events({
     FlowRouter.go('/');
   },
 });
-
+//================================================== modal tiempo fuera ============================================
+Template.timeOut.events({
+  'click .buttonContainer button'(){
+    $('.timeOut').fadeOut(300);
+    $('.loader-cube').hide();
+    FlowRouter.go('/');
+  },
+});
 
 
 

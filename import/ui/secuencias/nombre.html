@@ -26,21 +26,19 @@
     
                         <label>Profesión</label>
                         <select class="profesion" name="profesion" id="profesion" >
-                                <!-- <option value="nulo" >Seleciona tu profesión</option> -->
                                 <option value="nulo"></option>
-                                <!-- <option  selected value="000">INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D</option> -->
+                                <option value="{{idProfesionSelected}}" selected >{{profesionSelected}}</option>
                                 {{#each item in wsprofesion}}
                                     <option value="{{item.id}}">{{item.dscr}}</option>
                                 {{/each}} 
-                            </select>
+                        </select>
                     </div>
                     <div class="child">
     
                         <label>Ocupación</label>
                         <select class="ocupacion" name="ocupacion" id="ocupacion" >
-                                <!-- <option value="nulo">Selecciona tu ocupación</option> -->
-                                <option value="nulo"></option>
-                                <!-- <option  selected value="000">PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA</option> -->
+                            <option value="nulo"></option>
+                                <option value="{{idOcupacionSelected}}" selected>{{ocupacionSelected}}</option>
                                 {{#each item in wsocupacion}}
                                     <option value="{{item.idocup}}">{{ item.ocupacion}}</option>
                                 {{/each}} 
