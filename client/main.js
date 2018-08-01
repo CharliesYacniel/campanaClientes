@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
 
 import './main.html';
 import 'select2';
@@ -32,7 +32,7 @@ import '../import/ui/secuencias/timeOut.html';
 
 segundosEspera = new ReactiveVar([]);
 segundosEspera.set(5);
-const tiempoDeEspera=10000;
+const tiempoDeEspera=15000;
 
 Meteor.startup(function() {
   reCAPTCHA.config({
@@ -465,10 +465,10 @@ Template.nombre.onCreated(function(){
                        "<cam:Identidad>"+id+"</cam:Identidad>"
                +"</cam:wsaccesoclientes.Execute>";
 
-      var timeout = setTimeout(() => {
-          $('.timeOut').show();
-          throw new Error('timeout');
-        },tiempoDeEspera);
+      // var timeout = setTimeout(() => {
+      //     $('.timeOut').show();
+      //     throw new Error('timeout');
+      //   },tiempoDeEspera);
 
      Meteor.call('wsaccesoclientes',{ body : cuerpo },(err, res) =>{
       clearTimeout(timeout);
@@ -484,10 +484,10 @@ Template.nombre.onCreated(function(){
                        +"<cam:Dscr></cam:Dscr>"
                    +"</cam:wsProfesion.Execute>";
 
-        var timeout = setTimeout(() => {
-            $('.timeOut').show();
-            throw new Error('timeout');
-          },tiempoDeEspera);
+        // var timeout = setTimeout(() => {
+        //     $('.timeOut').show();
+        //     throw new Error('timeout');
+        //   },tiempoDeEspera);
 
        Meteor.call('wsprofesion',{body:cuerpo},  (err, res) =>{
         clearTimeout(timeout);
@@ -1002,7 +1002,7 @@ Template.municipio.events({
 
    $('.loader-cube').show();
    Meteor.call('wbmunicipio',{ body:cuerpo },(err, res) =>{
-    clearTimeout(timeout);
+    // clearTimeout(timeout);
       if (err){
         $('.timeOut').show();
         console.log(err);
