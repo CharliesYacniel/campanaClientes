@@ -32,7 +32,7 @@ import '../import/ui/secuencias/timeOut.html';
 
 segundosEspera = new ReactiveVar([]);
 segundosEspera.set(5);
-const tiempoDeEspera=15000;
+const tiempoDeEspera=10000;
 
 Meteor.startup(function() {
   reCAPTCHA.config({
