@@ -3,8 +3,12 @@ import { HTTP } from 'meteor/http';
 
 Meteor.startup(function() {
   reCAPTCHA.config({
-    privatekey: '6Ldcsl0UAAAAAIYUq_tDexejL2LImzIzstl8vpO4',
-    settings: {},
+    privatekey: '6Ldcsl0UAAAAAIYUq_tDexejL2LImzIzstl8vpO4',//clave de beanario
+    settings: {
+      theme: 'dark',
+    type: 'image',
+    size: 'normal',
+    },
     config: function(settings) {
         return _.extend(this.settings, settings);
     },
