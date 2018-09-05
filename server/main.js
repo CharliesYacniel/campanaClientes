@@ -15,8 +15,9 @@ Meteor.startup(function() {
     verifyCaptcha: function(clientIP,response) {
     }
   });
+  
 });
-
+const urlWs="http://150.150.6.87/CampActualizacion";
 // =================================
 function puntos(xml) {
   return xml.replace('.','');
@@ -25,9 +26,8 @@ function puntos(xml) {
 Meteor.methods({
   'wsaccesoclientes'({body}) {
     var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-            +"<soapenv:Body>"+body+"</soapenv:Body>"
+    "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+            +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       // console.log(xml);
       var options = {
@@ -36,12 +36,12 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsaccesoclientes.aspx";
+      var url=urlWs+"/awsaccesoclientes.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
 
-      var xml=HTTP.call('POST',url,options).content;
+      var xml=HTTP.call('POST',url , options).content;
       var result= parseStringSync(xml,{
                                       trim:true,
                                       normalizeTags: true,
@@ -49,37 +49,11 @@ Meteor.methods({
                                       tagNameProcessors: [ stripPrefix ,puntos]   
                                     });
       return result;
-  },// =================================
-  'wsaccesoprueba'({body}) {
-    var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
-        +"</soapenv:Envelope>";
-    var options = {
-      content: xml,
-      headers: {
-        'Content-Type': 'text/xml',
-        },
-      }
-    var url="http://150.150.6.87/CampActualizacion/awsaccesoclientes.aspx";
-    // var miJson={};
-      var parseStringSync = require('xml2js-parser').parseStringSync;
-      var stripPrefix = require('xml2js').processors.stripPrefix;
-      var xml=HTTP.call('POST',url,options).content;
-      var result= parseStringSync(xml,{
-                                      trim:true,
-                                      normalizeTags: true,
-                                      ignoreAttrs:true,
-                                      tagNameProcessors: [ stripPrefix ,puntos]   
-                                    });
-      return result;
-  },// =================================
+  },
   'wsnumboleto' ({body}) {
     var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+        "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -87,7 +61,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsnumboleto.aspx";
+      var url=urlWs+"/awsnumboleto.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
@@ -101,10 +75,8 @@ Meteor.methods({
       return result;
   },// =================================
   'wsnocliente' ({body}) {
-    var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+    var xml="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -112,7 +84,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsNocliente.aspx";
+      var url=urlWs+"/awsNocliente.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
@@ -127,9 +99,8 @@ Meteor.methods({
   },// =================================
   'wsocupacion' ({body}) {
     var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+     "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -137,7 +108,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsocupacion.aspx";
+      var url=urlWs+"/awsocupacion.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
@@ -151,10 +122,8 @@ Meteor.methods({
       return result;
   },// =================================
   'wsprofesion' ({body}) {
-    var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+    var xml="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -162,7 +131,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsprofesion.aspx";
+      var url=urlWs+"/awsprofesion.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
@@ -176,10 +145,8 @@ Meteor.methods({
       return result;
   },// =================================
   'wbmunicipio' ({body}) {
-    var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+    var xml="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -187,7 +154,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awbmunicipio.aspx";
+      var url=urlWs+"/awbmunicipio.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
@@ -201,10 +168,8 @@ Meteor.methods({
       return result;
   },// =================================
   'wsciudada' ({body}) {
-    var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+    var xml="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -212,7 +177,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsciudada.aspx";
+      var url=urlWs+"/awsciudada.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
@@ -226,10 +191,8 @@ Meteor.methods({
       return result;
   },// =================================
   'awsbarriocolonia' ({body}) {
-    var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+    var xml="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -237,7 +200,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsbarriocolonia.aspx";
+      var url=urlWs+"/awsbarriocolonia.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;
@@ -251,10 +214,8 @@ Meteor.methods({
       return result;
   },// =================================
   'awsguardarcliente' ({body}) {
-    var xml=
-        "<?xml version='1.0' encoding = 'utf-8'?>"
-        +"<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
-        +"<soapenv:Body>"+body+"</soapenv:Body>"
+    var xml="<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:cam='CampañaActualizacionDatosClientes'>"
+        +"<soapenv:Header/><soapenv:Body>"+body+"</soapenv:Body>"
         +"</soapenv:Envelope>";
       var options = {
             content: xml,
@@ -262,7 +223,7 @@ Meteor.methods({
               'Content-Type': 'text/xml',
               },
             }
-      var url="http://150.150.6.87/CampActualizacion/awsguardarcliente.aspx";
+      var url=urlWs+"/awsguardarcliente.aspx";
       // var miJson={};
       var parseStringSync = require('xml2js-parser').parseStringSync;
       var stripPrefix = require('xml2js').processors.stripPrefix;

@@ -30,7 +30,6 @@ import '../import/ui/secuencias/modalNoTerminos.html';
 import '../import/ui/secuencias/timeOut.html';
 
 
-
 const tiempoDeEspera=10000;
 
 Meteor.startup(function() {
@@ -130,9 +129,11 @@ Template.acessoCliente.events({
     // $('.loading').fadeIn(300);
     $('.loader-cube').show();
 
-    var cuerpo="<cam:wsaccesoclientes.Execute>"+
+
+    
+    var cuerpo="<cam:wsAccesoClientes.Execute>"+
                       "<cam:Identidad>"+id.trim()+"</cam:Identidad>"
-              +"</cam:wsaccesoclientes.Execute>";
+              +"</cam:wsAccesoClientes.Execute>";
     var timeout = setTimeout(() => {
         $('.timeOut').show();
         throw new Error('timeout');
@@ -224,8 +225,8 @@ Template.acessoCliente.events({
 ////////////////////////////////////////////CLIENTE EXISTE////////////////////////////////////
 Template.clienteExiste.onCreated(function(){});
 Template.clienteExiste.onRendered(function(){
-  $('.loader-cube').hide();// hide loading
-});
+    $('.loader-cube').hide();// hide loading
+  });
 Template.clienteExiste.helpers({
   getIdCliente(){
     return Session.get('idCliente'); 
@@ -360,6 +361,7 @@ Template.clienteActualizado.onCreated(function(){
   // Session.set("idCliente",id);
   let cuerpo="<cam:wsnumboleto.Execute>"
                 +"<cam:Idncli>"+id+"</cam:Idncli>"
+                +"<cam:Exite></cam:Exite>"
             +"</cam:wsnumboleto.Execute>";
   $('.loader-cube').show();
 
@@ -479,9 +481,9 @@ Template.nombre.onCreated(function(){
            }
          });
           //=============================================wsocupacion=================================================
-         var cuerpo="<cam:wsOcupacion.Execute>"
-                        +"<cam:Ocupacion></cam:Ocupacion>"
-                  +"</cam:wsOcupacion.Execute>";
+         var cuerpo="<cam:wsOcupacion.Execute>"+
+                          +"<cam:Ocupacion></cam:Ocupacion>"
+                    +"</cam:wsOcupacion.Execute>";
 
           // var timeout = setTimeout(() => {
           //     $('.timeOut').show();
@@ -1244,59 +1246,55 @@ Template.correo.events({
       Session.set("declara",declara);
       Session.set("acepto",acepto);
       //===============INCIO LLAMADAO AL CAPCHTA
-      var Codcli=Session.get("ibs");//"2089291";
+      var Codcli=Session.get("ibs");
       var Cusunr=Session.get("Cusunr");
-      var Idncli=Session.get("idCliente");//"0801199306450";
-      var Pnombre=Session.get("nombre1");//"Axel";
-      var Snombre=Session.get("nombre2");//"Enrique";
-      var Papellido=Session.get("apellido1");//"Landa";
-      var Sapellido=Session.get("apellido2");//"Salgado";
-      var Idprof=Session.get("idProfesion");;//"033";
-      var Profd=Session.get("profesion");//"INGENIERíA DE LA CONSTRUCCIóN Y GERENCIA D";
-      var Rteacliidocup=Session.get("idocupacion");//"EZOP";
-      var Rteacliocupacion=Session.get("ocupacion");//"PROFESOR, EDUCACION SUPERIOR/ZOOLOGIA";
-      var Declaro=Session.get("declara");//"S";
-      var Acepto=Session.get("acepto");//"N";
-      var Dptoid= Session.get("iddepto");//"HN01";
-      var Dptonombre=Session.get("departamento");//"AtláAntida";
-      var Idmunc= Session.get("idmuni");//"HN0101";
-      var Desmunc=Session.get("municipio");//"La Ceiba";
-      var Idcald= Session.get("idciudad"); //"HN010104";
-      var Descald=Session.get("ciudad");//"Corozal";
-      var Id_bcc= Session.get("idbarrio");//"HN010104002";
-      var Descrbcc=Session.get("barrio");//"La Ensenada";
-      var Dirdom=Session.get("domicilio");//"La ensenada b2 c 905 contiguo a plaza azul";
-      var Numtelf=Session.get("telefono");//"22467469";
-      var Nummovil=Session.get("movil");//"33822840";
-      var Emailp=Session.get("emailP");//"axellanda93@gmail.com";
-      var Emailt=Session.get("emailT");//"alanda@bancatlan.hn";
-      var Flag1=Session.get("residente");//"N";
-      var Flag3=Session.get("flagEmpleado");//"S";
+      var Idncli=Session.get("idCliente");
+      var Pnombre=Session.get("nombre1");
+      var Snombre=Session.get("nombre2");
+      var Papellido=Session.get("apellido1");
+      var Sapellido=Session.get("apellido2");
+      var Idprof=Session.get("idProfesion");;
+      var Profd=Session.get("profesion");
+      var Rteacliidocup=Session.get("idocupacion");
+      var Rteacliocupacion=Session.get("ocupacion");
+      var Declaro=Session.get("declara");
+      var Acepto=Session.get("acepto");
+      var Dptoid= Session.get("iddepto");
+      var Dptonombre=Session.get("departamento");
+      var Idmunc= Session.get("idmuni");
+      var Desmunc=Session.get("municipio");
+      var Idcald= Session.get("idciudad");
+      var Descald=Session.get("ciudad");
+      var Id_bcc= Session.get("idbarrio");
+      var Descrbcc=Session.get("barrio");
+      var Dirdom=Session.get("domicilio");
+      var Numtelf=Session.get("telefono");
+      var Nummovil=Session.get("movil");
+      var Emailp=Session.get("emailP");
+      var Emailt=Session.get("emailT");
+      var Flag1=Session.get("residente");
+      var Flag3=Session.get("flagEmpleado");
       var Estado="";
     var captchaData = grecaptcha.getResponse();
+    
     if(captchaData==""){
       // console.log('captcah vacio');
       document.getElementById("labelCaptcha").style.display = "block";
       // document.getElementById("labelCaptcha").value=;
       $("#emailP").val(Session.get("emailP"));
       $("#emailT").val(Session.get("emailT"));
-      // console.log($("#emailP").val('dasdad@test.vom'));
       $('#labelCaptcha').html('Autentifique captcha');
     }else{
+      // console.log("DATOS",captchaData);
       document.getElementById("labelCaptcha").style.display = "none";
       // console.log(captchaData);
       $('.loader-cube').show();
-      
       Meteor.call('formSubmissionMethod',captchaData,function(error,result){
-        // clearTimeout(timeout);
         if (error){
           $('.timeOut').show();
           console.log('There was an error: ' + error.reason);
         } else {
             if(result){
-              // grecaptcha.reset();
-              // $('.loader-cube').hide();
-              // console.log('Success!',result);
               var cuerpo="<cam:wsGuardarCliente.Execute>"
                               +"<cam:Codcli>"+Codcli+"</cam:Codcli>"
                               +"<cam:Cusunr>"+Cusunr+"</cam:Cusunr>"
@@ -1339,7 +1337,7 @@ Template.correo.events({
                     console.log(err);
                   } else {
                           var datosWS =res;
-                          if (datosWS.envelope) {
+                          if (datosWS.envelope){
                             // console.log(datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0]);
                             let estado=datosWS.envelope.body[0].wsguardarclienteexecuteresponse[0].estado[0]; 
                             var params = {};
@@ -1384,7 +1382,6 @@ Template.correo.events({
  },
  'click .declara'(){
   document.getElementById('enviarDatos').disabled=false;
-  // console.log('datos declara');
   },
   'click #aceptoNO'(){
     // console.log('NO acepta');
