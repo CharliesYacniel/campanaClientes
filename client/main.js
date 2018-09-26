@@ -32,6 +32,8 @@ import '../import/ui/secuencias/timeOut.html';
 
 const tiempoDeEspera=10000;
 
+Session.set("bandera",false);
+
 Meteor.startup(function() {
   reCAPTCHA.config({
     publickey: '6Ldcsl0UAAAAAC9CyICwrwpI2CGjxi3DEdECcsy4',//clave de beanario
@@ -129,8 +131,6 @@ Template.acessoCliente.events({
     // $('.loading').fadeIn(300);
     $('.loader-cube').show();
 
-
-    
     var cuerpo="<cam:wsAccesoClientes.Execute>"+
                       "<cam:Identidad>"+id.trim()+"</cam:Identidad>"
               +"</cam:wsAccesoClientes.Execute>";
@@ -244,7 +244,6 @@ Template.clienteExiste.events({
   },
   'click .iniciarSecuencia' (){
     FlowRouter.go('/nombre');
-    // console.log('iniciar secuancia');
   }
 });
 ////////////////////////////////////////////CLIENTE  NO  EXISTE////////////////////////////////////
@@ -717,10 +716,176 @@ let wbmunicipio = new ReactiveVar([]);
 let wsciudada = new ReactiveVar([]);
 let awsbarriocolonia = new ReactiveVar([]);
 
+
+var banderaMuni=false;
+
+var iddepto = new ReactiveVar([]);
+var depto = new ReactiveVar([]);
+
+var idmuni = new ReactiveVar([]);
+var muni = new ReactiveVar([]);
+
+var idciudad = new ReactiveVar([]);
+var ciudad = new ReactiveVar([]);
+
+var idbarrio = new ReactiveVar([]);
+var barrio = new ReactiveVar([]);
+
+var reponseJson =new ReactiveVar([]);
 Template.municipio.onCreated(function(){
-  
+  // banderaMuni=;
 });
-Template.municipio.onRendered(function(){
+Template.municipio.onRendered(async function(){
+  //==============incio test
+  if (Session.get("bandera")==true){
+    let textDepto= $('#depto option:selected').text();
+    let textMuni= $('#municipio option:selected').text();
+    let textCiudad= $('#ciudad option:selected').text();
+    let textColonia= $('#colonia option:selected').text();
+    
+    //=============================
+    // $("#depto").change(function() {
+    //   console.log('deparamento cambio y bandera es true');
+    //   // $('#municipio').empty();
+    //   // $("#municipio").append('<option value="nulo"></option>');
+    //   $('#municipio').val(''); // Select the option with a value of '1'
+    //   $('#municipio').select2('destroy');
+    //   $('#municipio').select2({
+    //     allowClear: false
+    //   });
+    // });
+    
+    //   $("#municipio").change(function() {
+    //     console.log('MUNICIPIO cambio y bandera es true');
+    //     $('#ciudad').empty();
+    //     $("#ciudad").append('<option value="nulo"></option>');
+    //   });
+
+    //   $("#ciudad").change(function() {
+    //     console.log('CIUDAD cambio y bandera es true');
+    //     $('#colonia').empty();
+    //     $("#colonia").append('<option value="nulo"></option>');
+    // });
+//=============================
+    if (textDepto==""){ 
+        console.log(' texto esta vacio  en depto ');
+        // textDepto
+    }else{
+        $('#municipio').prop('disabled', false);
+        if(textMuni==""){
+          
+            console.log(' texto esta vacio  en municipio ');
+            let idDepto=$('#depto').val();
+            console.log(idDepto);
+              
+              $("#depto").change(function(){
+                console.log('MUNICIPIO cambio y bandera es true');
+                $('#municipio').empty();
+                $("#municipio").append('<option value="nulo"></option>');
+              });
+
+            //========== promesa
+            var cuerpo="<cam:wbMunicipio.Execute>"
+                      +"<cam:Desmun></cam:Desmun>"
+                      +"<cam:Depto>"+idDepto+"</cam:Depto>"
+                      +"</cam:wbMunicipio.Execute>";
+            var response = await new Promise((resolve, reject) => {
+              Meteor.call('wbmunicipio', { body:cuerpo },(error, result) => {
+               if (error) reject(error);
+               resolve(result);
+             });
+           });
+           response=response.envelope.body[0].wbmunicipioexecuteresponse[0].sdtmunicipio[0].sdtmunicipiosdtmunicipioitem;;
+           //=========== end promesa
+          //  wbmunicipio.set(response);
+          // console.log(response);
+          //  document.getElementById("municipio").disabled=false;
+          $('.loader-cube').hide();
+ 
+            response.forEach((e)=>{
+              $("#municipio").append('<option value="'+e.idmun+'">'+e.desmun+'</option>');
+            });
+        }else{
+            $('#ciudad').prop('disabled', false);
+
+            $('#depto').on('change', function() {
+              console.log('cambio el select depto');
+            });
+
+            if(textCiudad==""){
+                console.log(' texto esta vacio  en ciudad ');
+                let idMuni=$('#municipio').val();
+                console.log(idMuni);
+
+               
+                // console.log('PASO');
+              //========== promesa
+              var cuerpo="<cam:wsCiudadA.Execute>"
+                          +"<cam:Descaldea></cam:Descaldea>"
+                          +"<cam:Municipioid>"+idMuni+"</cam:Municipioid>"
+                        +"</cam:wsCiudadA.Execute>";
+              $('.loader-cube').show();
+              var response = await new Promise((resolve, reject) => {
+              Meteor.call('wsciudada', { body:cuerpo },(error, result) => {
+                  if (error) reject(error);
+                  resolve(result);
+                });
+              });
+              response=response.envelope.body[0].wsciudadaexecuteresponse[0].sdtciudadaldea[0].sdtciudadaldeasdtciudadaldeaitem;
+              // document.getElementById("ciudad").disabled=false;
+              $('.loader-cube').hide();
+              //=========== end promesa
+              // $('#ciudad').empty();
+              // $("#ciudad").append('<option value="nulo"></option>');
+                  response.forEach((e)=>{ 
+                    // console.log(e); 
+                    $("#ciudad").append('<option value="'+e.idcaldea+'">'+e.descaldea+'</option>');
+                  });
+            }else{
+            // $("#ciudad").change(function() {
+            //       console.log('CIUDAD cambio y bandera es true');
+            //       $('#colonia').empty();
+            //       $("#colonia").append('<option value="nulo"></option>');
+            //   });
+
+                $('#colonia').prop('disabled', false);
+                if(textColonia==""){
+                    console.log(' texto esta vacio  en colonia ');
+                    let idColonia=$('#ciudad').val();
+                    console.log(idColonia);
+                     //========== promesa
+                     var cuerpo="<cam:wsBarrioColonia.Execute>"
+                                  +"<cam:Desbcc></cam:Desbcc>"
+                                  +"<cam:Ciad>"+idColonia+"</cam:Ciad>"
+                                +"</cam:wsBarrioColonia.Execute>";
+                    $('.loader-cube').show();
+                    var response = await new Promise((resolve, reject) => {
+                          Meteor.call('awsbarriocolonia', { body:cuerpo },(error, result) => {
+                              if (error) reject(error);
+                              resolve(result);
+                            });
+                          });
+                    response=response.envelope.body[0].wsbarriocoloniaexecuteresponse[0].sdtbarriocolonia[0].sdtbarriocoloniasdtbarriocoloniaitem;
+                    // document.getElementById("ciudad").disabled=false;
+                    $('.loader-cube').hide();
+                    //=========== end promesa
+                    // $('#colonia').empty();
+                    // $("#colonia").append('<option value="nulo"></option>');
+                    response.forEach((e)=>{ 
+                      // console.log(e); 
+                      $("#colonia").append('<option value="'+e.idbcc+'">'+e.desbcc+'</option>');
+                    });
+
+                }else{
+                    $('#siguiente').prop('disabled', false);
+                }
+            }
+        }
+    }
+  }//bandera
+  
+  
+  //============= end test
   $('.loader-cube').hide();// hide loading
   $(document).ready(function(){
      //========================================================validacion de depto================================== ==
@@ -881,12 +1046,46 @@ Template.municipio.helpers({
   //===========================================awsbarriocolonia===================================================
   awsbarriocolonia(){
     return awsbarriocolonia.get();
+  }, 
+  banderaMuni(){
+    if (Session.get("bandera")==true){
+      return true;
+    }else{
+      return false;
+    }
+  },
+  iddepto(){
+    return iddepto.get();
+  },
+  depto(){
+    return depto.get();
+  },
+  idmuni(){
+    return idmuni.get();
+  },
+  muni(){
+    return muni.get();
+  },
+  idciudad(){
+    return idciudad.get();
+  },
+  ciudad(){
+    return ciudad.get();
+  },
+  idbarrio(){
+    return idbarrio.get();
+  },
+  barrio(){
+    return barrio.get();
   },
 });
+
+
 
 Template.municipio.events({
   'submit .siguienteMunicipio'(event){
     event.preventDefault();
+    
     let iddepto=event.target.depto.value;
     let depto=event.target.depto;
     let indexDepto=depto.selectedIndex;
@@ -920,12 +1119,33 @@ Template.municipio.events({
     Session.set("ciudad",ciudad);
     Session.set("barrio",barrio);
     // console.log('aqui hice submit');
+    console.log($('#depto option:selected').text());
+    console.log($('#municipio option:selected').text());
+    console.log($('#ciudad option:selected').text());
+    console.log($('#colonia option:selected').text());
     FlowRouter.go('/domicilio');
   },
   'click .atras'(){
-    FlowRouter.go('/nombre');
+       console.log('retrocedi');
+        depto.set($('#depto option:selected').text());
+        iddepto.set($('#depto').val());
+    
+        muni.set($('#municipio option:selected').text());
+        idmuni.set($('#municipio').val());
+    
+        ciudad.set($('#ciudad option:selected').text());
+        idciudad.set($('#ciudad').val());
+    
+        barrio.set($('#colonia option:selected').text());
+        idbarrio.set($('#colonia').val());
+
+        Session.set("bandera",true);
+        FlowRouter.go('/nombre');
  },
  'change .depto'(){
+    // Session.set("bandera",false);
+    document.getElementById("siguiente").disabled=true;
+
     Session.set("iddepto",$('.depto').val());
     Session.set("departamento",$('.depto option:selected').text());
    //================================================wbmunicipio================================================
@@ -948,12 +1168,17 @@ Template.municipio.events({
    });
    document.getElementById("colonia").disabled=true;
 
+   
+
    let Depto=document.getElementById("depto").value;
   //  console.log('ide depto',Depto);
    var cuerpo="<cam:wbMunicipio.Execute>"
               +"<cam:Desmun></cam:Desmun>"
               +"<cam:Depto>"+Depto+"</cam:Depto>"
               +"</cam:wbMunicipio.Execute>";
+
+              // $('#municipio').empty();
+              // $("#municipio").append('<option value="nulo"></option>');
 
    $('.loader-cube').show();
    Meteor.call('wbmunicipio',{ body:cuerpo },(err, res) =>{
@@ -975,6 +1200,7 @@ Template.municipio.events({
     });
   },
   'change .municipio' (){
+    document.getElementById("siguiente").disabled=true;
     //================================================wsciudada================================================
     $('#ciudad').val(''); // Select the option with a value of '1'
     $('#ciudad').select2('destroy');
@@ -1021,6 +1247,7 @@ Template.municipio.events({
       });    
   },
   'change .ciudad'(){
+    document.getElementById("siguiente").disabled=true;
     //================================================awsbarriocolonia===============================================
     $('#colonia').val(''); // Select the option with a value of '1'
     $('#colonia').select2('destroy');
@@ -1061,6 +1288,19 @@ Template.municipio.events({
  },
   'change .colonia'(){
     // console.log('select colonia cambio');
+    //==
+    depto.set($('#depto option:selected').text());
+    iddepto.set($('#depto').val());
+
+    muni.set($('#municipio option:selected').text());
+    idmuni.set($('#municipio').val());
+
+    ciudad.set($('#ciudad option:selected').text());
+    idciudad.set($('#ciudad').val());
+
+    barrio.set($('#colonia option:selected').text());
+    idbarrio.set($('#colonia').val());
+//==
     document.getElementById("siguiente").disabled=false;
 },
  
@@ -1229,6 +1469,7 @@ Template.correo.helpers({
 Template.correo.events({
   'submit .siguienteCorreo'(event){
       event.preventDefault();
+      Session.set("bandera",false);//RECORDAD DEL EL CAMPO SELCT DE MUNICIPIO
       // console.log(document.getElementById('aceptoNO').checked);
       let emailP=event.target.emailP.value;
       let emailT=event.target.emailT.value;

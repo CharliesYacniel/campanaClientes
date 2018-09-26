@@ -11,6 +11,7 @@
     "jquery": "^3.3.1",
     "meteor-node-stubs": "^0.3.3",
     "popper.js": "^1.14.3",
+    "redux": "^4.0.0",
     "select2": "^4.0.5",
     "xml2js": "^0.4.19",
     "xml2js-parser": "^1.1.1"
