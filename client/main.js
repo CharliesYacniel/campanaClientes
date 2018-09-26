@@ -731,7 +731,7 @@ var ciudad = new ReactiveVar([]);
 var idbarrio = new ReactiveVar([]);
 var barrio = new ReactiveVar([]);
 
-var reponseJson =new ReactiveVar([]);
+// var reponseJson =new ReactiveVar([]);
 Template.municipio.onCreated(function(){
   // banderaMuni=;
 });
@@ -774,12 +774,12 @@ Template.municipio.onRendered(async function(){
         $('#municipio').prop('disabled', false);
         if(textMuni==""){
           
-            console.log(' texto esta vacio  en municipio ');
+            // console.log(' texto esta vacio  en municipio ');
             let idDepto=$('#depto').val();
-            console.log(idDepto);
+            // console.log(idDepto);
               
               $("#depto").change(function(){
-                console.log('MUNICIPIO cambio y bandera es true');
+                // console.log('MUNICIPIO cambio y bandera es true');
                 $('#municipio').empty();
                 $("#municipio").append('<option value="nulo"></option>');
               });
@@ -809,13 +809,13 @@ Template.municipio.onRendered(async function(){
             $('#ciudad').prop('disabled', false);
 
             $('#depto').on('change', function() {
-              console.log('cambio el select depto');
+              // console.log('cambio el select depto');
             });
 
             if(textCiudad==""){
-                console.log(' texto esta vacio  en ciudad ');
+                // console.log(' texto esta vacio  en ciudad ');
                 let idMuni=$('#municipio').val();
-                console.log(idMuni);
+                // console.log(idMuni);
 
                
                 // console.log('PASO');
@@ -850,9 +850,9 @@ Template.municipio.onRendered(async function(){
 
                 $('#colonia').prop('disabled', false);
                 if(textColonia==""){
-                    console.log(' texto esta vacio  en colonia ');
+                    // console.log(' texto esta vacio  en colonia ');
                     let idColonia=$('#ciudad').val();
-                    console.log(idColonia);
+                    // console.log(idColonia);
                      //========== promesa
                      var cuerpo="<cam:wsBarrioColonia.Execute>"
                                   +"<cam:Desbcc></cam:Desbcc>"
