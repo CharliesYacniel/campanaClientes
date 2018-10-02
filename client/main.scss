@@ -275,7 +275,8 @@ label#valueID-error.error{
         }
         &:hover{
           color: white;
-          background-color: unset;
+          // background-color: unset;
+          background-color:rgba(255, 255, 255, 0.5);
           .dildo{
             animation: penetrar 0.5s infinite alternate;
             fill: white;
@@ -316,13 +317,14 @@ label#valueID-error.error{
 
 	
 
-	div select,div input[type="email"],   div input[type="text"]{
+  div select,div input[type="email"],  
+             div input[type="text"]{
         position: relative;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
         padding: 20px;
-        background-color: rgba(255,255,255,0.5);
+        background-color: rgba(255,255,255,0.5) !important;
         // opacity: 0.5;
 		border-radius: 20px;
 		font-size: 1.5rem;
@@ -1207,8 +1209,96 @@ label#valueID-error.error{
   }
  }
 }
-
 //loading
+
+
+
+// incio fatca
+.clienteFatca{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999999999;
+  top: 0;
+  left: 0;
+  display: none;
+  box-sizing: border-box;
+  text-align: center;
+
+  .clienteFatca-overlay{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .clienteFatca-content{
+    width: 400px;
+    height: 280px;
+    top: 50%;
+    left: 50%;
+    margin-top: -140px; 
+    margin-left: -200px; 
+    background-color: #fff;
+    position: absolute;
+    z-index: 10;
+    border-radius: 15px;
+    padding: 15px;
+  }
+
+  h4{
+    font-size: 2rem;
+    font-family: 'neo_sans_bold';
+    color: $colorMain;
+    margin-bottom: 15px; 
+  }
+
+ .buttonContainer{
+   position: absolute;
+   bottom: 15px;
+   width: calc(100% - 30px);
+   text-align: center;
+
+  button{
+    background-color: $colorMain;
+		width: 18vw;
+		border-radius: 12px;
+		font-size: 2rem;
+		z-index: 1111111;
+		color: white;
+		position: relative;
+        height: 8vh;
+         bottom: 0;
+        border: none;
+		font-family: 'neo_sans_bold';
+    transition: all 0.3s;
+    border:2px solid $colorMain;
+		&:hover{
+      color: $colorMain;
+      background-color: white;
+		}
+
+		span{
+			display: inline-block;
+			font-size: 48px;
+			right: 20px;
+			top: 50%;
+			height: 100px;
+			line-height: 100px;
+			margin-top: -50px;
+			position: absolute;
+		}
+    
+    &:focus{
+      outline: none;
+    }
+  }
+ }
+}
+// fin fatca
 @import url(https://fonts.googleapis.com/css?family=Archivo+Narrow);
 
 .loader-cube {

@@ -5,40 +5,41 @@
                 <div class="nombreDivFlex">
                     <div class="child">
                         <label>Primer Nombre</label>
-                        <input class="required" type="text" name="nombre1" value="{{wsaccesoclientes.cusfna}}" readonly />
+                        <input class="required" type="text" name="nombre1" value="{{primerNombre}}" readonly />
                     </div>
                     <div class="child">
     
                         <label>Segundo Nombre</label>
-                        <input type="text" name="nombre2" value="{{wsaccesoclientes.cusfn2}}" readonly />
+                        <input type="text" name="nombre2" value="{{segundoNombre}}" readonly />
                     </div>
                     <div class="child">
     
                         <label>Primer Apellido</label>
-                        <input class="required" type="text" name="apellido1" value="{{wsaccesoclientes.cusln1}}" readonly />
+                        <input class="required" type="text" name="apellido1" value="{{primerApellido}}" readonly />
                     </div>
                     <div class="child">
     
                         <label>Segundo Apellido</label>
-                        <input type="text" name="apellido2" value="{{wsaccesoclientes.cusln2}}" readonly />
+                        <input type="text" name="apellido2" value="{{SegundoApellido}}" readonly />
                     </div>
                     <div class="child">
     
                         <label>Profesión</label>
                         <select class="profesion" name="profesion" id="profesion" >
                                 <option value="nulo"></option>
-                                <option value="{{idProfesionSelected}}" selected >{{profesionSelected}}</option>
+                                <!-- <option value="{{idProfesionSelected}}" selected >{{profesionSelected}}</option> -->
                                 {{#each item in wsprofesion}}
                                     <option value="{{item.id}}">{{item.dscr}}</option>
                                 {{/each}} 
                         </select>
                     </div>
+
                     <div class="child">
     
                         <label>Ocupación</label>
                         <select class="ocupacion" name="ocupacion" id="ocupacion" >
                             <option value="nulo"></option>
-                                <option value="{{idOcupacionSelected}}" selected>{{ocupacionSelected}}</option>
+                                <!-- <option value="{{idOcupacionSelected}}" selected>{{ocupacionSelected}}</option> -->
                                 {{#each item in wsocupacion}}
                                     <option value="{{item.idocup}}">{{ item.ocupacion}}</option>
                                 {{/each}} 
@@ -47,21 +48,10 @@
     
                 </div>
     
-    
-    
-    
-    
-                <!-- <div class="logoSection">
-              <div class="logo"> -->
                 <div class="navDiv">
                     <button class="atras">Regresar</button>
-                    <input type="submit" id="siguiente" value="Siguiente">
+                    <input type="submit" id="siguiente" value="Siguiente" disabled>
                 </div>
-                <!-- </div> -->
-    
-    
-    
-    
             </form>
         </div>
     </template>
