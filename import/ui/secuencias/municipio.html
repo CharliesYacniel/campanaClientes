@@ -6,9 +6,7 @@
                 <div class="child" style="width: 100%" > 
                 <label class=" labelFix">Departamento:</label>
                 <select name="depto" id="depto" class="depto" >
-                        <option value="nulo"></option>
-                        <!-- {{#if banderaMuni}} -->
-                                <!-- <option value="{{iddepto}}" selected>{{depto}}</option> -->
+                                <option value="nulo"></option>
                                 <option value="HN01">Atlántida</option>
                                 <option value="HN02">Colón</option>
                                 <option value="HN03">Comayagua</option>
@@ -27,8 +25,6 @@
                                 <option value="HN16">Sta. Barbara</option>
                                 <option value="HN17">Valle</option>
                                 <option value="HN18">Yoro</option>
-                        <!-- {{else}} -->
-                        <!-- {{/if}} -->
                 </select>
         </div>
         <div class="child" style="width: 47.5%">
@@ -56,28 +52,11 @@
 
 <div class="child" style="width: 100%">
     <label class=" labelFix">Barrio / Colonia / Caserio:</label>
-    <!-- <select class="colonia" name="barrio" id="colonia" disabled>
-            <option value="nulo"></option>
-            {{#if banderaMuni}}
-                <option value="{{idbarrio}}" selected>{{barrio}}</option>
-              {{else}}
-                {{#each item in awsbarriocolonia}}
-                <option value="{{item.idbcc}}">{{item.desbcc}}</option>
-                {{/each}} 
-              {{/if}}        
-    </select> -->
     <select class="colonia" name="barrio" id="colonia" disabled>
         <option value="nulo"></option>
-        <!-- {{#if banderaMuni}} -->
-                <!-- <option value="{{idbarrio}}" selected>{{barrio}}</option>
-                {{#each item in awsbarriocolonia}}
-                <option value="{{item.idbcc}}">{{item.desbcc}}</option>
-                {{/each}}  -->
-        <!-- {{else}} -->
                 {{#each item in awsbarriocolonia}}
                 <option value="{{item.idbcc}}">{{item.desbcc}}</option>
                 {{/each}} 
-        <!-- {{/if}} -->
         </select>
 </div>
 
