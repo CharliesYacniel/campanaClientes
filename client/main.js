@@ -763,12 +763,10 @@ Template.municipio.onRendered( function(){
   if (Session.get("bandera")==true){
     $('#depto').val(iddepto.get()); 
     if (iddepto.get()==""){ 
-        console.log(' texto esta vacio  en depto ');
     }else{
         $('#municipio').prop('disabled', false);
         $('#municipio').val(idmuni.get()); 
         if(idmuni.get()==""){
-          console.log(' texto esta vacio  en municipio ');
         }else{
             $('#ciudad').prop('disabled', false);
             $('#ciudad').val(idciudad.get()); 
