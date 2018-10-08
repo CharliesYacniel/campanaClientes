@@ -982,7 +982,21 @@ Template.municipio.helpers({
 
 
 
-Template.municipio.events({
+Template.municipio.events({'click #siguiente'(){
+        // console.log('booton on focus');
+        depto.set($('#depto option:selected').text());
+        iddepto.set($('#depto').val());
+
+        muni.set($('#municipio option:selected').text());
+        idmuni.set($('#municipio').val());
+    
+        ciudad.set($('#ciudad option:selected').text());
+        idciudad.set($('#ciudad').val());
+    
+        barrio.set($('#colonia option:selected').text());
+        idbarrio.set($('#colonia').val());
+        Session.set("bandera",true);
+},
   'submit .siguienteMunicipio'(event){
     event.preventDefault();
     
@@ -1018,6 +1032,7 @@ Template.municipio.events({
     Session.set("municipio",municipio);
     Session.set("ciudad",ciudad);
     Session.set("barrio",barrio);
+
     // console.log('aqui hice submit');
     // console.log($('#depto option:selected').text());
     // console.log($('#municipio option:selected').text());
