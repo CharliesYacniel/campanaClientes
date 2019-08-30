@@ -234,7 +234,7 @@ Template.acessoCliente.events({
       document.getElementById("valueID").setAttribute("maxlength",15);
       document.getElementById("valueID").setAttribute("placeholder","0000-0000-00000");
       document.getElementById("valueID").setAttribute("value","");
-        Inputmask({mask:"9999-9999-99999", placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);  
+        Inputmask({mask:"9999-9999-99999",placeholder:"0000-0000-00000", showMaskOnHover: true}).mask(selector);  
       });
     },
 });
